@@ -19,8 +19,8 @@ import com.bumptech.glide.Glide;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText usernameEditText;
-    EditText passwordEditText;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         auxSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Add Intent to Next Activity", Toast.LENGTH_SHORT).show();
-
                 String enteredUsername = getUsernameText();
                 String enteredPassword = getPasswordText();
 
@@ -52,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Hangle Google Sign In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Handle Google Sign In", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -63,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         } else if (enteredPassword.isEmpty()) {
             Toast.makeText(this, "Enter a password", Toast.LENGTH_SHORT).show();
         } else {
-//            Intent intent = new Intent(getApplicationContext(), JoinRoomActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), JoinRoomActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -74,10 +72,5 @@ public class LoginActivity extends AppCompatActivity {
 
     private String getPasswordText() {
         return passwordEditText.getText().toString();
-    }
-
-    public void onClickSignIn(View view){
-        Intent intent = new Intent(this, JoinRoomActivity.class);
-        startActivity(intent);
     }
 }
