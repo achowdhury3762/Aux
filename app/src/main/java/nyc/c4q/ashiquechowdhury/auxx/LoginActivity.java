@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickSignIn(View view){
-        Intent intent = new Intent(this, SearchAndChooseActivity.class);
+        Intent intent = new Intent(this, JoinRoomActivity.class);
         startActivity(intent);
     }
 }

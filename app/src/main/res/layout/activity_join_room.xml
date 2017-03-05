@@ -38,6 +38,7 @@
             android:layout_height="0dp"/>
 
         <android.support.v7.widget.CardView
+            android:onClick="onClickCreateRoom"
             android:padding="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
@@ -58,6 +59,7 @@
             android:layout_height="0dp"/>
 
         <android.support.v7.widget.CardView
+            android:onClick="onClickJoinRoom"
             android:padding="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
@@ -81,6 +83,7 @@
 
 
         <android.support.v7.widget.CardView
+            android:onClick="onClickProfile"
             android:padding="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"

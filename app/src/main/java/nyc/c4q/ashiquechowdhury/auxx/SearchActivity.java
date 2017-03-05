@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,13 +26,14 @@ public class SearchActivity extends AppCompatActivity {
     private List<Item> musicItemList = new ArrayList<>();
     private RecyclerView musicList;
     private SearchAdapter mAdapter;
-    private String searchString;
+    private EditText search_editT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        search_editT = (EditText) findViewById(R.id.search_edit_text);
         musicList = (RecyclerView) findViewById(R.id.search_recycler);
         musicList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SearchAdapter(musicItemList);
@@ -73,5 +76,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private void refreshMusicList() {
         mAdapter.setData(musicItemList);
+    }
+
+    public void onClickSearch(View view){
+        getSongData(search_editT.getText().toString());
     }
 }
