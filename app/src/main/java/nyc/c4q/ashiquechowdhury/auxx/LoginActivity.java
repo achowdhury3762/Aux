@@ -75,4 +75,9 @@ public class LoginActivity extends AppCompatActivity {
     private String getPasswordText() {
         return passwordEditText.getText().toString();
     }
+
+    public void onClickSignIn(View view){
+        Intent intent = new Intent(this, SearchAndChooseActivity.class);
+        startActivity(intent);
+    }
 }
