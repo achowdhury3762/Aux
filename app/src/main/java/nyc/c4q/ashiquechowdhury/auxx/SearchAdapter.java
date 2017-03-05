@@ -21,15 +21,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     List<Item> itemList;
     Listener listener;
 
-    SearchAdapter(List<Item> itemList, Listener listener){
+    SearchAdapter(List<Item> itemList, Listener listener) {
         this.itemList = itemList;
         this.listener = listener;
+    }
+
+    public SearchAdapter(List<Item> musicItemList) {
+        this.itemList = musicItemList;
     }
 
 
     @Override
     public SearchAdapter.SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View childView = LayoutInflater.from(parent.getContext()).inflate(R.layout.track_item_view, parent,false);
+        View childView = LayoutInflater.from(parent.getContext()).inflate(R.layout.track_item_view, parent, false);
         return new SearchViewHolder(childView);
     }
 
@@ -52,6 +56,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    public void setData(List<Item> data) {
+        this.itemList = data;
     }
 
     class SearchViewHolder extends RecyclerView.ViewHolder {

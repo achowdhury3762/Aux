@@ -39,8 +39,8 @@ import static android.R.id.message;
 import static android.content.ContentValues.TAG;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-public class MainActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback{
+public class SearchAndChooseActivity extends AppCompatActivity implements
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
     private static final String CLIENT_ID = "a47e94f21a9649c982f39e72920c1754";
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.resume(MainActivity.this);
+                mPlayer.resume(SearchAndChooseActivity.this);
 
             }
         });
@@ -100,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.pause(MainActivity.this);
+                mPlayer.pause(SearchAndChooseActivity.this);
             }
         });
         queueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.playUri(null,trackList.get(0),0,0);
+                mPlayer.playUri(null, trackList.get(0), 0, 0);
                 trackCounter = 0;
 
             }
@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements
         });
 
 
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -140,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(MainActivity.this);
-                        mPlayer.addNotificationCallback(MainActivity.this);
+                        mPlayer.addConnectionStateCallback(SearchAndChooseActivity.this);
+                        mPlayer.addNotificationCallback(SearchAndChooseActivity.this);
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+                        Log.e("SearchAndChooseActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
             }
@@ -155,38 +155,38 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoggedIn() {
-        Log.d("MainActivity", "User logged in");
+        Log.d("SearchAndChooseActivity", "User logged in");
         accessCode = " Bearer " + response.getAccessToken();
 
     }
 
     @Override
     public void onLoggedOut() {
-        Log.d("MainActivity", "User logged out");
+        Log.d("SearchAndChooseActivity", "User logged out");
 
     }
 
     @Override
     public void onLoginFailed(Error error) {
-        Log.d("MainActivity", "Login failed");
+        Log.d("SearchAndChooseActivity", "Login failed");
 
     }
 
     @Override
     public void onTemporaryError() {
-        Log.d("MainActivity", "Temporary error occurred");
+        Log.d("SearchAndChooseActivity", "Temporary error occurred");
 
     }
 
     @Override
     public void onConnectionMessage(String s) {
-        Log.d("MainActivity", "Received connection message: " + message);
+        Log.d("SearchAndChooseActivity", "Received connection message: " + message);
 
     }
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d("MainActivity", "Playback event received: " + playerEvent.name());
+        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
         switch (playerEvent) {
             case kSpPlaybackNotifyAudioDeliveryDone:
                 playNextTrack();
@@ -197,30 +197,28 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void playNextTrack() {
-        if(trackCounter + 1 >= trackList.size()){
-            Toast.makeText(this,"end of playlist",Toast.LENGTH_SHORT).show();
-        }
-        else{
+        if (trackCounter + 1 >= trackList.size()) {
+            Toast.makeText(this, "end of playlist", Toast.LENGTH_SHORT).show();
+        } else {
             trackCounter++;
-            mPlayer.playUri(null,trackList.get(trackCounter),0,0);
+            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
         }
     }
 
-    private void playPreviousTrack(){
-        if(trackCounter - 1 < 0){
-            Toast.makeText(this,"Start of playlist",Toast.LENGTH_SHORT).show();
-            mPlayer.playUri(null,trackList.get(trackCounter),0,0);
-        }
-        else{
+    private void playPreviousTrack() {
+        if (trackCounter - 1 < 0) {
+            Toast.makeText(this, "Start of playlist", Toast.LENGTH_SHORT).show();
+            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+        } else {
             trackCounter--;
-            mPlayer.playUri(null,trackList.get(trackCounter),0,0);
+            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
         }
 
     }
 
     @Override
     public void onPlaybackError(Error error) {
-        Log.d("MainActivity", "Playback error received: " + error.name());
+        Log.d("SearchAndChooseActivity", "Playback error received: " + error.name());
         switch (error) {
             // Handle error type as necessary
             default:
@@ -243,32 +241,28 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void queueSelectedTrack(String uri) {
-        Toast.makeText(this,"Track added to queue",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Track added to queue", Toast.LENGTH_SHORT).show();
         trackList.add(uri);
     }
 
 
-    void findItems(){
+    void findItems() {
         SearchAdapter searchAdapter = new SearchAdapter(itemList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(searchAdapter);
 
     }
 
-    void getSongData(String query){
+    void getSongData(String query) {
         query = query.replace(" ", "+");
-//        String market = "US\" -H \"Accept: application/json\" -H \"Authorization: Bearer " + accessCode;
-        String market = "from_token";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        Log.d(TAG, "onCreate: hello");
 
         SpotifyService spotifyService = retrofit.create(SpotifyService.class);
-//        Call<Example> httpRequest = spotifyService.getResults(accessCode, query, "track", market);
-        Call<Example> httpRequest = spotifyService.getOtherResults(query,"track");
+        Call<Example> httpRequest = spotifyService.getOtherResults(query, "track");
         httpRequest.enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
@@ -276,9 +270,6 @@ public class MainActivity extends AppCompatActivity implements
                     if (response.isSuccessful()) {
                         itemList = response.body().getTracks().getItems();
                         findItems();
-
-
-
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
                     }
@@ -293,10 +284,6 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
-
-
-
-
     }
 
 

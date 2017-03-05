@@ -1,8 +1,10 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -20,5 +22,10 @@ public class LoginActivity extends AppCompatActivity {
 
         ImageView logoIv = (ImageView) findViewById(R.id.aux_logo);
         Glide.with(getApplicationContext()).load(R.drawable.lasso4).into(logoIv);
+    }
+
+    public void onClickSignIn(View view){
+        Intent intent = new Intent(this, SearchAndChooseActivity.class);
+        startActivity(intent);
     }
 }
