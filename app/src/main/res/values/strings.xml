@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Auxx</string>
+    <string name="signin_screen_header">Sign in to Aux</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 </resources>
