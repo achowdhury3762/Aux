@@ -6,10 +6,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
 
-/**
- * Created by jordansmith on 2/27/17.
- */
-
 public interface SpotifyService {
 
     @GET("/v1/search")

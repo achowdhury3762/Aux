@@ -1,9 +1,5 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
-/**
- * Created by shawnspeaks on 3/4/17.
- */
-
 import android.widget.TextView;
 
 public class AlterToolBar {

@@ -9,10 +9,6 @@ import com.bumptech.glide.Glide;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 
-/**
- * Created by ashiquechowdhury on 3/5/17.
- */
-
 public class SearchViewHolder extends RecyclerView.ViewHolder {
     private ImageView albumArt;
     private TextView artistName;

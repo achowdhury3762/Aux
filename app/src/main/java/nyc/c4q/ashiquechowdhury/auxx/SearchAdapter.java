@@ -9,10 +9,6 @@ import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 
-/**
- * Created by jordansmith on 2/27/17.
- */
-
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
     private Listener listener;

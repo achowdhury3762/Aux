@@ -14,10 +14,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-/**
- * Created by ashiquechowdhury on 3/5/17.
- */
-
 public class LoginFragment extends Fragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
