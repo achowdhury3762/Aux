@@ -23,13 +23,11 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
         albumArt = (ImageView) itemView.findViewById(R.id.album_art_text_view);
         artistName = (TextView) itemView.findViewById(R.id.artist_name_text_view);
         songName = (TextView) itemView.findViewById(R.id.song_name_text_view);
-
     }
 
     public void bind(Item item) {
         artistName.setText(item.getArtists().get(0).getName());
         songName.setText(item.getName());
         Glide.with(itemView.getContext()).load(item.getAlbum().getImages().get(0).getUrl()).into(albumArt);
-
     }
 }

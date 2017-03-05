@@ -14,8 +14,8 @@ import nyc.c4q.ashiquechowdhury.auxx.model.Item;
  */
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
-    List<Item> itemList;
-    Listener listener;
+    private List<Item> itemList;
+    private Listener listener;
 
     SearchAdapter(List<Item> itemList, Listener listener) {
         this.itemList = itemList;
@@ -39,7 +39,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener.playSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
                 listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
             }
         });

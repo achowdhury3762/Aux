@@ -50,7 +50,7 @@ public class JoinRoomActivity extends AppCompatActivity {
     }
 
     public void onClickJoinRoom(View view){
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(this, SearchFragment.class);
         startActivity(intent);
     }
 }
