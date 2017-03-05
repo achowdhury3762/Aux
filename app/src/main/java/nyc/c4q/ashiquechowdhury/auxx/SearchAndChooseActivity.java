@@ -67,13 +67,14 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_searchandchoose);
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         editText = (EditText) findViewById(R.id.edit_text);
         searchButton = (Button) findViewById(R.id.search_button);
@@ -244,7 +245,6 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
         Toast.makeText(this, "Track added to queue", Toast.LENGTH_SHORT).show();
         trackList.add(uri);
     }
-
 
     void findItems() {
         SearchAdapter searchAdapter = new SearchAdapter(itemList, this);
