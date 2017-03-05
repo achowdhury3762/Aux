@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="#2e2e2e"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <EditText
@@ -10,8 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
+        android:onClick="onClickSearch"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:gravity="center"
-        android:text="enter"
+        android:text="SEARCH"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <android.support.v7.widget.RecyclerView
