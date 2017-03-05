@@ -1,11 +1,14 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import java.io.IOException;
@@ -22,20 +25,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchFragment extends Fragment {
     private List<Item> musicItemList = new ArrayList<>();
     private RecyclerView musicList;
     private SearchAdapter mAdapter;
     private EditText search_editT;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_search, container, false);
+        return view;
+    }
 
-        search_editT = (EditText) findViewById(R.id.search_edit_text);
-        musicList = (RecyclerView) findViewById(R.id.search_recycler);
-        musicList.setLayoutManager(new LinearLayoutManager(this));
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        search_editT = (EditText) view.findViewById(R.id.search_edit_text);
+        musicList = (RecyclerView) view.findViewById(R.id.search_recycler);
+        musicList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new SearchAdapter(musicItemList);
         musicList.setAdapter(mAdapter);
     }

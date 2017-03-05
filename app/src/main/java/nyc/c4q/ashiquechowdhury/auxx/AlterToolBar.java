@@ -11,8 +11,6 @@ public class AlterToolBar {
     String toolbarName;
     TextView defaultTextView;
 
-
-
     public AlterToolBar(String toolbarName, TextView defaultTextView) {
         this.toolbarName = toolbarName;
         this.defaultTextView = defaultTextView;
