@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#3a8e9d</color>
+
+    <color name="granite">#3f3b3b</color>
+    <color name="sapphire">#3a8e9d</color>
+    <color name="gray">#cdcdcd</color>
 </resources>
