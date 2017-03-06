@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:background="@color/colorGrey"
     android:orientation="horizontal">
 
     <ImageView
+        android:layout_gravity="center"
         android:id="@+id/album_art_text_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
     <LinearLayout
+        android:layout_gravity="center"
+        android:paddingLeft="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -20,14 +23,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/artist_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textColor="#d3d3d3"
+            android:textSize="13dp" />
     </LinearLayout>
 
 
