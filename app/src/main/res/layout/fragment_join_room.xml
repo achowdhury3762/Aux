@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nyc.c4q.ashiquechowdhury.auxx.JoinRoomActivity">
+    android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10">
+        android:weightSum="15">
 
         <View
             android:layout_width="match_parent"
@@ -25,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="3" />
+            android:layout_weight="6" />
 
 
         <View
@@ -40,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            app:cardCornerRadius="35dp"
             android:padding="50dp">
 
             <TextView
@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            app:cardCornerRadius="35dp"
             android:padding="50dp">
 
             <TextView
@@ -88,11 +89,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            app:cardCornerRadius="35dp"
             android:padding="50dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:background="@color/sapphire"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="VIEW PROFILE"
                 android:textColor="@android:color/white"

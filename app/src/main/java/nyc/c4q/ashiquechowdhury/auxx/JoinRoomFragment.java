@@ -1,5 +1,6 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ public class JoinRoomFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_join_room, container, false);
+        View view = inflater.inflate(R.layout.fragment_join_room, container, false);
         return view;
     }
 
@@ -44,14 +45,16 @@ public class JoinRoomFragment extends Fragment {
         createRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(), SearchAndChooseActivity.class);
+                startActivity(intent);
             }
         });
 
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(), TestActivity.class);
+                startActivity(intent);
             }
         });
     }
