@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#2e2e2e"
     android:gravity="center_horizontal"
-    android:paddingTop="60dp"
     android:orientation="vertical">
 
     <Space

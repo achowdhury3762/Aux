@@ -41,8 +41,6 @@ public class JoinRoomActivity extends AppCompatActivity {
             }
         });
     }
-    public void onClickProfile(View view){
-    }
 
     public void onClickCreateRoom(View view){
         Intent intent = new Intent(this, SearchAndChooseActivity.class);

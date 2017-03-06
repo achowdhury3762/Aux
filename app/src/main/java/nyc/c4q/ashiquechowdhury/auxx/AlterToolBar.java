@@ -16,8 +16,4 @@ public class AlterToolBar {
     public void changeToolBarName(){
         defaultTextView.setText(toolbarName);
     }
-
-
-
-
 }

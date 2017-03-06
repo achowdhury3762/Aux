@@ -1,6 +1,5 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,15 +32,15 @@ public class LoginFragment extends Fragment {
         CardView googleSignInButton = (CardView) view.findViewById(R.id.google_signin_button);
         usernameEditText = (EditText) view.findViewById(R.id.username_login_edittext);
         passwordEditText = (EditText) view.findViewById(R.id.password_login_edittext);
-
-
         auxSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String enteredUsername = getUsernameText();
                 String enteredPassword = getPasswordText();
 
-                handleLogin(enteredUsername, enteredPassword);
+//                handleLogin(enteredUsername, enteredPassword);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, new JoinRoomFragment()).commit();
             }
         });
 
@@ -68,8 +67,7 @@ public class LoginFragment extends Fragment {
         } else if (enteredPassword.isEmpty()) {
             Toast.makeText(getActivity(), "Enter a password", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(getContext(), JoinRoomActivity.class);
-            startActivity(intent);
+
         }
     }
 }
