@@ -1,5 +1,6 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,7 @@ public class JoinRoomFragment extends Fragment {
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getContext(), SearchAndChooseActivity.class));
             }
         });
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
+    android:id="@+id/layout_searchandchoose"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGrey"
@@ -19,11 +19,11 @@
             android:id="@+id/edit_text"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:inputType="textCapSentences"
             android:layout_weight="3"
             android:fontFamily="sans-serif"
             android:hint="Search For Tracks"
             android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
             android:maxLines="1"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF" />
@@ -45,7 +45,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"></android.support.v7.widget.RecyclerView>
+            android:layout_weight="4" />
 
         <LinearLayout
             android:layout_width="match_parent"
