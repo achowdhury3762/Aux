@@ -12,7 +12,10 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class SearchAndChooseActivity extends AppCompatActivity implements
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.CreateRoomFragment;
+import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+
+public class CreateRoomActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
     @Override
@@ -22,7 +25,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.searchandchoose_innerframe, new SearchAndChooseFragment());
+        fragmentTransaction.replace(R.id.searchandchoose_innerframe, new CreateRoomFragment());
         fragmentTransaction.commit();
     }
 

@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
     private Listener listener;
 
-    SearchAdapter(List<Item> itemList, Listener listener) {
+    public SearchAdapter(List<Item> itemList, Listener listener) {
         this.itemList = itemList;
         this.listener = listener;
     }
