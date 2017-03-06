@@ -1,5 +1,6 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,14 +12,18 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-public class JoinRoomFragment extends Fragment {
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.CreateRoomActivity;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
+
+public class ChooseRoomFragment extends Fragment {
     private ToolBarListener listener;
     private ImageView imgLogo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_join_room, container, false);
+        View view = inflater.inflate(R.layout.activity_choose_room, container, false);
         return view;
     }
 
@@ -37,14 +42,14 @@ public class JoinRoomFragment extends Fragment {
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), JoinRoomActivity.class));
             }
         });
 
         createRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), CreateRoomActivity.class));
             }
         });
 

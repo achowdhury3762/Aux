@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,8 +27,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
+import nyc.c4q.ashiquechowdhury.auxx.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +43,7 @@ import static android.R.id.message;
 import static android.content.ContentValues.TAG;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-public class SearchAndChooseActivity extends AppCompatActivity implements
+public class CreateRoomActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
     private static final String CLIENT_ID = "a47e94f21a9649c982f39e72920c1754";
@@ -93,7 +97,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.resume(SearchAndChooseActivity.this);
+                mPlayer.resume(CreateRoomActivity.this);
 
             }
         });
@@ -101,7 +105,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.pause(SearchAndChooseActivity.this);
+                mPlayer.pause(CreateRoomActivity.this);
             }
         });
         queueButton.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +145,13 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(SearchAndChooseActivity.this);
-                        mPlayer.addNotificationCallback(SearchAndChooseActivity.this);
+                        mPlayer.addConnectionStateCallback(CreateRoomActivity.this);
+                        mPlayer.addNotificationCallback(CreateRoomActivity.this);
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Log.e("SearchAndChooseActivity", "Could not initialize player: " + throwable.getMessage());
+                        Log.e("CreateRoomActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
             }
@@ -156,38 +160,38 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
     @Override
     public void onLoggedIn() {
-        Log.d("SearchAndChooseActivity", "User logged in");
+        Log.d("CreateRoomActivity", "User logged in");
         accessCode = " Bearer " + response.getAccessToken();
 
     }
 
     @Override
     public void onLoggedOut() {
-        Log.d("SearchAndChooseActivity", "User logged out");
+        Log.d("CreateRoomActivity", "User logged out");
 
     }
 
     @Override
     public void onLoginFailed(Error error) {
-        Log.d("SearchAndChooseActivity", "Login failed");
+        Log.d("CreateRoomActivity", "Login failed");
 
     }
 
     @Override
     public void onTemporaryError() {
-        Log.d("SearchAndChooseActivity", "Temporary error occurred");
+        Log.d("CreateRoomActivity", "Temporary error occurred");
 
     }
 
     @Override
     public void onConnectionMessage(String s) {
-        Log.d("SearchAndChooseActivity", "Received connection message: " + message);
+        Log.d("CreateRoomActivity", "Received connection message: " + message);
 
     }
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
+        Log.d("CreateRoomActivity", "Playback event received: " + playerEvent.name());
         switch (playerEvent) {
             case kSpPlaybackNotifyAudioDeliveryDone:
                 playNextTrack();
@@ -219,7 +223,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
     @Override
     public void onPlaybackError(Error error) {
-        Log.d("SearchAndChooseActivity", "Playback error received: " + error.name());
+        Log.d("CreateRoomActivity", "Playback error received: " + error.name());
         switch (error) {
             // Handle error type as necessary
             default:

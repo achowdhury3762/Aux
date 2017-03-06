@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class SearchFragment extends Fragment {
     private List<Item> musicItemList = new ArrayList<>();
     private RecyclerView musicList;
     private SearchAdapter mAdapter;
+    Button searchButton;
     private EditText search_editT;
 
     @Nullable
@@ -47,6 +49,14 @@ public class SearchFragment extends Fragment {
         musicList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new SearchAdapter(musicItemList);
         musicList.setAdapter(mAdapter);
+
+        searchButton = (Button) view.findViewById(R.id.search_buttn);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSongData(search_editT.getText().toString());
+            }
+        });
     }
 
 
@@ -85,9 +95,5 @@ public class SearchFragment extends Fragment {
 
     private void refreshMusicList() {
         mAdapter.setData(musicItemList);
-    }
-
-    public void onClickSearch(View view){
-        getSongData(search_editT.getText().toString());
     }
 }

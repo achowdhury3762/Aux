@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import nyc.c4q.ashiquechowdhury.auxx.R;
 
 public class LoginFragment extends Fragment {
     private EditText usernameEditText;
@@ -40,7 +42,7 @@ public class LoginFragment extends Fragment {
 
 //                handleLogin(enteredUsername, enteredPassword);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, new JoinRoomFragment()).commit();
+                        .replace(R.id.main_container, new ChooseRoomFragment()).commit();
             }
         });
 
