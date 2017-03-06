@@ -43,5 +43,7 @@ dependencies {
     compile 'com.spotify.sdk:spotify-android-auth-1.0.0@aar'
     // This library handles music playback
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    // This library handles slidinguppanel
+    compile 'com.sothree.slidinguppanel:library:3.3.1'
     testCompile 'junit:junit:4.12'
 }
