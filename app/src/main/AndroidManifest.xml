@@ -18,7 +18,6 @@
                 android:host="callback"
                 android:scheme="aux" />
         </activity>
-        <activity android:name=".JoinRoomActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
