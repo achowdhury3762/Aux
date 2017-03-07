@@ -36,7 +36,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
+                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()));
             }
         });
     }
