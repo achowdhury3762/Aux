@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchAndChooseActivity">
+        <activity android:name=".joinandcreate.CreateRoomActivity">
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
 
@@ -18,15 +18,16 @@
                 android:host="callback"
                 android:scheme="aux" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".chooseroomandlogin.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".model.TestActivity" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
+
+        <activity android:name=".joinandcreate.JoinRoomActivity"></activity>
     </application>
 
 </manifest>

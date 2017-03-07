@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.util;
 
 import android.widget.TextView;
 

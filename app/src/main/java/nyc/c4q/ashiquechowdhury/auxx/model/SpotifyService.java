@@ -1,6 +1,5 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.model;
 
-import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

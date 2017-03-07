@@ -1,15 +1,18 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,8 +32,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
+import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +48,11 @@ import static android.R.id.message;
 import static android.content.ContentValues.TAG;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-public class SearchAndChooseActivity extends AppCompatActivity implements
+/**
+ * Created by SACC on 3/5/17.
+ */
+
+public class CreateRoomFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
     private static final String CLIENT_ID = "a47e94f21a9649c982f39e72920c1754";
@@ -64,26 +75,41 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
     public static List<String> trackList = new ArrayList<>();
     private long lastChange = 0;
 
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchandchoose);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_searchandchoose, container, false);
+
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+//        AuthenticationClient.openLoginActivity(getActivity(), REQUEST_CODE, request);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        editText = (EditText) findViewById(R.id.edit_text);
-        searchButton = (Button) findViewById(R.id.search_button);
-        playButton = (Button) findViewById(R.id.play_button);
-        pauseButton = (Button) findViewById(R.id.pause_button);
-        queueButton = (Button) findViewById(R.id.queue_button);
-        nextButton = (Button) findViewById(R.id.next_button);
-        previousButton = (Button) findViewById(R.id.previous_button);
+        Intent intent = AuthenticationClient.createLoginActivityIntent(getActivity(), request);
+        startActivityForResult(intent, REQUEST_CODE);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+//                AuthenticationResponse.Type.TOKEN,
+//                REDIRECT_URI);
+//        builder.setScopes(new String[]{"user-read-private", "streaming"});
+//        AuthenticationRequest request = builder.build();
+//        AuthenticationClient.openLoginActivity(getActivity(), REQUEST_CODE, request);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        editText = (EditText) view.findViewById(R.id.edit_text);
+        searchButton = (Button) view.findViewById(R.id.search_button);
+        playButton = (Button) view.findViewById(R.id.play_button);
+        pauseButton = (Button) view.findViewById(R.id.pause_button);
+        queueButton = (Button) view.findViewById(R.id.queue_button);
+        nextButton = (Button) view.findViewById(R.id.next_button);
+        previousButton = (Button) view.findViewById(R.id.previous_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +120,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.resume(SearchAndChooseActivity.this);
+                mPlayer.resume((Player.OperationCallback) getActivity());
 
             }
         });
@@ -102,7 +128,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.pause(SearchAndChooseActivity.this);
+                mPlayer.pause((Player.OperationCallback) getActivity());
             }
         });
         queueButton.setOnClickListener(new View.OnClickListener() {
@@ -168,20 +194,20 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+                Config playerConfig = new Config(getContext(), response.getAccessToken(), CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(SearchAndChooseActivity.this);
-                        mPlayer.addNotificationCallback(SearchAndChooseActivity.this);
+                        mPlayer.addConnectionStateCallback((ConnectionStateCallback) getActivity());
+                        mPlayer.addNotificationCallback((Player.NotificationCallback) getActivity());
                     }
 
                     @Override
@@ -238,7 +264,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
     private void playNextTrack() {
         if (trackCounter + 1 >= trackList.size()) {
-            Toast.makeText(this, "end of playlist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "end of playlist", Toast.LENGTH_SHORT).show();
         } else {
             trackCounter++;
             mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
@@ -247,7 +273,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
     private void playPreviousTrack() {
         if (trackCounter - 1 < 0) {
-            Toast.makeText(this, "Start of playlist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Start of playlist", Toast.LENGTH_SHORT).show();
             mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
         } else {
             trackCounter--;
@@ -268,7 +294,7 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         // VERY IMPORTANT! This must always be called or else you will leak resources
         Spotify.destroyPlayer(this);
         super.onDestroy();
@@ -281,13 +307,13 @@ public class SearchAndChooseActivity extends AppCompatActivity implements
 
     @Override
     public void queueSelectedTrack(String uri) {
-        Toast.makeText(this, "Track added to queue", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Track added to queue", Toast.LENGTH_SHORT).show();
         trackList.add(uri);
     }
 
     void findItems() {
         SearchAdapter searchAdapter = new SearchAdapter(itemList, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchAdapter);
 
     }

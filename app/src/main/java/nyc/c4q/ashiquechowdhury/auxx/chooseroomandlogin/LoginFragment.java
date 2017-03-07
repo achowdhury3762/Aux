@@ -1,21 +1,28 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import nyc.c4q.ashiquechowdhury.auxx.R;
+
 public class LoginFragment extends Fragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
+    String enteredUsername;
+    String enteredPassword;
 
     @Nullable
     @Override
@@ -32,15 +39,26 @@ public class LoginFragment extends Fragment {
         CardView googleSignInButton = (CardView) view.findViewById(R.id.google_signin_button);
         usernameEditText = (EditText) view.findViewById(R.id.username_login_edittext);
         passwordEditText = (EditText) view.findViewById(R.id.password_login_edittext);
+
+        passwordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    enteredUsername = getUsernameText();
+                    enteredPassword = getPasswordText();
+                    handleLogin(enteredUsername, enteredPassword);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         auxSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String enteredUsername = getUsernameText();
-                String enteredPassword = getPasswordText();
-
-//                handleLogin(enteredUsername, enteredPassword);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, new JoinRoomFragment()).commit();
+                enteredUsername = getUsernameText();
+                enteredPassword = getPasswordText();
+                handleLogin(enteredUsername, enteredPassword);
             }
         });
 
@@ -67,7 +85,8 @@ public class LoginFragment extends Fragment {
         } else if (enteredPassword.isEmpty()) {
             Toast.makeText(getActivity(), "Enter a password", Toast.LENGTH_SHORT).show();
         } else {
-
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, new ChooseRoomFragment()).commit();
         }
     }
 }

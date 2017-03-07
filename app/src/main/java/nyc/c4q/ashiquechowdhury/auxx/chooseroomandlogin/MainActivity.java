@@ -1,10 +1,13 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements JoinRoomFragment.ToolBarListener {
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.util.AlterToolBar;
+
+public class MainActivity extends AppCompatActivity implements ChooseRoomFragment.ToolBarListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
