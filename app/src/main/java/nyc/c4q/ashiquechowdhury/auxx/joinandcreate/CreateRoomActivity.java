@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.CreateRoomFragment;
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 
 public class CreateRoomActivity extends AppCompatActivity implements
@@ -80,7 +81,7 @@ public class CreateRoomActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
 
     }
 }
