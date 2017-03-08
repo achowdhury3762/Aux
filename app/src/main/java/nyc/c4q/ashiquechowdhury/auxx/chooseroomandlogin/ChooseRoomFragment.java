@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import nyc.c4q.ashiquechowdhury.auxx.CreateRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.TestActivity;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.CreateRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 
 public class ChooseRoomFragment extends Fragment {

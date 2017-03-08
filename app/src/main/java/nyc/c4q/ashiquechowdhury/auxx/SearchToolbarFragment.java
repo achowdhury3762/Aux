@@ -19,6 +19,4 @@ public class SearchToolbarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_toolbar, container, false);
         return view;
     }
-
-
 }
