@@ -4,11 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
@@ -33,10 +35,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     @Override
     public void onBindViewHolder(final SearchViewHolder holder, int position) {
         holder.bind(itemList.get(position));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()));
+//                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
+                SongListHelper.searchFragmentSongItemList.add(itemList.get(holder.getAdapterPosition()));
+//                Toast.makeText(holder.itemView.getContext(),String.valueOf(SongListHelper.searchFragmentSongItemList.size()), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
