@@ -13,10 +13,17 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import java.util.ArrayList;
+import java.util.List;
+import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 
 public class CreateRoomActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
+
+
+    public static List<Item> songItemList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class CreateRoomActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
 
     }
 }

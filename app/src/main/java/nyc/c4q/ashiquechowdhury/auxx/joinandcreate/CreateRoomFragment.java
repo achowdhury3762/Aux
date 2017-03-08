@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,12 +33,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.FloatingActionSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
-import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,8 +74,10 @@ public class CreateRoomFragment extends Fragment implements
     Button nextButton;
     Button previousButton;
     public static int trackCounter = 0;
-    public static List<String> trackList = new ArrayList<>();
+    public static List<Item> trackList = new ArrayList<>();
     private long lastChange = 0;
+
+    private FloatingActionButton floatingSearchBtn;
 
     @Nullable
     @Override
@@ -110,6 +114,15 @@ public class CreateRoomFragment extends Fragment implements
         queueButton = (Button) view.findViewById(R.id.queue_button);
         nextButton = (Button) view.findViewById(R.id.next_button);
         previousButton = (Button) view.findViewById(R.id.previous_button);
+        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
+
+        floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.searchandchoose_innerframe, new FloatingActionSearchFragment()).commit();
+            }
+        });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +147,7 @@ public class CreateRoomFragment extends Fragment implements
         queueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.playUri(null, trackList.get(0), 0, 0);
+                mPlayer.playUri(null, trackList.get(0).getUri(), 0, 0);
                 trackCounter = 0;
 
             }
@@ -267,17 +280,17 @@ public class CreateRoomFragment extends Fragment implements
             Toast.makeText(getContext(), "end of playlist", Toast.LENGTH_SHORT).show();
         } else {
             trackCounter++;
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         }
     }
 
     private void playPreviousTrack() {
         if (trackCounter - 1 < 0) {
             Toast.makeText(getContext(), "Start of playlist", Toast.LENGTH_SHORT).show();
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         } else {
             trackCounter--;
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         }
 
     }
@@ -306,9 +319,9 @@ public class CreateRoomFragment extends Fragment implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
         Toast.makeText(getContext(), "Track added to queue", Toast.LENGTH_SHORT).show();
-        trackList.add(uri);
+        trackList.add(item);
     }
 
     void findItems() {
@@ -361,4 +374,5 @@ public class CreateRoomFragment extends Fragment implements
     public void onError(Error error) {
 
     }
+
 }
