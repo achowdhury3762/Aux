@@ -2,7 +2,6 @@ package nyc.c4q.ashiquechowdhury.auxx;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.CreateRoomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
@@ -39,139 +38,10 @@ import static android.content.ContentValues.TAG;
 public class FloatingActionSearchFragment extends Fragment {
 
     private long lastChange = 0;
-    private List<Item> itemList = new List<Item>() {
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean contains(Object o) {
-            return false;
-        }
-
-        @NonNull
-        @Override
-        public Iterator<Item> iterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public Object[] toArray() {
-            return new Object[0];
-        }
-
-        @NonNull
-        @Override
-        public <T> T[] toArray(@NonNull T[] ts) {
-            return null;
-        }
-
-        @Override
-        public boolean add(Item item) {
-            return false;
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsAll(@NonNull Collection<?> collection) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(@NonNull Collection<? extends Item> collection) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(int i, @NonNull Collection<? extends Item> collection) {
-            return false;
-        }
-
-        @Override
-        public boolean removeAll(@NonNull Collection<?> collection) {
-            return false;
-        }
-
-        @Override
-        public boolean retainAll(@NonNull Collection<?> collection) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return 0;
-        }
-
-        @Override
-        public Item get(int i) {
-            return null;
-        }
-
-        @Override
-        public Item set(int i, Item item) {
-            return null;
-        }
-
-        @Override
-        public void add(int i, Item item) {
-
-        }
-
-        @Override
-        public Item remove(int i) {
-            return null;
-        }
-
-        @Override
-        public int indexOf(Object o) {
-            return 0;
-        }
-
-        @Override
-        public int lastIndexOf(Object o) {
-            return 0;
-        }
-
-        @Override
-        public ListIterator<Item> listIterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public ListIterator<Item> listIterator(int i) {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public List<Item> subList(int i, int i1) {
-            return null;
-        }
-    };
+    private List<Item> itemList = new ArrayList<Item>();
     private RecyclerView recyclerView;
     private EditText editText;
+    private ImageButton backSearchButton;
 
 
 
@@ -191,6 +61,16 @@ public class FloatingActionSearchFragment extends Fragment {
         findItems();
         editText = (EditText) view.findViewById(R.id.search_edit_text);
         editText.addTextChangedListener(searchWatcher);
+        backSearchButton = (ImageButton) view.findViewById(R.id.back_search_btn);
+
+        backSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.searchandchoose_innerframe, new CreateRoomFragment()).commit();
+            }
+        });
+
 
     }
 

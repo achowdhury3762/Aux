@@ -4,25 +4,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
-import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
-import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
+import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
+/**
+ * Created by jordansmith on 3/8/17.
+ */
+
+public class PlaylistAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
-    private Listener listener;
 
-    public SearchAdapter(List<Item> itemList, Listener listener) {
+
+    public PlaylistAdapter(List<Item> itemList) {
         this.itemList = itemList;
-        this.listener = listener;
-    }
 
-    public SearchAdapter(List<Item> musicItemList) {
-        this.itemList = musicItemList;
     }
 
 
@@ -33,16 +31,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final SearchViewHolder holder, int position) {
+    public void onBindViewHolder(final SearchViewHolder holder, final int position) {
         holder.bind(itemList.get(position));
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SongListHelper.songList.add(itemList.get(holder.getAdapterPosition()));
-                Toast.makeText(holder.itemView.getContext(),"Added to Playlist",Toast.LENGTH_SHORT).show();
+                SpotifyUtil.getInstance().spotifyPlayer.playUri(null, itemList.get(position).getUri(), 0, 0);
             }
         });
+
     }
 
     @Override

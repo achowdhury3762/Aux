@@ -29,9 +29,8 @@ public class SpotifyUtil implements
     private static final String CLIENT_ID = "a47e94f21a9649c982f39e72920c1754";
     private static final String REDIRECT_URI = "aux://callback";
     private static SpotifyUtil instance;
-    private Player spotifyPlayer;
-    AuthenticationResponse response;
-    private String AuthenticatinoResponseToken;
+    public Player spotifyPlayer;
+    private AuthenticationResponse response;
 
     private SpotifyUtil() {
 
@@ -123,7 +122,8 @@ public class SpotifyUtil implements
     public void onPlaybackEvent(PlayerEvent playerEvent) {
         Log.d(getClass().getName(), "Playback event received: " + playerEvent.name());
         switch (playerEvent) {
-            // Handle event type as necessary
+            case kSpPlaybackNotifyAudioDeliveryDone:
+                SongListHelper.playNextTrack();
             default:
                 break;
         }
