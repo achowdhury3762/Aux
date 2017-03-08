@@ -48,10 +48,6 @@ import static android.R.id.message;
 import static android.content.ContentValues.TAG;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-/**
- * Created by SACC on 3/5/17.
- */
-
 public class CreateRoomFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
@@ -134,8 +130,12 @@ public class CreateRoomFragment extends Fragment implements
         queueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.playUri(null, trackList.get(0), 0, 0);
-                trackCounter = 0;
+                if (trackList.isEmpty()) {
+                    Toast.makeText(getContext(), "TrackList is Empty; will not play", Toast.LENGTH_SHORT).show();
+                } else {
+                    mPlayer.playUri(null, trackList.get(0), 0, 0);
+                    trackCounter = 0;
+                }
 
             }
         });
@@ -308,7 +308,7 @@ public class CreateRoomFragment extends Fragment implements
     @Override
     public void queueSelectedTrack(String uri) {
         Toast.makeText(getContext(), "Track added to queue", Toast.LENGTH_SHORT).show();
-        trackList.add(uri);
+        CreateRoomActivity.trackList.add(uri);
     }
 
     void findItems() {

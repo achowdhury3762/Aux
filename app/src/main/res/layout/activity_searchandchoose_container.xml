@@ -11,11 +11,6 @@
 
     <include layout="@layout/activity_searchandchoose_innerframe" />
 
-    <TextView
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|top"
-        android:text="The Awesome Sliding Up Panel"
-        android:textSize="16sp" />
+    <include layout="@layout/fragment_test" />
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
