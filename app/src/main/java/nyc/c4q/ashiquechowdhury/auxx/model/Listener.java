@@ -4,5 +4,5 @@ public interface Listener {
 
     void playSelectedTrack(String uri);
 
-    void queueSelectedTrack(String uri);
+    void queueSelectedTrack(Item item);
 }

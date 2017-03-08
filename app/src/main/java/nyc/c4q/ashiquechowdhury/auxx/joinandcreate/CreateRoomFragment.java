@@ -74,7 +74,7 @@ public class CreateRoomFragment extends Fragment implements
     Button nextButton;
     Button previousButton;
     public static int trackCounter = 0;
-    public static List<String> trackList = new ArrayList<>();
+    public static List<Item> trackList = new ArrayList<>();
     private long lastChange = 0;
 
     private FloatingActionButton floatingSearchBtn;
@@ -147,7 +147,7 @@ public class CreateRoomFragment extends Fragment implements
         queueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.playUri(null, trackList.get(0), 0, 0);
+                mPlayer.playUri(null, trackList.get(0).getUri(), 0, 0);
                 trackCounter = 0;
 
             }
@@ -280,17 +280,17 @@ public class CreateRoomFragment extends Fragment implements
             Toast.makeText(getContext(), "end of playlist", Toast.LENGTH_SHORT).show();
         } else {
             trackCounter++;
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         }
     }
 
     private void playPreviousTrack() {
         if (trackCounter - 1 < 0) {
             Toast.makeText(getContext(), "Start of playlist", Toast.LENGTH_SHORT).show();
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         } else {
             trackCounter--;
-            mPlayer.playUri(null, trackList.get(trackCounter), 0, 0);
+            mPlayer.playUri(null, trackList.get(trackCounter).getUri(), 0, 0);
         }
 
     }
@@ -319,9 +319,9 @@ public class CreateRoomFragment extends Fragment implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
         Toast.makeText(getContext(), "Track added to queue", Toast.LENGTH_SHORT).show();
-        trackList.add(uri);
+        trackList.add(item);
     }
 
     void findItems() {

@@ -14,7 +14,6 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
@@ -88,7 +87,7 @@ public class CreateRoomActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
 
     }
 }

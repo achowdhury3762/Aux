@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -38,17 +39,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
+//                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
                 SongListHelper.searchFragmentSongItemList.add(itemList.get(holder.getAdapterPosition()));
-
-            }
-        });
-
-
-        holder.bind(itemList.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//                Toast.makeText(holder.itemView.getContext(),String.valueOf(SongListHelper.searchFragmentSongItemList.size()), Toast.LENGTH_SHORT).show();
 
             }
         });
