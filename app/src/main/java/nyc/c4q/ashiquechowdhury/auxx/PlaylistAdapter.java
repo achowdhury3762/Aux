@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
-import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 /**
  * Created by jordansmith on 3/8/17.
@@ -33,12 +32,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     @Override
     public void onBindViewHolder(final SearchViewHolder holder, final int position) {
         holder.bind(itemList.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SpotifyUtil.getInstance().spotifyPlayer.playUri(null, itemList.get(position).getUri(), 0, 0);
-            }
-        });
+        
 
     }
 
