@@ -51,7 +51,7 @@ public class PlaylistFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.songList);
+        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.songList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 

@@ -8,7 +8,7 @@
     android:layout_height="?android:attr/actionBarSize"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
-    android:background="@color/granite"
+    android:background="@color/colorAccent"
     app:titleTextAppearance="@style/Toolbar.TitleText"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -17,7 +17,7 @@
     <ImageButton
         android:id="@+id/back_search_btn"
         android:src="@drawable/ic_arrow_back_white_36dp"
-        android:background="@color/granite"
+        android:background="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

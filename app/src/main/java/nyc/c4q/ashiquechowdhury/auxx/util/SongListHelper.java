@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
 /**
  * Created by shawnspeaks on 3/7/17.
@@ -15,9 +16,9 @@ import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 public class SongListHelper {
     public static int trackCounter = 0;
 
-    public static List<Item> songList = new ArrayList<>();
+    public static List<PlaylistTrack> songList = new ArrayList<>();
 
-    public static List<Item> getSongList() {
+    public static List<PlaylistTrack> getSongList() {
         return songList;
     }
 
@@ -26,18 +27,30 @@ public class SongListHelper {
         if (trackCounter + 1 >= songList.size()) {
         } else {
             trackCounter++;
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getUri(), 0, 0);
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
         }
     }
 
     public static void playPreviousTrack(Context context) {
         if (trackCounter - 1 < 0) {
             Toast.makeText(context, "Start of playlist", Toast.LENGTH_SHORT).show();
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getUri(), 0, 0);
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
         } else {
             trackCounter--;
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getUri(), 0, 0);
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
         }
+    }
+
+    public static void transformAndAdd (Item item){
+        PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
+                .trackUri(item.getUri())
+                .albumName(item.getAlbum().getName())
+                .artistName(item.getArtists().get(0).getName())
+                .albumArt(item.getAlbum().getImages().get(0).getUrl())
+                .build();
+
+        songList.add(track);
+
     }
 
 

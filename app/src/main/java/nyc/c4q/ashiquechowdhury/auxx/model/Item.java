@@ -1,12 +1,13 @@
 package nyc.c4q.ashiquechowdhury.auxx.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jordansmith on 2/27/17.
  */
 
-public class Item {
+public class Item implements Serializable {
 
     private Album album;
     private List<Artist_> artists = null;

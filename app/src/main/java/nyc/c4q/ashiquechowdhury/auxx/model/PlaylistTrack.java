@@ -1,0 +1,136 @@
+package nyc.c4q.ashiquechowdhury.auxx.model;
+
+import java.io.Serializable;
+
+/**
+ * Created by jordansmith on 3/9/17.
+ */
+
+public class PlaylistTrack implements Serializable {
+
+    private String trackUri;
+    private String artistName;
+    private String albumName;
+    private String trackName;
+    private String user;
+    private String message;
+    private String albumArt;
+
+    private PlaylistTrack(Builder builder){
+        this.albumName = builder.albumName;
+        this.artistName = builder.artistName;
+        this.message = builder.message;
+        this.trackName = builder.trackName;
+        this.user = builder.user;
+        this.trackUri = builder.trackUri;
+        this.albumArt = builder.albumArt;
+
+    }
+
+    public String getTrackUri() {
+        return trackUri;
+    }
+
+    public void setTrackUri(String trackUri) {
+        this.trackUri = trackUri;
+    }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setAlbumArt(String albumArt){
+        this.albumArt = albumArt;
+    }
+
+    public String getAlbumArt() {
+        return albumArt;
+    }
+
+
+
+    public static class Builder{
+
+        private final String trackName;
+        private String trackUri;
+        private String artistName;
+        private String albumName;
+        private String user;
+        private String message;
+        private String albumArt;
+
+        public Builder(String trackName){
+            this.trackName = trackName;
+        }
+
+        public Builder trackUri(String trackUri){
+            this.trackUri = trackUri;
+            return this;
+        }
+
+        public Builder artistName(String artistName){
+            this.artistName = artistName;
+            return this;
+        }
+
+        public Builder albumName(String albumName){
+            this.albumName = albumName;
+            return this;
+        }
+
+        public Builder user(String user){
+            this.user = user;
+            return this;
+        }
+        public Builder message(String message){
+            this.message = message;
+            return this;
+        }
+
+        public Builder albumArt(String albumArt){
+            this.albumArt = albumArt;
+            return this;
+        }
+
+        public PlaylistTrack build(){
+            return new PlaylistTrack(this);
+        }
+
+    }
+}

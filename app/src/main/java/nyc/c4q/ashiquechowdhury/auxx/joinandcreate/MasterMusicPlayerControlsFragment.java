@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.spotify.sdk.android.player.Player;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
@@ -57,7 +57,7 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
-        Item song;
+        PlaylistTrack song;
         if (SongListHelper.songList.isEmpty()) {
             Toast.makeText(getContext(), "Add a song to the playlist", Toast.LENGTH_SHORT).show();
             return;
@@ -76,7 +76,7 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
                 Toast.makeText(getContext(), "Play the song", Toast.LENGTH_SHORT).show();
                 playButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.VISIBLE);
-                spotify.spotifyPlayer.playUri(null, song.getUri(), 0, 0);
+                spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
                 break;
             case R.id.pausebutton:
                 Toast.makeText(getContext(), "Pause the song", Toast.LENGTH_SHORT).show();
