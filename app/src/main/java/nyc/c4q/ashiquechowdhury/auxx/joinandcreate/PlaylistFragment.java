@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -21,29 +20,19 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-import nyc.c4q.ashiquechowdhury.auxx.FloatingActionSearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-/**
- * Created by SACC on 3/5/17.
- */
-
-public class CreateRoomFragment extends Fragment implements
+public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
     RecyclerView recyclerView;
-    Button playButton;
-    Button pauseButton;
-    Button queueButton;
-    Button nextButton;
-    Button previousButton;
     SpotifyUtil spotify;
 
     private FloatingActionButton floatingSearchBtn;
@@ -51,7 +40,7 @@ public class CreateRoomFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_searchandchoose, container, false);
+        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         spotify = SpotifyUtil.getInstance();
         spotify.authorizeSpotifyInFragment(this);
@@ -64,11 +53,6 @@ public class CreateRoomFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        playButton = (Button) view.findViewById(R.id.play_button);
-        pauseButton = (Button) view.findViewById(R.id.pause_button);
-        queueButton = (Button) view.findViewById(R.id.queue_button);
-        nextButton = (Button) view.findViewById(R.id.next_button);
-        previousButton = (Button) view.findViewById(R.id.previous_button);
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
 
         PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.songList);
@@ -78,46 +62,10 @@ public class CreateRoomFragment extends Fragment implements
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.searchandchoose_innerframe, new FloatingActionSearchFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.playlist_maincontent_frame, new SearchFragment()).commit();
             }
         });
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spotify.spotifyPlayer.resume((Player.OperationCallback) getActivity());
-
-            }
-        });
-
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spotify.spotifyPlayer.pause((Player.OperationCallback) getActivity());
-            }
-        });
-        queueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Item song = SongListHelper.songList.get(0);
-                spotify.spotifyPlayer.playUri(null, song.getUri(), 0, 0);
-                SongListHelper.trackCounter = 0;
-            }
-        });
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SongListHelper.playNextTrack();
-            }
-        });
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SongListHelper.playPreviousTrack(getContext());
-            }
-        });
-
     }
-
 
 
     @Override

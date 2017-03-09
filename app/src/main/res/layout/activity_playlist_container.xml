@@ -9,14 +9,8 @@
     sothree:umanoPanelHeight="68dp"
     sothree:umanoShadowHeight="4dp">
 
-    <include layout="@layout/activity_searchandchoose_innerframe" />
+    <include layout="@layout/frame_playlist_maincontent" />
 
-    <TextView
-        android:id="@+id/sliding_text_view"
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|top"
-        android:text="The Awesome Sliding Up Panel"
-        android:textSize="16sp" />
+    <include layout="@layout/frame_playlist_panelcontent" />
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

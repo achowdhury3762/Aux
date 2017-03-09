@@ -1,21 +1,25 @@
 package nyc.c4q.ashiquechowdhury.auxx;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
@@ -27,39 +31,44 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Created by shawnspeaks on 3/6/17.
+ */
+
 public class SearchFragment extends Fragment {
-    private List<Item> musicItemList = new ArrayList<>();
-    private RecyclerView musicList;
-    private SearchAdapter mAdapter;
-    Button searchButton;
-    private EditText search_editT;
+
+    private long lastChange = 0;
+    private List<Item> itemList = new ArrayList<Item>();
+    private RecyclerView recyclerView;
+    private EditText editText;
+    private ImageButton backSearchButton;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_search, container, false);
-        return view;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_song_search, container, false);
+            return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        search_editT = (EditText) view.findViewById(R.id.search_edit_text);
-        musicList = (RecyclerView) view.findViewById(R.id.search_recycler);
-        musicList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new SearchAdapter(musicItemList);
-        musicList.setAdapter(mAdapter);
+        recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
+        findItems();
+        editText = (EditText) view.findViewById(R.id.search_edit_text);
+        editText.addTextChangedListener(searchWatcher);
+        backSearchButton = (ImageButton) view.findViewById(R.id.back_search_btn);
 
-        searchButton = (Button) view.findViewById(R.id.search_buttn);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getSongData(search_editT.getText().toString());
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment()).commit();
             }
         });
-    }
 
+    }
 
     void getSongData(String query) {
         query = query.replace(" ", "+");
@@ -76,8 +85,8 @@ public class SearchFragment extends Fragment {
             public void onResponse(Call<Example> call, Response<Example> response) {
                 try {
                     if (response.isSuccessful()) {
-                        musicItemList = response.body().getTracks().getItems();
-                        refreshMusicList();
+                        itemList = response.body().getTracks().getItems();
+                        findItems();
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
                     }
@@ -94,7 +103,44 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void refreshMusicList() {
-        mAdapter.setData(musicItemList);
+    private final TextWatcher searchWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            final String searchTerm = s.toString();
+            new Handler().postDelayed(
+
+                    new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (noChangeInText()) {
+                                getSongData(searchTerm);
+                            }
+                        }
+                    },
+                    300);
+
+            lastChange = System.currentTimeMillis();
+
+        }  @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+
+        private boolean noChangeInText() {
+            return System.currentTimeMillis() - lastChange >= 300;
+        }
+    };
+
+
+    void findItems() {
+        SearchAdapter searchAdapter = new SearchAdapter(itemList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(searchAdapter);
     }
 }
