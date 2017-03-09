@@ -65,6 +65,8 @@ public class SpotifyUtil implements
         AuthenticationClient.openLoginActivity(activity, REQUEST_CODE, request);
     }
 
+    //* CALL THIS IN OnActivityResult AFTER AUTHORIZING SPOTIFY
+
     public void setResponse(AuthenticationResponse response) {
         this.response = response;
     }

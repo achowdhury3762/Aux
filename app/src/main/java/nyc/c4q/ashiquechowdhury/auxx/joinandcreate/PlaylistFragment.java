@@ -1,6 +1,5 @@
 package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,22 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
-import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
@@ -43,7 +39,7 @@ public class PlaylistFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         spotify = SpotifyUtil.getInstance();
-        spotify.authorizeSpotifyInFragment(this);
+        spotify.createPlayer(getContext());
 
         return view;
     }
@@ -68,18 +64,18 @@ public class PlaylistFragment extends Fragment implements
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            spotify.setResponse(AuthenticationClient.getResponse(resultCode, intent));
-            if (spotify.getResponse().getType() == AuthenticationResponse.Type.TOKEN) {
-                spotify.createPlayer(getContext());
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        super.onActivityResult(requestCode, resultCode, intent);
+//
+//        // Check if result comes from the correct activity
+//        if (requestCode == REQUEST_CODE) {
+//            spotify.setResponse(AuthenticationClient.getResponse(resultCode, intent));
+//            if (spotify.getResponse().getType() == AuthenticationResponse.Type.TOKEN) {
+//                spotify.createPlayer(getContext());
+//            }
+//        }
+//    }
 
     @Override
     public void onLoggedIn() {
