@@ -39,10 +39,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                listener.queueSelectedTrack(itemList.get(holder.getAdapterPosition()).getUri());
-                SongListHelper.searchFragmentSongItemList.add(itemList.get(holder.getAdapterPosition()));
-//                Toast.makeText(holder.itemView.getContext(),String.valueOf(SongListHelper.searchFragmentSongItemList.size()), Toast.LENGTH_SHORT).show();
-
+                SongListHelper.songList.add(itemList.get(holder.getAdapterPosition()));
+                Toast.makeText(holder.itemView.getContext(),"Added to Playlist",Toast.LENGTH_SHORT).show();
             }
         });
     }
