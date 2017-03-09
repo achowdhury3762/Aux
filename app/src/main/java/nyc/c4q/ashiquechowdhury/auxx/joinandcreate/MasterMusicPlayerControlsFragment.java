@@ -9,9 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import nyc.c4q.ashiquechowdhury.auxx.R;
+import com.spotify.sdk.android.player.Player;
 
-public class YellowFragment extends Fragment implements View.OnClickListener {
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
+import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
+
+public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener {
 
     private ImageView upVoteButton;
     private ImageView prevButton;
@@ -19,11 +24,14 @@ public class YellowFragment extends Fragment implements View.OnClickListener {
     private ImageView pauseButton;
     private ImageView nextButton;
     private ImageView downVoteButton;
+    private SpotifyUtil spotify;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.yellow_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_master_musicplayer, container, false);
+
+        spotify = SpotifyUtil.getInstance();
 
         upVoteButton = (ImageView) view.findViewById(R.id.upvotebutton);
         prevButton = (ImageView) view.findViewById(R.id.prevbutton);
@@ -49,27 +57,36 @@ public class YellowFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Item song;
+        if (SongListHelper.songList.isEmpty()) {
+            Toast.makeText(getContext(), "Add a song to the playlist", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            song = SongListHelper.songList.get(0);
+        }
         switch (view.getId()) {
             case R.id.upvotebutton:
                 Toast.makeText(getContext(), "This song is great!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.prevbutton:
                 Toast.makeText(getContext(), "Replay the -ish!", Toast.LENGTH_SHORT).show();
+                SongListHelper.playPreviousTrack(getContext());
                 break;
             case R.id.playbutton:
                 Toast.makeText(getContext(), "Play the song", Toast.LENGTH_SHORT).show();
                 playButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.VISIBLE);
-                CreateRoomActivity activity = (CreateRoomActivity) getActivity();
-                activity.playSelectedTrack(CreateRoomActivity.trackList.get(0));
+                spotify.spotifyPlayer.playUri(null, song.getUri(), 0, 0);
                 break;
             case R.id.pausebutton:
                 Toast.makeText(getContext(), "Pause the song", Toast.LENGTH_SHORT).show();
                 pauseButton.setVisibility(View.GONE);
                 playButton.setVisibility(View.VISIBLE);
+                spotify.spotifyPlayer.pause((Player.OperationCallback) getActivity());
                 break;
             case R.id.nextbutton:
                 Toast.makeText(getContext(), "Skip the song-o", Toast.LENGTH_SHORT).show();
+                SongListHelper.playNextTrack();
                 break;
             case R.id.downvotebutton:
                 Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();

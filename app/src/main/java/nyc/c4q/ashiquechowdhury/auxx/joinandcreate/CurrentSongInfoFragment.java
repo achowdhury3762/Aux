@@ -17,7 +17,7 @@ import nyc.c4q.ashiquechowdhury.auxx.R;
  * Created by SACC on 3/6/17.
  */
 
-public class RedFragment extends Fragment {
+public class CurrentSongInfoFragment extends Fragment {
 
     private ImageView albumArtWorkIv;
     private TextView songNameTv;
@@ -27,7 +27,7 @@ public class RedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.red_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_currentsong_info, container, false);
 
         albumArtWorkIv = (ImageView) view.findViewById(R.id.album_artwork);
         songNameTv = (TextView) view.findViewById(R.id.song_name);

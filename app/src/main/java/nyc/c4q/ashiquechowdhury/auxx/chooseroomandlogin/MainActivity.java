@@ -39,7 +39,7 @@ private static final String REDIRECT_URI = "aux://callback";
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container, new LoginFragment()).commit();
+                .replace(R.id.main_container, new LoginFragment()).commit();
     }
 
 

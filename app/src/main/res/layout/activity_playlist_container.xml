@@ -9,8 +9,8 @@
     sothree:umanoPanelHeight="68dp"
     sothree:umanoShadowHeight="4dp">
 
-    <include layout="@layout/activity_searchandchoose_innerframe" />
+    <include layout="@layout/frame_playlist_maincontent" />
 
-    <include layout="@layout/fragment_test" />
+    <include layout="@layout/frame_playlist_panelcontent" />
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

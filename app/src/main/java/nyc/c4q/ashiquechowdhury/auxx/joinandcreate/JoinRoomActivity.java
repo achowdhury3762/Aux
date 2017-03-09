@@ -7,17 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
-import com.spotify.sdk.android.authentication.LoginActivity;
-import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
-import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.AlternateSearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
@@ -42,7 +40,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.room_container, new SearchFragment()).commit();
+                .replace(R.id.room_container, new AlternateSearchFragment()).commit();
     }
 
     @Override
@@ -108,7 +106,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void queueSelectedTrack(String uri) {
+    public void queueSelectedTrack(Item item) {
 
     }
 }
