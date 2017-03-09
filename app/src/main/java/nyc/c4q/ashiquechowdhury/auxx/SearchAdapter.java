@@ -9,17 +9,12 @@ import android.widget.Toast;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
-import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
-    private Listener listener;
 
-    public SearchAdapter(List<Item> itemList, Listener listener) {
-        this.itemList = itemList;
-        this.listener = listener;
-    }
+
 
     public SearchAdapter(List<Item> musicItemList) {
         this.itemList = musicItemList;

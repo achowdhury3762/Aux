@@ -2,38 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:paddingLeft="5dp"
     android:background="@color/colorGrey"
     android:orientation="horizontal">
 
     <ImageView
         android:layout_gravity="center"
-        android:id="@+id/album_art_text_view"
+        android:id="@+id/playlist_album_art_text_view"
         android:layout_width="@dimen/track_list_image_view_height"
         android:layout_height="@dimen/track_list_image_view_height" />
 
     <LinearLayout
-        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="center"
         android:paddingLeft="@dimen/track_list_text_padding"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/song_name_text_view"
+            android:text="Dummy Text "
+            android:id="@+id/playlist_song_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/track_list_text_song_name_size" />
 
         <TextView
-            android:id="@+id/artist_name_text_view"
+            android:text="Dummy Text"
+            android:id="@+id/playlist_artist_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/gray"
             android:textSize="@dimen/track_list_text_artist_name_size" />
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/playlist_more_image_button"
+            android:background="@drawable/ic_action_name"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+    </RelativeLayout>
+
 
 </LinearLayout>
