@@ -24,6 +24,11 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
     public void bind(Item item) {
         artistName.setText(item.getArtists().get(0).getName());
         songName.setText(item.getName());
-        Glide.with(itemView.getContext()).load(item.getAlbum().getImages().get(0).getUrl()).into(albumArt);
+        if(!item.getAlbum().getImages().isEmpty()) {
+            Glide.with(itemView.getContext()).load(item.getAlbum().getImages().get(0).getUrl()).into(albumArt);
+        }
+        else{
+            Glide.with(itemView.getContext()).load("https://www.tunefind.com/i/new/album-art-empty.png").into(albumArt);
+        }
     }
 }
