@@ -21,7 +21,6 @@ public class PlaylistItemDialogFragment extends DialogFragment {
     TextView dialogArtist;
     TextView dialogSong;
     TextView dialogAlbum;
-    TextView dialogYear;
     ImageView albumArt;
 
 
@@ -50,7 +49,6 @@ public class PlaylistItemDialogFragment extends DialogFragment {
         dialogArtist = (TextView)view.findViewById(R.id.dialog_artist_text_view);
         dialogSong = (TextView)view.findViewById(R.id.dialog_song_text_view);
         dialogAlbum = (TextView)view.findViewById(R.id.dialog_album_text_view);
-        dialogYear = (TextView)view.findViewById(R.id.dialog_year_text_view);
         albumArt = (ImageView) view.findViewById(R.id.album_art_dialog_fragment);
 
         PlaylistTrack track = (PlaylistTrack) getArguments().getSerializable("Current Track");
@@ -58,7 +56,6 @@ public class PlaylistItemDialogFragment extends DialogFragment {
         dialogArtist.setText(track.getArtistName());
         dialogSong.setText(track.getTrackName());
         dialogAlbum.setText(track.getAlbumName());
-        dialogYear.setText(track.getTrackName());
         Glide.with(view.getContext()).load(track.getAlbumArt()).centerCrop().into(albumArt);
 
     }

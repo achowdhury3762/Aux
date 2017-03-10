@@ -65,25 +65,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:paddingLeft="20dp"
-            android:text="Year:"
-            android:textSize="@dimen/track_list_text_song_name_size"
-            android:textColor="@color/colorWhite"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="Hello"
-            android:id="@+id/dialog_year_text_view"
-            android:textSize="@dimen/track_list_text_song_name_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -94,11 +76,26 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" >
+            <TextView
+                android:text="Likes"
+                android:textSize="18dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <ImageButton
                 android:background="@drawable/ic_checked"
                 android:layout_gravity="center"
                 android:layout_width="70dp"
                 android:layout_height="70dp" />
+            <TextView
+                android:paddingTop="5dp"
+                android:text="0"
+                android:textSize="20dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             </LinearLayout>
         <LinearLayout
             android:paddingBottom="10dp"
@@ -107,11 +104,26 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
+            <TextView
+                android:text="Vetos"
+                android:textSize="18dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <ImageButton
                 android:background="@drawable/ic_cancel"
                 android:layout_gravity="center"
                 android:layout_width="70dp"
                 android:layout_height="70dp" />
+            <TextView
+                android:paddingTop="5dp"
+                android:text="0"
+                android:textSize="20dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             </LinearLayout>
     </LinearLayout>
 

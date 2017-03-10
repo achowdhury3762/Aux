@@ -57,12 +57,14 @@ public class SpotifyUtil implements
     }
 
     public void authorizeSpotifyInActivity(AppCompatActivity activity) {
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
-        AuthenticationRequest request = builder.build();
-        AuthenticationClient.openLoginActivity(activity, REQUEST_CODE, request);
+        if (response == null || response.getExpiresIn() <= 0) {
+            AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+                    AuthenticationResponse.Type.TOKEN,
+                    REDIRECT_URI);
+            builder.setScopes(new String[]{"user-read-private", "streaming"});
+            AuthenticationRequest request = builder.build();
+            AuthenticationClient.openLoginActivity(activity, REQUEST_CODE, request);
+        }
     }
 
     //* CALL THIS IN OnActivityResult AFTER AUTHORIZING SPOTIFY
