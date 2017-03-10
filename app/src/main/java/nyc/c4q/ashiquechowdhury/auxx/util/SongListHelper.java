@@ -42,12 +42,22 @@ public class SongListHelper {
     }
 
     public static void transformAndAdd (Item item){
+
         PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
                 .artistName(item.getArtists().get(0).getName())
-                .albumArt(item.getAlbum().getImages().get(0).getUrl())
                 .build();
+
+        if(item.getAlbum().getImages().isEmpty()){
+            track.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
+        }
+        else{
+            track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
+        }
+
+
+
 
         songList.add(track);
 

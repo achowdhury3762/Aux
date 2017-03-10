@@ -71,8 +71,6 @@ public class SearchFragment extends Fragment {
     }
 
     void getSongData(String query) {
-        query = query.replace(" ", "+");
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
