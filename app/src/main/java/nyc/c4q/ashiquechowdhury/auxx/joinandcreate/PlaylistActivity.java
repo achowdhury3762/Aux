@@ -12,11 +12,13 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
+import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 public class PlaylistActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
@@ -109,5 +111,11 @@ public class PlaylistActivity extends AppCompatActivity implements
     @Override
     public void queueSelectedTrack(Item item) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
+        super.onDestroy();
     }
 }

@@ -34,7 +34,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SongListHelper.songList.add(itemList.get(holder.getAdapterPosition()));
+                SongListHelper.transformAndAdd(itemList.get(holder.getAdapterPosition()));
                 Toast.makeText(holder.itemView.getContext(),"Added to Playlist",Toast.LENGTH_SHORT).show();
             }
         });

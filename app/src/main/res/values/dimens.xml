@@ -9,6 +9,8 @@
     <dimen name="track_list_text_padding">8dp</dimen>
     <dimen name="track_list_text_song_name_size">18sp</dimen>
     <dimen name="track_list_text_artist_name_size">13sp</dimen>
+    <dimen name="popup_width">400dp</dimen>
+    <dimen name="popup_height">400dp</dimen>
 
 
 </resources>
