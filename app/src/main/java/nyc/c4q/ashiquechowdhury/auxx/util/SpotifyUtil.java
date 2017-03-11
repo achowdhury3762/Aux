@@ -31,10 +31,8 @@ public class SpotifyUtil implements
     private static SpotifyUtil instance;
     public Player spotifyPlayer;
     private AuthenticationResponse response;
+    private TrackListener tracklistener;
 
-    private SpotifyUtil() {
-
-    }
 
     public static SpotifyUtil getInstance() {
         if (instance == null) {
@@ -155,4 +153,11 @@ public class SpotifyUtil implements
 
     }
 
+    public void setTracklistener(TrackListener tracklistener) {
+        this.tracklistener = tracklistener;
+    }
+
+    public TrackListener getTracklistener() {
+        return tracklistener;
+    }
 }
