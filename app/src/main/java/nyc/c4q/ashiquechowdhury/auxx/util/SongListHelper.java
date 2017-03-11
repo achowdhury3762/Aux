@@ -20,6 +20,8 @@ public class SongListHelper {
 
     private static PlaylistTrack currentlyPlayingSong;
 
+    static SpotifyUtil spotify = SpotifyUtil.getInstance();
+
     public static List<PlaylistTrack> getSongList() {
         return songList;
     }
@@ -33,26 +35,31 @@ public class SongListHelper {
     }
 
 
-
-
     public static void playNextTrack(){
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
         } else {
             trackCounter++;
-            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
+            PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
+            setCurrentlyPlayingSong(track);
+            spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
+            spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
         }
     }
 
     public static void playPreviousTrack(Context context) {
+        PlaylistTrack track;
         if (trackCounter - 1 < 0) {
             Toast.makeText(context, "Start of playlist", Toast.LENGTH_SHORT).show();
-            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
+            track = SongListHelper.getSongList().get(trackCounter);
+            setCurrentlyPlayingSong(track);
+            spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
+            spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
         } else {
             trackCounter--;
-            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
+            track = SongListHelper.getSongList().get(trackCounter);
+            setCurrentlyPlayingSong(track);
+            spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
+            spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
         }
     }
 
@@ -72,6 +79,16 @@ public class SongListHelper {
         }
         SongListHelper.getSongList().add(track);
 
+    }
+
+    public static String formatPlayerInfo(PlaylistTrack track){
+        StringBuilder sb = new StringBuilder();
+        sb.append(track.getArtistName());
+        sb.append(" ");
+        sb.append("-");
+        sb.append(" ");
+        sb.append(track.getTrackName());
+        return sb.toString();
     }
 
 }
