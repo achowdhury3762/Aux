@@ -51,7 +51,7 @@ public class PlaylistFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.songList, getContext());
+        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -63,19 +63,6 @@ public class PlaylistFragment extends Fragment implements
         });
     }
 
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//
-//        // Check if result comes from the correct activity
-//        if (requestCode == REQUEST_CODE) {
-//            spotify.setResponse(AuthenticationClient.getResponse(resultCode, intent));
-//            if (spotify.getResponse().getType() == AuthenticationResponse.Type.TOKEN) {
-//                spotify.createPlayer(getContext());
-//            }
-//        }
-//    }
 
     @Override
     public void onLoggedIn() {
