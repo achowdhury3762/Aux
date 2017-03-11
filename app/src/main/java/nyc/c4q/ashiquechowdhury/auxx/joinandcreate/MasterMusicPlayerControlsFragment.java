@@ -6,7 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.spotify.sdk.android.player.Player;
@@ -15,16 +16,18 @@ import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
+import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
-public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener {
+public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener, TrackListener {
 
-    private ImageView upVoteButton;
-    private ImageView prevButton;
-    private ImageView playButton;
-    private ImageView pauseButton;
-    private ImageView nextButton;
-    private ImageView downVoteButton;
+    private FrameLayout upVoteButton;
+    private FrameLayout prevButton;
+    private FrameLayout playButton;
+    private FrameLayout pauseButton;
+    private FrameLayout nextButton;
+    private FrameLayout downVoteButton;
     private SpotifyUtil spotify;
+    private TextView currentTrackInfoTextView;
 
     @Nullable
     @Override
@@ -33,12 +36,23 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
 
         spotify = SpotifyUtil.getInstance();
 
-        upVoteButton = (ImageView) view.findViewById(R.id.upvotebutton);
-        prevButton = (ImageView) view.findViewById(R.id.prevbutton);
-        playButton = (ImageView) view.findViewById(R.id.playbutton);
-        pauseButton = (ImageView) view.findViewById(R.id.pausebutton);
-        nextButton = (ImageView) view.findViewById(R.id.nextbutton);
-        downVoteButton = (ImageView) view.findViewById(R.id.downvotebutton);
+        upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
+        prevButton = (FrameLayout) view.findViewById(R.id.prevbutton);
+        playButton = (FrameLayout) view.findViewById(R.id.playbutton);
+        pauseButton = (FrameLayout) view.findViewById(R.id.pausebutton);
+        nextButton = (FrameLayout) view.findViewById(R.id.nextbutton);
+        downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
+        currentTrackInfoTextView = (TextView) view.findViewById(R.id.current_playing_song_textview);
+        currentTrackInfoTextView.setSelected(true);
+        currentTrackInfoTextView.setSingleLine(true);
+        SpotifyUtil.getInstance().setTracklistener(this);
+
+        if(SongListHelper.getCurrentlyPlayingSong() != null){
+            currentTrackInfoTextView.setText(SongListHelper.formatPlayerInfo(SongListHelper.getCurrentlyPlayingSong()));
+        }
+        else{
+            currentTrackInfoTextView.setText("Click Play To Start Playlist");
+        }
 
         return view;
     }
@@ -58,11 +72,11 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
     @Override
     public void onClick(View view) {
         PlaylistTrack song;
-        if (SongListHelper.songList.isEmpty()) {
+        if (SongListHelper.getSongList().isEmpty()) {
             Toast.makeText(getContext(), "Add a song to the playlist", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            song = SongListHelper.songList.get(0);
+            song = SongListHelper.getSongList().get(0);
         }
         switch (view.getId()) {
             case R.id.upvotebutton:
@@ -77,6 +91,8 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
                 playButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.VISIBLE);
                 spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
+                SongListHelper.setCurrentlyPlayingSong(song);
+                SpotifyUtil.getInstance().getTracklistener().updateCurrentlyPlayingText(SongListHelper.formatPlayerInfo(song));
                 break;
             case R.id.pausebutton:
                 Toast.makeText(getContext(), "Pause the song", Toast.LENGTH_SHORT).show();
@@ -92,5 +108,10 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
                 Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void updateCurrentlyPlayingText(String trackName) {
+        currentTrackInfoTextView.setText(trackName);
     }
 }

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +40,7 @@ public class PlaylistFragment extends Fragment implements
     private ChildEventListener childListener;
     private RecyclerView recyclerView;
     private SpotifyUtil spotify;
+    private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
     private PlaylistAdapter myAdapter;
 
@@ -58,7 +61,12 @@ public class PlaylistFragment extends Fragment implements
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("BackStack").replace(R.id.playlist_maincontent_frame, new SearchFragment()).commit();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction
+                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
+                        .addToBackStack(FRAGMENT_TAG)
+                        .commit();
             }
         });
     }
@@ -103,7 +111,6 @@ public class PlaylistFragment extends Fragment implements
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myAdapter);
     }
-
 
     @Override
     public void onLoggedIn() {
@@ -150,12 +157,6 @@ public class PlaylistFragment extends Fragment implements
         }
 
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @Override
     public void onSuccess() {

@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -34,21 +36,24 @@ public class PlaylistActivity extends AppCompatActivity implements
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private ChildEventListener childListener;
+    SlidingUpPanelLayout slidingPanel;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
-                .replace(R.id.playlist_maincontent_frame, new PlaylistFragment(), "PlayList Fragment")
+                .replace(R.id.playlist_maincontent_frame, new PlaylistFragment())
                 .replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment())
                 .commit();
 
-        SlidingUpPanelLayout slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
+        slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
+
         slidingPanel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -72,7 +77,7 @@ public class PlaylistActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-
+        setBottomPanelHeight();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(SearchFragment.MUSIC_LIST);
         childListener = new ChildEventListener() {
@@ -104,6 +109,18 @@ public class PlaylistActivity extends AppCompatActivity implements
         };
 
         reference.addChildEventListener(childListener);
+    }
+
+    private void setBottomPanelHeight() {
+        final LinearLayout layout = (LinearLayout) findViewById(R.id.bottom_panel_height);
+        final ViewTreeObserver observer = layout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        slidingPanel.setPanelHeight(layout.getHeight());
+                    }
+                });
     }
 
     @Override
@@ -165,5 +182,20 @@ public class PlaylistActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fragmentManager.getBackStackEntryCount() == 0) {
+                    finish();
+                } else {
+                    fragmentManager.popBackStack();
+                }
+            }
+        });
     }
 }
