@@ -59,11 +59,11 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
     @Override
     public void onClick(View view) {
         PlaylistTrack song;
-        if (SongListHelper.songList.isEmpty()) {
+        if (SongListHelper.getSongList().isEmpty()) {
             Toast.makeText(getContext(), "Add a song to the playlist", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            song = SongListHelper.songList.get(0);
+            song = SongListHelper.getSongList().get(0);
         }
         switch (view.getId()) {
             case R.id.upvotebutton:

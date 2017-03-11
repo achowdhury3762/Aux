@@ -16,28 +16,43 @@ import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 public class SongListHelper {
     public static int trackCounter = 0;
 
-    public static List<PlaylistTrack> songList = new ArrayList<>();
+    private static List<PlaylistTrack> songList = new ArrayList<>();
+
+    private static PlaylistTrack currentlyPlayingSong;
 
     public static List<PlaylistTrack> getSongList() {
         return songList;
     }
 
+    public static PlaylistTrack getCurrentlyPlayingSong() {
+        return currentlyPlayingSong;
+    }
+
+    public static void setCurrentlyPlayingSong(PlaylistTrack currentlyPlayingSong) {
+        SongListHelper.currentlyPlayingSong = currentlyPlayingSong;
+    }
+
+
+
 
     public static void playNextTrack(){
-        if (trackCounter + 1 >= songList.size()) {
+        if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
         } else {
             trackCounter++;
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
+            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
         }
     }
 
     public static void playPreviousTrack(Context context) {
         if (trackCounter - 1 < 0) {
             Toast.makeText(context, "Start of playlist", Toast.LENGTH_SHORT).show();
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
+            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
         } else {
             trackCounter--;
-            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, songList.get(trackCounter).getTrackUri(), 0, 0);
+            setCurrentlyPlayingSong(SongListHelper.getSongList().get(trackCounter));
+            SpotifyUtil.getInstance().spotifyPlayer.playUri(null, SongListHelper.getSongList().get(trackCounter).getTrackUri(), 0, 0);
         }
     }
 
@@ -55,14 +70,9 @@ public class SongListHelper {
         else{
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
-
-
-
-
-        songList.add(track);
+        SongListHelper.getSongList().add(track);
 
     }
-
 
 }
 
