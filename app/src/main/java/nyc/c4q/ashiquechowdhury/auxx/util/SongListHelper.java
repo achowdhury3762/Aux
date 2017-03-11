@@ -9,19 +9,10 @@ import java.util.List;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
-/**
- * Created by shawnspeaks on 3/7/17.
- */
-
 public class SongListHelper {
     public static int trackCounter = 0;
 
     public static List<PlaylistTrack> songList = new ArrayList<>();
-
-    public static List<PlaylistTrack> getSongList() {
-        return songList;
-    }
-
 
     public static void playNextTrack(){
         if (trackCounter + 1 >= songList.size()) {
@@ -41,8 +32,7 @@ public class SongListHelper {
         }
     }
 
-    public static void transformAndAdd (Item item){
-
+    public static PlaylistTrack transformAndAdd (Item item) {
         PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
@@ -55,15 +45,6 @@ public class SongListHelper {
         else{
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
-
-
-
-
-        songList.add(track);
-
+        return track;
     }
-
-
 }
-
-

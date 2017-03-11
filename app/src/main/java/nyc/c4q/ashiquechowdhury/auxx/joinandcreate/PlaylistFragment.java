@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
@@ -20,7 +25,7 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
-import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
@@ -28,19 +33,20 @@ import static android.R.id.message;
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
-    RecyclerView recyclerView;
-    SpotifyUtil spotify;
-
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+    private ChildEventListener childListener;
+    private RecyclerView recyclerView;
+    private SpotifyUtil spotify;
     private FloatingActionButton floatingSearchBtn;
+    private PlaylistAdapter myAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist, container, false);
-
         spotify = SpotifyUtil.getInstance();
         spotify.createPlayer(getContext());
-
         return view;
     }
 
@@ -48,34 +54,56 @@ public class PlaylistFragment extends Fragment implements
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
-
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.songList, getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(adapter);
-
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.playlist_maincontent_frame, new SearchFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("BackStack").replace(R.id.playlist_maincontent_frame, new SearchFragment()).commit();
             }
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//
-//        // Check if result comes from the correct activity
-//        if (requestCode == REQUEST_CODE) {
-//            spotify.setResponse(AuthenticationClient.getResponse(resultCode, intent));
-//            if (spotify.getResponse().getType() == AuthenticationResponse.Type.TOKEN) {
-//                spotify.createPlayer(getContext());
-//            }
-//        }
-//    }
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        childListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.add(myTrack);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        reference.addChildEventListener(childListener);
+        myAdapter = new PlaylistAdapter(getContext());
+        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(myAdapter);
+    }
+
 
     @Override
     public void onLoggedIn() {
@@ -109,13 +137,6 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-//        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
-//        switch (playerEvent) {
-//            case kSpPlaybackNotifyAudioDeliveryDone:
-//                playNextTrack();
-//            default:
-//                break;
-//        }
 
     }
 
@@ -124,7 +145,6 @@ public class PlaylistFragment extends Fragment implements
     public void onPlaybackError(Error error) {
         Log.d("SearchAndChooseActivity", "Playback error received: " + error.name());
         switch (error) {
-            // Handle error type as necessary
             default:
                 break;
         }
@@ -133,8 +153,6 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
-//        Spotify.destroyPlayer(this);
         super.onDestroy();
     }
 

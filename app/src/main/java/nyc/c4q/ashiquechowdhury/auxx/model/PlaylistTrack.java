@@ -27,6 +27,8 @@ public class PlaylistTrack implements Serializable {
 
     }
 
+    public PlaylistTrack(){}
+
     public String getTrackUri() {
         return trackUri;
     }

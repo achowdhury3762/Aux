@@ -15,14 +15,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,14 +35,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by shawnspeaks on 3/6/17.
- */
-
-public class SearchFragment extends Fragment {
-
+public class SearchFragment extends Fragment implements SongClickListener {
+    public static final String MUSIC_LIST = "MusicList";
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
     private long lastChange = 0;
-    private List<Item> itemList = new ArrayList<Item>();
+    private List<Item> itemList = new ArrayList<>();
     private RecyclerView recyclerView;
     private EditText editText;
     private ImageButton backSearchButton;
@@ -46,14 +48,16 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_song_search, container, false);
-            return view;
+        View view = inflater.inflate(R.layout.fragment_song_search, container, false);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference(); //.getChild(musicList);
         recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
         findItems();
         editText = (EditText) view.findViewById(R.id.search_edit_text);
@@ -63,11 +67,9 @@ public class SearchFragment extends Fragment {
         backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment()).commit();
+                getFragmentManager().popBackStack();
             }
         });
-
     }
 
     void getSongData(String query) {
@@ -96,7 +98,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
                 Log.d("failure", "no connection");
-
             }
         });
     }
@@ -125,7 +126,9 @@ public class SearchFragment extends Fragment {
 
             lastChange = System.currentTimeMillis();
 
-        }  @Override
+        }
+
+        @Override
         public void afterTextChanged(Editable s) {
 
         }
@@ -135,10 +138,15 @@ public class SearchFragment extends Fragment {
         }
     };
 
-
     void findItems() {
-        SearchAdapter searchAdapter = new SearchAdapter(itemList);
+        SearchAdapter searchAdapter = new SearchAdapter(itemList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchAdapter);
+    }
+
+    @Override
+    public void songClicked(Item item) {
+        PlaylistTrack myTrack = SongListHelper.transformAndAdd(item);
+        reference.child(MUSIC_LIST).push().setValue(myTrack);
     }
 }

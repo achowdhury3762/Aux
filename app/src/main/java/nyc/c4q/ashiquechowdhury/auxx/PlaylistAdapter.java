@@ -12,25 +12,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
-
-/**
- * Created by jordansmith on 3/8/17.
- */
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
     private List<PlaylistTrack> trackList;
     private Context context;
 
-
-    public PlaylistAdapter(List<PlaylistTrack> trackList, Context context) {
-        this.trackList = trackList;
+    public PlaylistAdapter(Context context) {
+        trackList = new ArrayList<>();
         this.context = context;
-
     }
-
 
     @Override
     public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,11 +39,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             @Override
             public void onClick(View v) {
                 showDialog(context, trackList.get(position));
-
             }
         });
-
-
     }
 
     @Override
@@ -65,7 +56,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         android.app.FragmentManager fm = ((Activity) context).getFragmentManager();
         PlaylistItemDialogFragment dialog = PlaylistItemDialogFragment.newInstance(track);
         dialog.show(fm, "fragment_edit_name" );
+    }
 
+    public void add(PlaylistTrack myTrack) {
+        trackList.add(myTrack);
+        notifyItemInserted(trackList.size());
     }
 
     public class PlaylistViewHolder extends RecyclerView.ViewHolder{
@@ -87,10 +82,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             artistName.setText(track.getArtistName());
             songName.setText(track.getTrackName());
             Glide.with(itemView.getContext()).load(track.getAlbumArt()).into(albumArt);
-
-
         }
-
     }
 }
 
