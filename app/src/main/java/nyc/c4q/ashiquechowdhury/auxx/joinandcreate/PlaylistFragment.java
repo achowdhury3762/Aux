@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +30,8 @@ import static android.R.id.message;
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
+
+    private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
     RecyclerView recyclerView;
     SpotifyUtil spotify;
 
@@ -58,11 +62,15 @@ public class PlaylistFragment extends Fragment implements
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.playlist_maincontent_frame, new SearchFragment()).commit();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction
+                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
+                        .addToBackStack(FRAGMENT_TAG)
+                        .commit();
             }
         });
     }
-
 
     @Override
     public void onLoggedIn() {

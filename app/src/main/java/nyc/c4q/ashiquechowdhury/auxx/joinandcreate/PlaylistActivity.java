@@ -26,14 +26,16 @@ public class PlaylistActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
     SlidingUpPanelLayout slidingPanel;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
                 .replace(R.id.playlist_maincontent_frame, new PlaylistFragment())
                 .replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment())
@@ -138,5 +140,20 @@ public class PlaylistActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fragmentManager.getBackStackEntryCount() == 0) {
+                    finish();
+                } else {
+                    fragmentManager.popBackStack();
+                }
+            }
+        });
     }
 }
