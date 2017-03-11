@@ -25,6 +25,8 @@
         android:id="@+id/search_edit_text"
         android:hint="Search for tracks"
         android:layout_width="fill_parent"
+        android:imeOptions="actionDone"
+        android:inputType="textCapWords"
         android:layout_height="wrap_content"
         android:maxLines="1"/>
 

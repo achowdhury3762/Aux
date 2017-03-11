@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,12 +19,12 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener {
 
-    private ImageView upVoteButton;
-    private ImageView prevButton;
-    private ImageView playButton;
-    private ImageView pauseButton;
-    private ImageView nextButton;
-    private ImageView downVoteButton;
+    private FrameLayout upVoteButton;
+    private FrameLayout prevButton;
+    private FrameLayout playButton;
+    private FrameLayout pauseButton;
+    private FrameLayout nextButton;
+    private FrameLayout downVoteButton;
     private SpotifyUtil spotify;
 
     @Nullable
@@ -33,12 +34,12 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
 
         spotify = SpotifyUtil.getInstance();
 
-        upVoteButton = (ImageView) view.findViewById(R.id.upvotebutton);
-        prevButton = (ImageView) view.findViewById(R.id.prevbutton);
-        playButton = (ImageView) view.findViewById(R.id.playbutton);
-        pauseButton = (ImageView) view.findViewById(R.id.pausebutton);
-        nextButton = (ImageView) view.findViewById(R.id.nextbutton);
-        downVoteButton = (ImageView) view.findViewById(R.id.downvotebutton);
+        upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
+        prevButton = (FrameLayout) view.findViewById(R.id.prevbutton);
+        playButton = (FrameLayout) view.findViewById(R.id.playbutton);
+        pauseButton = (FrameLayout) view.findViewById(R.id.pausebutton);
+        nextButton = (FrameLayout) view.findViewById(R.id.nextbutton);
+        downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
 
         return view;
     }

@@ -26,31 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:gravity="center"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#9975b9"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:background="#FFF90F"
-            android:text="Up Vote"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+        <include layout="@layout/fragment_master_musicplayer"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
 
-        <TextView
-            android:background="#C9C9C9"
-            android:text="Down Vote"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:background="#66F90F"
-            android:text="Play/Pause Button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

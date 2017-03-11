@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/colorGrey"
+        android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:paddingLeft="5dp">
 
@@ -21,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingLeft="@dimen/track_list_text_padding">
@@ -30,6 +30,8 @@
                 android:id="@+id/song_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/track_list_text_song_name_size" />
 
