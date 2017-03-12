@@ -33,12 +33,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     }
 
     @Override
-    public void onBindViewHolder(final PlaylistViewHolder holder, final int position) {
+    public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         holder.bind(trackList.get(position));
         holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(context, trackList.get(position));
+                showDialog(context, trackList.get(holder.getAdapterPosition()));
             }
         });
     }
@@ -60,7 +60,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     public void add(PlaylistTrack myTrack) {
         trackList.add(myTrack);
-        notifyItemInserted(trackList.size());
+        notifyItemInserted(trackList.size() - 1);
     }
 
     public class PlaylistViewHolder extends RecyclerView.ViewHolder{

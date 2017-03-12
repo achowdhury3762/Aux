@@ -71,12 +71,12 @@ public class PlaylistActivity extends AppCompatActivity implements
                 }
             }
         });
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         setBottomPanelHeight();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(SearchFragment.MUSIC_LIST);
@@ -89,22 +89,18 @@ public class PlaylistActivity extends AppCompatActivity implements
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         };
 

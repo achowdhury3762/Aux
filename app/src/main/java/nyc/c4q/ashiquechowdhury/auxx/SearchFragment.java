@@ -57,7 +57,7 @@ public class SearchFragment extends Fragment implements SongClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(); //.getChild(musicList);
+        reference = database.getReference();
         recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
         findItems();
         editText = (EditText) view.findViewById(R.id.search_edit_text);
