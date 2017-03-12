@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
@@ -34,8 +35,8 @@ public class PlaylistFragment extends Fragment implements
     private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
     RecyclerView recyclerView;
     SpotifyUtil spotify;
-
     private FloatingActionButton floatingSearchBtn;
+    private LinearLayout emptyLayout;
 
     @Nullable
     @Override
@@ -54,10 +55,20 @@ public class PlaylistFragment extends Fragment implements
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
+        emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_playlist_layout);
 
         PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
+
+        if(SongListHelper.getSongList().isEmpty()){
+            emptyLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else{
+            emptyLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
 
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
