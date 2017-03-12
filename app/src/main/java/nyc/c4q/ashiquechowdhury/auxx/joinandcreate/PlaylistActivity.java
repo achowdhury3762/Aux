@@ -17,17 +17,20 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 public class PlaylistActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
 
     SlidingUpPanelLayout slidingPanel;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private final String CHOSEN_TRACK_KEY = "chosen string";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,5 +158,13 @@ public class PlaylistActivity extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    @Override
+    public Void SlidePanelWithInfo(PlaylistTrack track) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHOSEN_TRACK_KEY, track);
+        CurrentSongInfoFragment currentSongInfoFragment = new CurrentSongInfoFragment();
+        currentSongInfoFragment.setArguments(bundle);
     }
 }
