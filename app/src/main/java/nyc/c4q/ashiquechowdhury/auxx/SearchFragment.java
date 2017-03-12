@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private EditText editText;
     private ImageButton backSearchButton;
+    private LinearLayout emptyLayout;
 
     @Nullable
     @Override
@@ -55,10 +57,20 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
-        findItems();
+        emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_layout);
         editText = (EditText) view.findViewById(R.id.search_edit_text);
         editText.addTextChangedListener(searchWatcher);
         backSearchButton = (ImageButton) view.findViewById(R.id.back_search_btn);
+        findItems();
+
+        if(itemList.isEmpty()){
+            emptyLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else{
+            emptyLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
 
         backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +96,16 @@ public class SearchFragment extends Fragment {
                 try {
                     if (response.isSuccessful()) {
                         itemList = response.body().getTracks().getItems();
-                        findItems();
+                        if(itemList.isEmpty()){
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        }
+                        else{
+                            emptyLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            findItems();
+                        }
+//                        findItems();
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
                     }

@@ -48,4 +48,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     public void setData(List<Item> data) {
         this.itemList = data;
     }
+
+
 }
