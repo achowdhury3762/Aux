@@ -28,6 +28,7 @@ import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
@@ -50,6 +51,9 @@ public class PlaylistFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_playlist, container, false);
         spotify = SpotifyUtil.getInstance();
         spotify.createPlayer(getContext());
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(myAdapter);
         return view;
     }
 
@@ -72,8 +76,8 @@ public class PlaylistFragment extends Fragment implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(SearchFragment.MUSIC_LIST);
@@ -82,6 +86,7 @@ public class PlaylistFragment extends Fragment implements
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.add(myTrack);
+                SongListHelper.songList.add(myTrack);
             }
 
             @Override
@@ -107,9 +112,6 @@ public class PlaylistFragment extends Fragment implements
 
         reference.addChildEventListener(childListener);
         myAdapter = new PlaylistAdapter(getContext());
-        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(myAdapter);
     }
 
     @Override
