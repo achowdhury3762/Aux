@@ -8,11 +8,16 @@
     <include
         android:id="@+id/search_fragment_toolbar"
         layout="@layout/fragment_search_toolbar"/>
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/empty_recyclerview_layout"
+            android:id="@+id/empty_recyclerview_layout"
+            />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recycler_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
-
+    </FrameLayout>
 </LinearLayout>

@@ -115,6 +115,7 @@
         android:id="@+id/current_playing_song_textview"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="#FFF"
