@@ -115,13 +115,7 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-//        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
-//        switch (playerEvent) {
-//            case kSpPlaybackNotifyAudioDeliveryDone:
-//                playNextTrack();
-//            default:
-//                break;
-//        }
+        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
 
     }
 
@@ -134,14 +128,12 @@ public class PlaylistFragment extends Fragment implements
             default:
                 break;
         }
-
     }
 
     @Override
     public void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
-//        Spotify.destroyPlayer(this);
         super.onDestroy();
+
     }
 
 

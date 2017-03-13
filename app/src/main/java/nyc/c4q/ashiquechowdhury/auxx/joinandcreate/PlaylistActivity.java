@@ -141,19 +141,4 @@ public class PlaylistActivity extends AppCompatActivity implements
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
         super.onDestroy();
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() == 0) {
-                    finish();
-                } else {
-                    fragmentManager.popBackStack();
-                }
-            }
-        });
-    }
 }
