@@ -30,8 +30,6 @@ public class ChooseRoomFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        listener = (ToolBarListener) getActivity();
-        listener.changeToolBarName("ThisWorks");
         imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
 
         Glide.with(this).load(R.drawable.lasso4).into(imgLogo);

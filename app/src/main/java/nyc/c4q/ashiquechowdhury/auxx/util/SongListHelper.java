@@ -81,6 +81,13 @@ public class SongListHelper {
 
     }
 
+    public static void  removeSongAfterVeto(PlaylistTrack track){
+        if(SongListHelper.currentlyPlayingSong.equals(track)){
+            playNextTrack();
+            SongListHelper.getSongList().remove(track);
+        }
+    }
+
     public static String formatPlayerInfo(PlaylistTrack track){
         StringBuilder sb = new StringBuilder();
         sb.append(track.getArtistName());
