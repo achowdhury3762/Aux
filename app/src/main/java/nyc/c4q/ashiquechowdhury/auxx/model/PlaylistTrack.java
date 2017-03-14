@@ -15,6 +15,7 @@ public class PlaylistTrack implements Serializable {
     private String user;
     private String message;
     private String albumArt;
+    private String artistId;
 
     private PlaylistTrack(Builder builder){
         this.albumName = builder.albumName;
@@ -24,6 +25,7 @@ public class PlaylistTrack implements Serializable {
         this.user = builder.user;
         this.trackUri = builder.trackUri;
         this.albumArt = builder.albumArt;
+        this.artistId = builder.artistId;
 
     }
 
@@ -83,6 +85,14 @@ public class PlaylistTrack implements Serializable {
         return albumArt;
     }
 
+    public String getArtistId(){
+        return artistId;
+    }
+
+    public void setArtistId(String artistId){
+        this.artistId = artistId;
+    }
+
 
 
     public static class Builder{
@@ -94,6 +104,7 @@ public class PlaylistTrack implements Serializable {
         private String user;
         private String message;
         private String albumArt;
+        private String artistId;
 
         public Builder(String trackName){
             this.trackName = trackName;
@@ -125,6 +136,10 @@ public class PlaylistTrack implements Serializable {
 
         public Builder albumArt(String albumArt){
             this.albumArt = albumArt;
+            return this;
+        }
+        public Builder artistId(String artistId){
+            this.artistId = artistId;
             return this;
         }
 
