@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment()).commit();
+                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment(),"playlist_fragment").commit();
             }
         });
 

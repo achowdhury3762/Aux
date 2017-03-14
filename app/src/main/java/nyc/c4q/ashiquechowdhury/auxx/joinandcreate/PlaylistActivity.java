@@ -25,6 +25,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 public class PlaylistActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
 
+    private static final String TAG = "DEBUG TOOL";
     SlidingUpPanelLayout slidingPanel;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -142,18 +143,4 @@ public class PlaylistActivity extends AppCompatActivity implements
         super.onDestroy();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() == 0) {
-                    finish();
-                } else {
-                    fragmentManager.popBackStack();
-                }
-            }
-        });
-    }
 }

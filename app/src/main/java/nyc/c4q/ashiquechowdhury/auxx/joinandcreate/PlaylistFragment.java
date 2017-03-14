@@ -32,7 +32,7 @@ public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
 
-    private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
+    public static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
     RecyclerView recyclerView;
     SpotifyUtil spotify;
     private FloatingActionButton floatingSearchBtn;
@@ -76,7 +76,7 @@ public class PlaylistFragment extends Fragment implements
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction
-                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
+                        .replace(R.id.playlist_maincontent_frame, new SearchFragment(), "search_fragment")
                         .addToBackStack(FRAGMENT_TAG)
                         .commit();
             }
