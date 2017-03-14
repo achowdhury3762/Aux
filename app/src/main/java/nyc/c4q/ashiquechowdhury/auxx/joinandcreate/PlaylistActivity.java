@@ -154,6 +154,7 @@ public class PlaylistActivity extends AppCompatActivity implements
         super.onDestroy();
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -180,4 +181,5 @@ public class PlaylistActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
 
     }
+
 }
