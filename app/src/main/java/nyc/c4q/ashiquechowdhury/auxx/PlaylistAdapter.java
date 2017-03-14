@@ -23,11 +23,13 @@ import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
     private List<PlaylistTrack> trackList;
     private Context context;
+    private InfoSlideListener infoSlideListener;
 
 
-    public PlaylistAdapter(List<PlaylistTrack> trackList, Context context) {
+    public PlaylistAdapter(List<PlaylistTrack> trackList, Context context, InfoSlideListener infoSlideListener) {
         this.trackList = trackList;
         this.context = context;
+        this.infoSlideListener = infoSlideListener;
 
     }
 
@@ -39,13 +41,20 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     }
 
     @Override
-    public void onBindViewHolder(final PlaylistViewHolder holder, final int position) {
+    public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         holder.bind(trackList.get(position));
         holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(context, trackList.get(position));
+                showDialog(context, trackList.get(holder.getAdapterPosition()));
 
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoSlideListener.slidePanelWithInfo(trackList.get(holder.getAdapterPosition()));
             }
         });
 

@@ -20,6 +20,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
@@ -57,7 +58,7 @@ public class PlaylistFragment extends Fragment implements
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_playlist_layout);
 
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext());
+        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext(), (InfoSlideListener) getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 

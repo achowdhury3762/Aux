@@ -8,5 +8,5 @@ import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
 public interface InfoSlideListener {
 
-    Void SlidePanelWithInfo(PlaylistTrack track);
+    void slidePanelWithInfo(PlaylistTrack track);
 }
