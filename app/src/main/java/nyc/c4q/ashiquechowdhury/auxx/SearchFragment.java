@@ -105,7 +105,6 @@ public class SearchFragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             findItems();
                         }
-//                        findItems();
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
                     }

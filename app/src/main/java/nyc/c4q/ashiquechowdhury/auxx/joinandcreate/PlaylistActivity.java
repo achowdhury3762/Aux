@@ -17,18 +17,30 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 public class PlaylistActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
+
+    //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
+    //Todo: Set currently playing song = null when playlist finishes
+
+
+
 
     private static final String TAG = "DEBUG TOOL";
     SlidingUpPanelLayout slidingPanel;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private final String CHOSEN_TRACK_KEY = "chosen track";
+    public static boolean isSongClicked = false;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,17 +60,17 @@ public class PlaylistActivity extends AppCompatActivity implements
         slidingPanel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                if (slideOffset > 0.0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new CurrentSongInfoFragment()).commit();
-                }
+
             }
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new CurrentSongInfoFragment()).commit();
-                } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment()).commit();
+                    isSongClicked = false;
+                }
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new CurrentSongInfoFragment()).commit();
                 }
             }
         });
@@ -141,6 +153,20 @@ public class PlaylistActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
         super.onDestroy();
+    }
+
+
+
+    @Override
+    public void slidePanelWithInfo(PlaylistTrack track) {
+        isSongClicked = true;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHOSEN_TRACK_KEY, track);
+        CurrentSongInfoFragment currentSongInfoFragment = new CurrentSongInfoFragment();
+        currentSongInfoFragment.setArguments(bundle);
+        slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
+
     }
 
 }

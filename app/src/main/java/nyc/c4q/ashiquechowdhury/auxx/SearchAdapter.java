@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
@@ -44,6 +45,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 imm.hideSoftInputFromWindow(holder.itemView.getWindowToken(), 0);
 
                 Snackbar.make(holder.itemView, itemList.get(holder.getAdapterPosition()).getName() + " Added to playlist", Snackbar.LENGTH_SHORT).show();
+
 
             }
         });

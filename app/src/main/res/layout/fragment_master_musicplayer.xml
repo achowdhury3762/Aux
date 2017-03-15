@@ -15,7 +15,7 @@
         <FrameLayout
             android:id="@+id/upvotebutton"
             android:layout_width="0dp"
-            android:layout_height="68dp"
+            android:layout_height="@dimen/music_player_button_height"
             android:layout_weight="1">
 
             <ImageView
@@ -26,11 +26,10 @@
         </FrameLayout>
 
 
-
         <FrameLayout
             android:id="@+id/playbutton"
             android:layout_width="0dp"
-            android:layout_height="68dp"
+            android:layout_height="@dimen/music_player_button_height"
             android:layout_weight="1">
 
             <ImageView
@@ -41,11 +40,10 @@
 
         </FrameLayout>
 
-
         <FrameLayout
             android:id="@+id/pausebutton"
             android:layout_width="0dp"
-            android:layout_height="68dp"
+            android:layout_height="@dimen/music_player_button_height"
             android:layout_weight="1"
             android:visibility="gone">
 
@@ -61,7 +59,7 @@
         <FrameLayout
             android:id="@+id/downvotebutton"
             android:layout_width="0dp"
-            android:layout_height="68dp"
+            android:layout_height="@dimen/music_player_button_height"
             android:layout_weight="1">
 
             <ImageView
@@ -71,6 +69,7 @@
                 android:src="@drawable/ic_thumb_down_white_24dp" />
 
         </FrameLayout>
+
 
 
     </LinearLayout>
@@ -84,7 +83,7 @@
         android:layout_height="match_parent"
         android:textColor="#FFF"
         android:textSize="14sp"
-        android:paddingBottom="6dp"
+        android:paddingBottom="12dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:maxLines="1"

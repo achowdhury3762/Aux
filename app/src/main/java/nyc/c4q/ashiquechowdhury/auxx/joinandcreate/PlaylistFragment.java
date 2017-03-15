@@ -20,16 +20,20 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.R.id.fab;
 
 public class PlaylistFragment extends Fragment implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
 
     public static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
@@ -45,6 +49,7 @@ public class PlaylistFragment extends Fragment implements
 
         spotify = SpotifyUtil.getInstance();
         spotify.createPlayer(getContext());
+        ListenerHolder.setArtistSongSelectedListener(this);
 
         return view;
     }
@@ -54,10 +59,10 @@ public class PlaylistFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingSearchBtn = (FloatingActionButton) view.findViewById(fab);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_playlist_layout);
 
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext());
+        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext(), (InfoSlideListener) getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -81,6 +86,31 @@ public class PlaylistFragment extends Fragment implements
                         .commit();
             }
         });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if (dy > 0 ||dy<0 && floatingSearchBtn.isShown())
+                {
+                    floatingSearchBtn.hide();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                {
+                    floatingSearchBtn.show();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
     }
 
     @Override
@@ -115,13 +145,7 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-//        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
-//        switch (playerEvent) {
-//            case kSpPlaybackNotifyAudioDeliveryDone:
-//                playNextTrack();
-//            default:
-//                break;
-//        }
+        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
 
     }
 
@@ -134,14 +158,12 @@ public class PlaylistFragment extends Fragment implements
             default:
                 break;
         }
-
     }
 
     @Override
     public void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
-//        Spotify.destroyPlayer(this);
         super.onDestroy();
+
     }
 
 
@@ -155,4 +177,8 @@ public class PlaylistFragment extends Fragment implements
 
     }
 
+    @Override
+    public void updatePlaylistUI() {
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
 }

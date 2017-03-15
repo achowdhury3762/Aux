@@ -105,6 +105,7 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
 //                SongListHelper.playNextTrack();
 //                break;
             case R.id.downvotebutton:
+                SongListHelper.removeSongAfterVeto(SongListHelper.getCurrentlyPlayingSong());
                 Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();
                 break;
         }
