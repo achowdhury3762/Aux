@@ -96,7 +96,8 @@ public class PlaylistFragment extends Fragment implements
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+               PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.removeTrackWithAlbumName(myTrack.getAlbumName());
             }
 
             @Override
@@ -113,6 +114,8 @@ public class PlaylistFragment extends Fragment implements
         reference.addChildEventListener(childListener);
         myAdapter = new PlaylistAdapter(getContext());
     }
+
+
 
     @Override
     public void onLoggedIn() {

@@ -11,13 +11,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> implements RowClickedListener{
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
     private List<PlaylistTrack> trackList;
     private Context context;
 
@@ -34,7 +42,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
-        holder.bind(trackList.get(position));
+        holder.bind(trackList.get(position), this);
         holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,12 +71,46 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         notifyItemInserted(trackList.size() - 1);
     }
 
+    @Override
+    public void rowClicked(PlaylistTrack track) {
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+        removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void removeTrackWithAlbumName(String albumName) {
+        int albumposition = 0;
+        for(int i=0; i < trackList.size(); i++){
+            if(trackList.get(i).getAlbumName().equals(albumName)){
+                albumposition = i;
+            }
+        }
+        if(trackList.size() == 0){
+            throw new IllegalArgumentException("TrackList Size Cannot Be Zero");
+        }
+        trackList.remove(albumposition);
+        notifyItemRemoved(albumposition);
+    }
+
+
     public class PlaylistViewHolder extends RecyclerView.ViewHolder{
         private ImageView albumArt;
         private TextView artistName;
         private TextView songName;
         private ImageButton moreInfoButton;
-
 
         public PlaylistViewHolder(View itemView) {
             super(itemView);
@@ -78,10 +120,18 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             moreInfoButton = (ImageButton) itemView.findViewById(R.id.playlist_more_image_button);
         }
 
-        public void bind(PlaylistTrack track){
+        public void bind(final PlaylistTrack track, final RowClickedListener listener){
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    listener.rowClicked(track);
+                    return false;
+                }
+            });
             artistName.setText(track.getArtistName());
             songName.setText(track.getTrackName());
             Glide.with(itemView.getContext()).load(track.getAlbumArt()).into(albumArt);
+
         }
     }
 }
