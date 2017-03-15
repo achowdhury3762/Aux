@@ -30,6 +30,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.R.id.fab;
 
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
@@ -58,7 +59,7 @@ public class PlaylistFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingSearchBtn = (FloatingActionButton) view.findViewById(fab);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_playlist_layout);
 
         PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext(), (InfoSlideListener) getActivity());
@@ -85,6 +86,31 @@ public class PlaylistFragment extends Fragment implements
                         .commit();
             }
         });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if (dy > 0 ||dy<0 && floatingSearchBtn.isShown())
+                {
+                    floatingSearchBtn.hide();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                {
+                    floatingSearchBtn.show();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
     }
 
     @Override
