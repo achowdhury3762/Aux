@@ -8,6 +8,7 @@ import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
 
 public class SongListHelper {
     public static int trackCounter = 0;
@@ -63,6 +64,7 @@ public class SongListHelper {
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
                 .artistName(item.getArtists().get(0).getName())
+                .artistId(item.getArtists().get(0).getId())
                 .build();
 
         if(item.getAlbum().getImages().isEmpty()){
@@ -72,6 +74,30 @@ public class SongListHelper {
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
         return track;
+    }
+
+    public static void transformAndAdd(Track track){
+        PlaylistTrack playlistTrack = new PlaylistTrack.Builder(track.getName())
+                .trackUri(track.getUri())
+                .albumName(track.getAlbum().getName())
+                .artistName(track.getArtists().get(0).getName())
+                .artistId(track.getArtists().get(0).getId())
+                .build();
+
+        if(track.getAlbum().getImages().isEmpty()){
+            playlistTrack.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
+        }
+        else{
+            playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
+        }
+        SongListHelper.getSongList().add(playlistTrack);
+    }
+
+    public static void  removeSongAfterVeto(PlaylistTrack track){
+        if(SongListHelper.currentlyPlayingSong.equals(track)){
+            playNextTrack();
+            SongListHelper.getSongList().remove(track);
+        }
     }
 
     public static String formatPlayerInfo(PlaylistTrack track){

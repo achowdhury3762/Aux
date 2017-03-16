@@ -27,11 +27,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private List<PlaylistTrack> trackList;
-    private Context context;
+    Context context;
+    private InfoSlideListener infoSlideListener;
 
-    public PlaylistAdapter(Context context) {
-        trackList = new ArrayList<>();
+    public PlaylistAdapter(Context context, InfoSlideListener infoSlideListener) {
+        this.trackList = new ArrayList<>();
         this.context = context;
+        this.infoSlideListener = infoSlideListener;
     }
 
     @Override
@@ -42,11 +44,27 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
-        holder.bind(trackList.get(position), this);
+        holder.bind(trackList.get(position));
+        final PlaylistTrack newtrack = trackList.get(position);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                rowClicked(newtrack);
+                return false;
+            }
+        });
+
         holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(context, trackList.get(holder.getAdapterPosition()));
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoSlideListener.slidePanelWithInfo(trackList.get(holder.getAdapterPosition()));
             }
         });
     }
@@ -71,7 +89,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         notifyItemInserted(trackList.size() - 1);
     }
 
-    @Override
     public void rowClicked(PlaylistTrack track) {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(SearchFragment.MUSIC_LIST);
@@ -91,10 +108,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         });
     }
 
-    public void removeTrackWithAlbumName(String albumName) {
+    public void removeTrackWithAlbumName(String trackName) {
         int albumposition = 0;
         for(int i=0; i < trackList.size(); i++){
-            if(trackList.get(i).getAlbumName().equals(albumName)){
+            if(trackList.get(i).getTrackName().equals(trackName)){
                 albumposition = i;
             }
         }
@@ -120,18 +137,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             moreInfoButton = (ImageButton) itemView.findViewById(R.id.playlist_more_image_button);
         }
 
-        public void bind(final PlaylistTrack track, final RowClickedListener listener){
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    listener.rowClicked(track);
-                    return false;
-                }
-            });
+        public void bind(PlaylistTrack track){
             artistName.setText(track.getArtistName());
             songName.setText(track.getTrackName());
             Glide.with(itemView.getContext()).load(track.getAlbumArt()).into(albumArt);
-
         }
     }
 }

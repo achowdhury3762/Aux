@@ -2,38 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF00"
     android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/album_artwork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    <include layout="@layout/transparent_sheet"
+        />
     <TextView
-        android:layout_gravity="center"
-        android:id="@+id/song_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/artist_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/album_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <FrameLayout
+        android:textSize="20dp"
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:background="@color/colorGrey"
+        android:text="More From This Artist: "/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/more_from_this_artist_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/fragment_master_musicplayer"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
-
-    </FrameLayout>
-
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

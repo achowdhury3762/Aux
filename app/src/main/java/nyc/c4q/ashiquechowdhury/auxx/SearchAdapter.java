@@ -8,18 +8,13 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
-    private SongClickListener songClickListener;
 
     public SearchAdapter(List<Item> musicItemList) {
         this.itemList = musicItemList;
-    }
-
-    public SearchAdapter(List<Item> itemList, SongClickListener searchFragment) {
-        songClickListener = searchFragment;
-        this.itemList = itemList;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                songClickListener.songClicked(itemList.get(holder.getAdapterPosition()));
+                SongListHelper.transformAndAdd(itemList.get(holder.getAdapterPosition()));
             }
         });
     }
@@ -48,4 +43,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     public void setData(List<Item> data) {
         this.itemList = data;
     }
+
+
 }

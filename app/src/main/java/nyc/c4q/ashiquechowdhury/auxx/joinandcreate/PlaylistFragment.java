@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,17 +26,22 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.List;
+
+import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
 
 public class PlaylistFragment extends Fragment implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -44,36 +51,6 @@ public class PlaylistFragment extends Fragment implements
     private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
     private PlaylistAdapter myAdapter;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
-        spotify = SpotifyUtil.getInstance();
-        spotify.createPlayer(getContext());
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(myAdapter);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
-        floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction
-                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
-                        .addToBackStack(FRAGMENT_TAG)
-                        .commit();
-            }
-        });
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +73,8 @@ public class PlaylistFragment extends Fragment implements
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-               PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
-                myAdapter.removeTrackWithAlbumName(myTrack.getAlbumName());
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.removeTrackWithAlbumName(myTrack.getTrackName());
             }
 
             @Override
@@ -111,11 +88,65 @@ public class PlaylistFragment extends Fragment implements
             }
         };
 
+        myAdapter = new PlaylistAdapter(getContext(), (InfoSlideListener) getActivity());
         reference.addChildEventListener(childListener);
-        myAdapter = new PlaylistAdapter(getContext());
     }
 
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
+        spotify = SpotifyUtil.getInstance();
+        spotify.createPlayer(getContext());
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(myAdapter);
+
+        ListenerHolder.setArtistSongSelectedListener(this);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction
+                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
+                        .addToBackStack(FRAGMENT_TAG)
+                        .commit();
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if (dy > 0 ||dy<0 && floatingSearchBtn.isShown())
+                {
+                    floatingSearchBtn.hide();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                {
+                    floatingSearchBtn.show();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+    }
 
     @Override
     public void onLoggedIn() {
@@ -173,4 +204,8 @@ public class PlaylistFragment extends Fragment implements
 
     }
 
+    @Override
+    public void updatePlaylistUI() {
+
+    }
 }
