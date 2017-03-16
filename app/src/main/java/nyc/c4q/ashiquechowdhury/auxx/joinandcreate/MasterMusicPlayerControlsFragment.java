@@ -21,10 +21,8 @@ import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener, TrackListener {
 
     private FrameLayout upVoteButton;
-//    private FrameLayout prevButton;
     private FrameLayout playButton;
     private FrameLayout pauseButton;
-//    private FrameLayout nextButton;
     private FrameLayout downVoteButton;
     private SpotifyUtil spotify;
     private TextView currentTrackInfoTextView;
@@ -37,10 +35,8 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
         spotify = SpotifyUtil.getInstance();
 
         upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
-//        prevButton = (FrameLayout) view.findViewById(R.id.prevbutton);
         playButton = (FrameLayout) view.findViewById(R.id.playbutton);
         pauseButton = (FrameLayout) view.findViewById(R.id.pausebutton);
-//        nextButton = (FrameLayout) view.findViewById(R.id.nextbutton);
         downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
         currentTrackInfoTextView = (TextView) view.findViewById(R.id.current_playing_song_textview);
         currentTrackInfoTextView.setSelected(true);
@@ -62,10 +58,8 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
         super.onViewCreated(view, savedInstanceState);
 
         upVoteButton.setOnClickListener(this);
-//        prevButton.setOnClickListener(this);
         playButton.setOnClickListener(this);
         pauseButton.setOnClickListener(this);
-//        nextButton.setOnClickListener(this);
         downVoteButton.setOnClickListener(this);
     }
 
@@ -82,10 +76,7 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
             case R.id.upvotebutton:
                 Toast.makeText(getContext(), "This song is great!", Toast.LENGTH_SHORT).show();
                 break;
-//            case R.id.prevbutton:
-//                Toast.makeText(getContext(), "Replay the -ish!", Toast.LENGTH_SHORT).show();
-//                SongListHelper.playPreviousTrack(getContext());
-//                break;
+
             case R.id.playbutton:
                 Toast.makeText(getContext(), "Play the song", Toast.LENGTH_SHORT).show();
                 playButton.setVisibility(View.GONE);
@@ -100,10 +91,7 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
                 playButton.setVisibility(View.VISIBLE);
                 spotify.spotifyPlayer.pause((Player.OperationCallback) getActivity());
                 break;
-//            case R.id.nextbutton:
-//                Toast.makeText(getContext(), "Skip the song-o", Toast.LENGTH_SHORT).show();
-//                SongListHelper.playNextTrack();
-//                break;
+
             case R.id.downvotebutton:
                 SongListHelper.removeSongAfterVeto(SongListHelper.getCurrentlyPlayingSong());
                 Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();

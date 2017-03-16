@@ -111,7 +111,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/sapphire"
+                        android:background="@color/colorGoldenRod"
                         android:gravity="center"
                         android:text="Join Room"
                         android:textColor="@android:color/white"
