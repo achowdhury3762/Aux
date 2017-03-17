@@ -29,6 +29,8 @@ public class PlaylistTrack implements Serializable {
 
     }
 
+    public PlaylistTrack(){}
+
     public String getTrackUri() {
         return trackUri;
     }
@@ -93,7 +95,17 @@ public class PlaylistTrack implements Serializable {
         this.artistId = artistId;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }
+        if(!(obj instanceof PlaylistTrack)){
+            return false;
+        }
+        PlaylistTrack playlistTrack = (PlaylistTrack) obj;
+        return playlistTrack.getTrackUri().equals(this.getTrackUri());
+    }
 
     public static class Builder{
 

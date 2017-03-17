@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:minHeight="300dp"
-    android:minWidth="300dp"
+    android:minHeight="280dp"
+    android:minWidth="280dp"
     android:background="@color/colorGrey"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/album_art_dialog_fragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="280dp" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -126,6 +126,4 @@
                 android:layout_height="wrap_content" />
             </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>

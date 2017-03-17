@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
@@ -18,10 +18,10 @@ import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
  */
 
 public class PlaylistItemDialogFragment extends DialogFragment {
-    TextView dialogArtist;
-    TextView dialogSong;
-    TextView dialogAlbum;
-    ImageView albumArt;
+    private TextView dialogArtist;
+    private TextView dialogSong;
+    private TextView dialogAlbum;
+    private ImageView albumArt;
 
 
     public PlaylistItemDialogFragment(){
@@ -56,7 +56,7 @@ public class PlaylistItemDialogFragment extends DialogFragment {
         dialogArtist.setText(track.getArtistName());
         dialogSong.setText(track.getTrackName());
         dialogAlbum.setText(track.getAlbumName());
-        Glide.with(view.getContext()).load(track.getAlbumArt()).centerCrop().into(albumArt);
+        Picasso.with(view.getContext()).load(track.getAlbumArt()).fit().into(albumArt);
 
     }
 }

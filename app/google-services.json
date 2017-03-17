@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "422890156212",
+    "firebase_url": "https://auxx-4bf60.firebaseio.com",
+    "project_id": "auxx-4bf60",
+    "storage_bucket": "auxx-4bf60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422890156212:android:c8d8806403c62b59",
+        "android_client_info": {
+          "package_name": "nyc.c4q.ashiquechowdhury.auxx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422890156212-baj2h9ob4o2u1vq8s4cdpiifc29dhggn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nyc.c4q.ashiquechowdhury.auxx",
+            "certificate_hash": "570ef47a22b58357695e36aa3826601f93124350"
+          }
+        },
+        {
+          "client_id": "422890156212-40fkpq3purgum29182lhvvrmr9r4svvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSZJDmGR1Uz4RduPJxMszTcn2iJDhho6Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422890156212-40fkpq3purgum29182lhvvrmr9r4svvh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

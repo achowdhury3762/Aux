@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
@@ -16,13 +15,12 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<Item> itemList;
+    SongClickListener clickListener;
 
-
-
-    public SearchAdapter(List<Item> musicItemList) {
+    public SearchAdapter(List<Item> musicItemList, SongClickListener clickListener) {
         this.itemList = musicItemList;
+        this.clickListener = clickListener;
     }
-
 
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,6 +45,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 Snackbar.make(holder.itemView, itemList.get(holder.getAdapterPosition()).getName() + " Added to playlist", Snackbar.LENGTH_SHORT).show();
 
 
+                clickListener.songClicked(itemList.get(holder.getAdapterPosition()));
             }
         });
     }

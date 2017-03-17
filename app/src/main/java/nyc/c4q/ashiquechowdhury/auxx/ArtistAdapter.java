@@ -13,7 +13,6 @@ import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
-import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 /**
  * Created by jordansmith on 3/14/17.
@@ -21,14 +20,15 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder> {
 
+    private SongTrackClickListener trackClickListener;
     private List <Track> tracksList;
     private ArtistSongSelectedListener listener;
 
-    public ArtistAdapter(List<Track> tracksList){
+    public ArtistAdapter(List<Track> tracksList, SongTrackClickListener currentSongInfoFragment){
         this.tracksList = tracksList;
         listener = ListenerHolder.getArtistSongSelectedListener();
+        trackClickListener = currentSongInfoFragment;
     }
-
 
     @Override
     public ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,9 +43,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SongListHelper.transformAndAdd(tracksList.get(holder.getAdapterPosition()));
                 listener.updatePlaylistUI();
-
+                trackClickListener.songClicked(tracksList.get(holder.getAdapterPosition()));
             }
         });
 

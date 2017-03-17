@@ -10,14 +10,10 @@ import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
 
-/**
- * Created by shawnspeaks on 3/7/17.
- */
-
 public class SongListHelper {
     public static int trackCounter = 0;
 
-    private static List<PlaylistTrack> songList = new ArrayList<>();
+    public static List<PlaylistTrack> songList = new ArrayList<>();
 
     private static PlaylistTrack currentlyPlayingSong;
 
@@ -34,7 +30,6 @@ public class SongListHelper {
     public static void setCurrentlyPlayingSong(PlaylistTrack currentlyPlayingSong) {
         SongListHelper.currentlyPlayingSong = currentlyPlayingSong;
     }
-
 
     public static void playNextTrack(){
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
@@ -64,8 +59,7 @@ public class SongListHelper {
         }
     }
 
-    public static void transformAndAdd (Item item){
-
+    public static PlaylistTrack transformAndAdd (Item item) {
         PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
@@ -79,11 +73,11 @@ public class SongListHelper {
         else{
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
-        SongListHelper.getSongList().add(track);
 
+        return track;
     }
 
-    public static void transformAndAdd(Track track){
+    public static PlaylistTrack transformAndAdd(Track track){
         PlaylistTrack playlistTrack = new PlaylistTrack.Builder(track.getName())
                 .trackUri(track.getUri())
                 .albumName(track.getAlbum().getName())
@@ -97,14 +91,15 @@ public class SongListHelper {
         else{
             playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
         }
-        SongListHelper.getSongList().add(playlistTrack);
-
-
+        return playlistTrack;
     }
 
-    public static void  removeSongAfterVeto(PlaylistTrack track){
+    public static void removeSongAfterVeto(PlaylistTrack track) {
         if(SongListHelper.currentlyPlayingSong.equals(track)){
             playNextTrack();
+            SongListHelper.getSongList().remove(track);
+        }
+        else {
             SongListHelper.getSongList().remove(track);
         }
     }
@@ -120,5 +115,3 @@ public class SongListHelper {
     }
 
 }
-
-
