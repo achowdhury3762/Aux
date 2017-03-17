@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
@@ -25,32 +29,78 @@ import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
-import static nyc.c4q.ashiquechowdhury.auxx.R.id.fab;
 
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
-
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+    private ChildEventListener childListener;
+    private RecyclerView recyclerView;
+    private SpotifyUtil spotify;
     private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
-    RecyclerView recyclerView;
-    SpotifyUtil spotify;
     private FloatingActionButton floatingSearchBtn;
-    private LinearLayout emptyLayout;
+    private PlaylistAdapter myAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        childListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.add(myTrack);
+                SongListHelper.songList.add(myTrack);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.removeTrackWithAlbumName(myTrack.getTrackName());
+                SongListHelper.removeSongAfterVeto(myTrack);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        myAdapter = new PlaylistAdapter(getContext(), (InfoSlideListener) getActivity());
+        reference.addChildEventListener(childListener);
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist, container, false);
-
         spotify = SpotifyUtil.getInstance();
         spotify.createPlayer(getContext());
-        ListenerHolder.setArtistSongSelectedListener(this);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(myAdapter);
 
+        ListenerHolder.setArtistSongSelectedListener(this);
         return view;
     }
 
@@ -58,23 +108,7 @@ public class PlaylistFragment extends Fragment implements
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        floatingSearchBtn = (FloatingActionButton) view.findViewById(fab);
-        emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_playlist_layout);
-
-        PlaylistAdapter adapter = new PlaylistAdapter(SongListHelper.getSongList(), getContext(), (InfoSlideListener) getActivity());
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(adapter);
-
-        if(SongListHelper.getSongList().isEmpty()){
-            emptyLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
-        else{
-            emptyLayout.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
+        floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +120,6 @@ public class PlaylistFragment extends Fragment implements
                         .commit();
             }
         });
-
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -110,7 +143,6 @@ public class PlaylistFragment extends Fragment implements
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-
     }
 
     @Override
@@ -145,7 +177,6 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d("SearchAndChooseActivity", "Playback event received: " + playerEvent.name());
 
     }
 
@@ -154,18 +185,11 @@ public class PlaylistFragment extends Fragment implements
     public void onPlaybackError(Error error) {
         Log.d("SearchAndChooseActivity", "Playback error received: " + error.name());
         switch (error) {
-            // Handle error type as necessary
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
     }
-
 
     @Override
     public void onSuccess() {
@@ -179,6 +203,6 @@ public class PlaylistFragment extends Fragment implements
 
     @Override
     public void updatePlaylistUI() {
-        recyclerView.getAdapter().notifyDataSetChanged();
+
     }
 }

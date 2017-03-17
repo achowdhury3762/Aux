@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <include
-            android:id="@+id/empty_recyclerview_playlist_layout"
-            layout="@layout/empty_playlist_placeholder" />
+        <!--<include-->
+            <!--android:id="@+id/empty_recyclerview_playlist_layout"-->
+            <!--layout="@layout/empty_playlist_placeholder" />-->
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton

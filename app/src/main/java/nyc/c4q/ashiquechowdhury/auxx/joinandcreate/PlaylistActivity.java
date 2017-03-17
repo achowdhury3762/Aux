@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
-
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
@@ -16,7 +15,6 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
-
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
@@ -29,8 +27,6 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
-
-
 
 
     SlidingUpPanelLayout slidingPanel;
@@ -52,7 +48,6 @@ public class PlaylistActivity extends AppCompatActivity implements
                 .replace(R.id.playlist_maincontent_frame, new PlaylistFragment())
                 .replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment())
                 .commit();
-
 
         slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
 
@@ -76,7 +71,7 @@ public class PlaylistActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         setBottomPanelHeight();
     }
@@ -152,22 +147,6 @@ public class PlaylistActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
         super.onDestroy();
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() == 0) {
-                    finish();
-                } else {
-                    fragmentManager.popBackStack();
-                }
-            }
-        });
     }
 
     @Override

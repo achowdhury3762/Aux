@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SongTrackClickListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.ArtistResponse;
@@ -33,14 +36,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.content.ContentValues.TAG;
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by SACC on 3/6/17.
  */
 
-public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener {
+public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener{
 
+    public static final String MUSIC_LIST = "MusicList";
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
     private ImageView albumArtWorkIv;
     private TextView songNameTv;
     private TextView artistNameTv;
@@ -59,6 +65,8 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         view = inflater.inflate(R.layout.fragment_currentsong_info, container, false);
         initializeViews();
 
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
         Bundle bundle = getArguments();
         if(bundle != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
@@ -70,8 +78,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         }
         else{
             if(SongListHelper.getCurrentlyPlayingSong() != null) {
-
-
                 Glide.with(getContext()).load(SongListHelper.getCurrentlyPlayingSong().getAlbumArt()).into(albumArtWorkIv);
                 songNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getTrackName());
                 artistNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getArtistName());
@@ -143,9 +149,14 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     }
 
     void findTracks(List<Track> tracklist){
-       artistAdapter = new ArtistAdapter(tracklist);
+        artistAdapter = new ArtistAdapter(tracklist, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(artistAdapter);
     }
 
+    @Override
+    public void songClicked(Track track) {
+        PlaylistTrack myTrack = SongListHelper.transformAndAdd(track);
+        reference.child(MUSIC_LIST).push().setValue(myTrack);
+    }
 }
