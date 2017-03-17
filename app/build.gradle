@@ -33,16 +33,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:cardview-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:cardview-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
-    compile 'com.sothree.slidinguppanel:library:3.3.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.google.firebase:firebase-database:10.2.0'
     // This library handles authentication and authorization
     compile 'com.spotify.sdk:spotify-android-auth-1.0.0@aar'
