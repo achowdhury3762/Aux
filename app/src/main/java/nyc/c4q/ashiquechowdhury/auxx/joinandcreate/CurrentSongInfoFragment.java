@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import java.io.IOException;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
@@ -40,6 +41,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener {
+
+    private CircleImageView artistPictureIV;
 
     private ImageView albumArtWorkIv;
     private TextView songNameTv;
@@ -107,6 +110,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         likeButton = (ImageButton) view.findViewById(R.id.like_button_info_fragment);
         vetoButton = (ImageButton) view.findViewById(R.id.veto_button_info_fragment);
         recyclerView = (RecyclerView) view.findViewById(R.id.more_from_this_artist_recyclerview);
+        artistPictureIV = (CircleImageView) view.findViewById(R.id.artist_picture);
         likeButton.setOnClickListener(this);
         vetoButton.setOnClickListener(this);
     }

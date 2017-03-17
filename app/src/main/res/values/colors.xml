@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#3a8e9d</color>
+    <color name="colorPrimaryDark">#3a8e9d</color>
     <color name="colorAccent">#3a8e9d</color>
+    <color name="colorLightPrimary">#B2DFDB</color>
+    <color name="colorWhiteTxtIcons">#FFFFFF</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
+
     <color name="granite">#3f3b3b</color>
     <color name="sapphire">#3a8e9d</color>
     <color name="gray">#cdcdcd</color>
     <color name="colorGrey">#2e2e2e</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGoldenRod">#ffbf00</color>
-</resources>
+</resources>    
