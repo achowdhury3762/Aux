@@ -29,6 +29,9 @@ public class PlaylistActivity extends AppCompatActivity implements
     //Todo: Set currently playing song = null when playlist finishes
 
 
+
+    private static final String TAG = "DEBUG TOOL";
+
     SlidingUpPanelLayout slidingPanel;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;

@@ -1,6 +1,7 @@
 package nyc.c4q.ashiquechowdhury.auxx.model;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.ArtistResponse;
+import nyc.c4q.ashiquechowdhury.auxx.model.artistspecifics.ArtistInfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -18,5 +19,7 @@ public interface SpotifyService {
     @GET("/v1/artists/{id}/top-tracks")
     Call<ArtistResponse> getArtistTopTracks(@Path("id") String artistID, @Query("country") String countryCode);
 
+    @GET("/v1/artist/{id}")
+    Call<ArtistInfo> getArtistInfo(@Path("id") String artistID);
 
 }

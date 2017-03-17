@@ -4,5 +4,5 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="password_hint">Password</string>
     <string name="username_hint">Username</string>
-    <string name="sign_in_button_text">Sign In</string>
+    <string name="sign_in_button_text">      Sign In      </string>
 </resources>
