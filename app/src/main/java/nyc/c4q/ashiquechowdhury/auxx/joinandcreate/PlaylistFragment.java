@@ -39,6 +39,7 @@ import static android.R.id.message;
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
+
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private ChildEventListener childListener;
@@ -115,7 +116,7 @@ public class PlaylistFragment extends Fragment implements
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction
-                        .replace(R.id.playlist_maincontent_frame, new SearchFragment())
+                        .replace(R.id.playlist_maincontent_frame, new SearchFragment(), "search_fragment")
                         .addToBackStack(FRAGMENT_TAG)
                         .commit();
             }

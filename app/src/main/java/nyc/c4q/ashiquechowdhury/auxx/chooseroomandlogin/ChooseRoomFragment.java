@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 
@@ -22,15 +23,19 @@ public class ChooseRoomFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_choose_room, container, false);
+        View view = inflater.inflate(R.layout.fragment_join_room, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+//        listener = (ToolBarListener) getActivity();
+//        listener.changeToolBarName("ThisWorks");
+
         imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
 
-        Glide.with(this).load(R.drawable.lasso4).into(imgLogo);
+        Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
 
         CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
@@ -53,8 +58,7 @@ public class ChooseRoomFragment extends Fragment {
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), TestActivity.class);
-//                startActivity(intent);
+
             }
         });
     }

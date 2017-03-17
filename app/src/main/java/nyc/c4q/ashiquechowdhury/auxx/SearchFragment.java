@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
@@ -79,6 +80,8 @@ public class SearchFragment extends Fragment implements SongClickListener {
         backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment(),"playlist_fragment").commit();
                 getFragmentManager().popBackStack();
             }
         });
