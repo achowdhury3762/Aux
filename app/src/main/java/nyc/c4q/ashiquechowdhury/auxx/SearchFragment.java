@@ -159,7 +159,7 @@ public class SearchFragment extends Fragment implements SongClickListener {
     };
 
     void findItems() {
-        SearchAdapter searchAdapter = new SearchAdapter(itemList);
+        SearchAdapter searchAdapter = new SearchAdapter(itemList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchAdapter);
     }

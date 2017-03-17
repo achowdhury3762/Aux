@@ -73,10 +73,11 @@ public class SongListHelper {
         else{
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
+
         return track;
     }
 
-    public static void transformAndAdd(Track track){
+    public static PlaylistTrack transformAndAdd(Track track){
         PlaylistTrack playlistTrack = new PlaylistTrack.Builder(track.getName())
                 .trackUri(track.getUri())
                 .albumName(track.getAlbum().getName())
@@ -90,12 +91,15 @@ public class SongListHelper {
         else{
             playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
         }
-        SongListHelper.getSongList().add(playlistTrack);
+        return playlistTrack;
     }
 
-    public static void  removeSongAfterVeto(PlaylistTrack track){
+    public static void removeSongAfterVeto(PlaylistTrack track) {
         if(SongListHelper.currentlyPlayingSong.equals(track)){
             playNextTrack();
+            SongListHelper.getSongList().remove(track);
+        }
+        else {
             SongListHelper.getSongList().remove(track);
         }
     }

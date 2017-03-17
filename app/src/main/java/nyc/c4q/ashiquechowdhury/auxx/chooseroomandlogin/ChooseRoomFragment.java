@@ -17,7 +17,6 @@ import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 
 public class ChooseRoomFragment extends Fragment {
-    private ToolBarListener listener;
     private ImageView imgLogo;
 
     @Nullable
@@ -58,9 +57,5 @@ public class ChooseRoomFragment extends Fragment {
 //                startActivity(intent);
             }
         });
-    }
-
-    interface ToolBarListener {
-        void changeToolBarName(String name);
     }
 }

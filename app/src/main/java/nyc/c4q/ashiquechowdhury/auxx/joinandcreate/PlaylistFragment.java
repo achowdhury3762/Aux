@@ -12,9 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,8 +23,6 @@ import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
-
-import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
@@ -75,6 +71,7 @@ public class PlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithAlbumName(myTrack.getTrackName());
+                SongListHelper.removeSongAfterVeto(myTrack);
             }
 
             @Override

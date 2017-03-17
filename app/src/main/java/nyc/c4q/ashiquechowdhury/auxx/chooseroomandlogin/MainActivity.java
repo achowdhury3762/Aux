@@ -3,7 +3,6 @@ package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -14,12 +13,11 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.util.AlterToolBar;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
-public class MainActivity extends AppCompatActivity implements ChooseRoomFragment.ToolBarListener, SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
+public class MainActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +85,5 @@ public class MainActivity extends AppCompatActivity implements ChooseRoomFragmen
     @Override
     public void onError(Error error) {
 
-    }
-
-    @Override
-    public void changeToolBarName(String name) {
-        TextView tv = (TextView) findViewById(R.id.toolbar_TV);
-        AlterToolBar alter = new AlterToolBar(name, tv);
-        alter.changeToolBarName();
     }
 }

@@ -21,7 +21,9 @@
                 android:host="callback"
                 android:scheme="aux" />
         </activity>
-        <activity android:name=".chooseroomandlogin.MainActivity">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".chooseroomandlogin.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +31,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".joinandcreate.JoinRoomActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".joinandcreate.JoinRoomActivity" />
     </application>
 
 </manifest>
