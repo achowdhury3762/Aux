@@ -17,6 +17,8 @@ import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
@@ -28,10 +30,7 @@ public class PlaylistActivity extends AppCompatActivity implements
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
 
-
-    SlidingUpPanelLayout slidingPanel;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    private SlidingUpPanelLayout slidingPanel;
     private final String CHOSEN_TRACK_KEY = "chosen track";
     public static boolean isSongClicked = false;
 
@@ -42,11 +41,11 @@ public class PlaylistActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
-                .replace(R.id.playlist_maincontent_frame, new PlaylistFragment())
-                .replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment())
+                .replace(R.id.playlist_maincontent_frame, new MasterPlaylistFragment())
+                .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
                 .commit();
 
         slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
@@ -60,7 +59,7 @@ public class PlaylistActivity extends AppCompatActivity implements
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment()).commit();
                     isSongClicked = false;
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
