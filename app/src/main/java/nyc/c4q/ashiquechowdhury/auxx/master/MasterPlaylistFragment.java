@@ -73,7 +73,7 @@ public class MasterPlaylistFragment extends Fragment implements
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
-                myAdapter.removeTrackWithAlbumName(myTrack.getTrackName());
+                myAdapter.removeTrackWithURI(myTrack.getTrackUri());
                 SongListHelper.removeSongAfterVeto(myTrack);
             }
 
