@@ -13,6 +13,8 @@ import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
 
 public class SongListHelper {
     public static int trackCounter = 0;
+    public static boolean isSongPlaying = false;
+    public static boolean isPlaylistPlaying = false;
 
     public static List<PlaylistTrack> songList = new ArrayList<>();
 
@@ -38,8 +40,8 @@ public class SongListHelper {
 
     public static void playNextTrack() {
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
-            songList.remove(0);
-        } else {
+        }
+        else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
             setCurrentlyPlayingSong(track);

@@ -71,7 +71,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     @Override
     public void onStart() {
-        super.onStart();
+          super.onStart();
         setBottomPanelHeight();
     }
 
