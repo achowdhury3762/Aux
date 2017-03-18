@@ -40,8 +40,8 @@ public class SongListHelper {
 
     public static void playNextTrack(){
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
-            songList.remove(0);
-        } else {
+        }
+        else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
             setCurrentlyPlayingSong(track);

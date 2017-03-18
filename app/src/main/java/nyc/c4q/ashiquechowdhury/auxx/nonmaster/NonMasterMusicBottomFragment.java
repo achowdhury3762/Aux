@@ -74,4 +74,14 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
     public void updateCurrentlyPlayingText(String trackName) {
         currentTrackInfoTextView.setText(trackName);
     }
+
+    @Override
+    public void changeToPlayButton() {
+
+    }
+
+    @Override
+    public void changeToPauseButton() {
+
+    }
 }
