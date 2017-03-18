@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
+package nyc.c4q.ashiquechowdhury.auxx.master;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
-public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener, TrackListener {
+public class MasterMusicBottomFragment extends Fragment implements View.OnClickListener, TrackListener {
 
     private FrameLayout upVoteButton;
     private FrameLayout playButton;
@@ -29,6 +29,8 @@ public class MasterMusicPlayerControlsFragment extends Fragment implements View.
     private SpotifyUtil spotify;
     private TextView currentTrackInfoTextView;
     private boolean isPlaylistPlaying = false;
+
+    //TODO: Make Music play/pause functionality better by using spotify player methods
 
     @Nullable
     @Override

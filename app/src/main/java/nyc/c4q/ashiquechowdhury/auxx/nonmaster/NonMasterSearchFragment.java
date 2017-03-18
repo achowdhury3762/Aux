@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.nonmaster;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
@@ -27,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
-public class AlternateSearchFragment extends Fragment {
+public class NonMasterSearchFragment extends Fragment {
     private List<Item> musicItemList = new ArrayList<>();
     private RecyclerView musicList;
     private SearchAdapter mAdapter;

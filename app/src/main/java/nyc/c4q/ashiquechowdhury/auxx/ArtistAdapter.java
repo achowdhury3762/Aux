@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
-import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 
 /**
  * Created by jordansmith on 3/14/17.
@@ -22,11 +21,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
     private SongTrackClickListener trackClickListener;
     private List <Track> tracksList;
-    private ArtistSongSelectedListener listener;
+//    private ArtistSongSelectedListener listener;
 
     public ArtistAdapter(List<Track> tracksList, SongTrackClickListener currentSongInfoFragment){
         this.tracksList = tracksList;
-        listener = ListenerHolder.getArtistSongSelectedListener();
+//        listener = ListenerHolder.getArtistSongSelectedListener();
         trackClickListener = currentSongInfoFragment;
     }
 
@@ -43,7 +42,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.updatePlaylistUI();
+//                listener.updatePlaylistUI();
                 trackClickListener.songClicked(tracksList.get(holder.getAdapterPosition()));
             }
         });
