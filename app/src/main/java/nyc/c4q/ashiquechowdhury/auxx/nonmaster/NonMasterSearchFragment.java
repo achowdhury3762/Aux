@@ -50,7 +50,6 @@ public class NonMasterSearchFragment extends Fragment {
         search_editT = (EditText) view.findViewById(R.id.search_edit_text);
         musicList = (RecyclerView) view.findViewById(R.id.search_recycler);
         musicList.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mAdapter = new SearchAdapter(musicItemList);
         musicList.setAdapter(mAdapter);
 
         searchButton = (Button) view.findViewById(R.id.search_buttn);
