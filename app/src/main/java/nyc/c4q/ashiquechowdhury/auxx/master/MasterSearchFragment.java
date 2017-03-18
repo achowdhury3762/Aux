@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.master;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistFragment;
+import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
+import nyc.c4q.ashiquechowdhury.auxx.SongClickListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
@@ -37,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
-public class SearchFragment extends Fragment implements SongClickListener {
+public class MasterSearchFragment extends Fragment implements SongClickListener {
     public static final String MUSIC_LIST = "MusicList";
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -61,6 +63,7 @@ public class SearchFragment extends Fragment implements SongClickListener {
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
+
         recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_layout);
         editText = (EditText) view.findViewById(R.id.search_edit_text);
@@ -81,7 +84,7 @@ public class SearchFragment extends Fragment implements SongClickListener {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.playlist_maincontent_frame, new PlaylistFragment(),"playlist_fragment").commit();
+                        .replace(R.id.playlist_maincontent_frame, new MasterPlaylistFragment(),"playlist_fragment").commit();
                 getFragmentManager().popBackStack();
             }
         });

@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
+package nyc.c4q.ashiquechowdhury.auxx.master;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +18,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
-public class MasterMusicPlayerControlsFragment extends Fragment implements View.OnClickListener, TrackListener {
+public class MasterMusicBottomFragment extends Fragment implements View.OnClickListener, TrackListener {
 
     private FrameLayout upVoteButton;
     private FrameLayout playButton;

@@ -1,4 +1,4 @@
-package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
+package nyc.c4q.ashiquechowdhury.auxx.master;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,9 +26,7 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
-import nyc.c4q.ashiquechowdhury.auxx.PlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.SearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
@@ -36,7 +34,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
 
-public class PlaylistFragment extends Fragment implements
+public class MasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
 
@@ -45,16 +43,16 @@ public class PlaylistFragment extends Fragment implements
     private ChildEventListener childListener;
     private RecyclerView recyclerView;
     private SpotifyUtil spotify;
-    private static final String FRAGMENT_TAG = PlaylistFragment.class.getSimpleName();
+    private static final String FRAGMENT_TAG = MasterPlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
-    private PlaylistAdapter myAdapter;
+    private MasterPlaylistAdapter myAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -86,7 +84,7 @@ public class PlaylistFragment extends Fragment implements
             }
         };
 
-        myAdapter = new PlaylistAdapter(getContext(), (InfoSlideListener) getActivity());
+        myAdapter = new MasterPlaylistAdapter((InfoSlideListener) getActivity());
         reference.addChildEventListener(childListener);
     }
 
@@ -116,7 +114,7 @@ public class PlaylistFragment extends Fragment implements
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction
-                        .replace(R.id.playlist_maincontent_frame, new SearchFragment(), "search_fragment")
+                        .replace(R.id.playlist_maincontent_frame, new MasterSearchFragment())
                         .addToBackStack(FRAGMENT_TAG)
                         .commit();
             }
@@ -205,5 +203,11 @@ public class PlaylistFragment extends Fragment implements
     @Override
     public void updatePlaylistUI() {
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        reference.removeEventListener(childListener);
     }
 }
