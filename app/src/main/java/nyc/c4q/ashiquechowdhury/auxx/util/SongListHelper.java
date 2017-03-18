@@ -38,7 +38,7 @@ public class SongListHelper {
         SongListHelper.currentlyPlayingSong = currentlyPlayingSong;
     }
 
-    public static void playNextTrack(){
+    public static void playNextTrack() {
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
         }
         else {
@@ -68,7 +68,7 @@ public class SongListHelper {
         }
     }
 
-    public static PlaylistTrack transformAndAdd (Item item) {
+    public static PlaylistTrack transformAndAdd(Item item) {
         PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
@@ -76,7 +76,7 @@ public class SongListHelper {
                 .artistId(item.getArtists().get(0).getId())
                 .build();
 
-        if(item.getAlbum().getImages().isEmpty()){
+        if (item.getAlbum().getImages().isEmpty()) {
             track.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
         }
         else{
@@ -94,7 +94,7 @@ public class SongListHelper {
                 .artistId(track.getArtists().get(0).getId())
                 .build();
 
-        if(track.getAlbum().getImages().isEmpty()){
+        if (track.getAlbum().getImages().isEmpty()) {
             playlistTrack.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
         }
         else{
@@ -121,7 +121,7 @@ public class SongListHelper {
         }
     }
 
-    public static String formatPlayerInfo(PlaylistTrack track){
+    public static String formatPlayerInfo(PlaylistTrack track) {
         StringBuilder sb = new StringBuilder();
         sb.append(track.getArtistName());
         sb.append(" ");

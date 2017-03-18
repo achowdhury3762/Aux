@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2e2e2e"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:weightSum="4">
+    android:weightSum="100">
 
-    <ImageView
-        android:id="@+id/aux_logo"
-        android:layout_width="200dp"
-        android:layout_height="230dp" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="28"
+        android:weightSum="14"
+        android:orientation="horizontal">
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"/>
+            <ImageView
+                android:id="@+id/aux_logo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_weight="9"
         android:gravity="center"
         android:weightSum="6">
 
@@ -26,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:fontFamily="sans-serif"
-            android:hint="@string/username_hint"
+            android:hint="@string/username_signin_hint"
             android:imeOptions="actionNext"
             android:inputType="textAutoCorrect|textCapSentences"
             android:maxLines="1"
@@ -40,144 +65,167 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:weightSum="6">
+        android:weightSum="6"
+        android:layout_weight="9">
 
-        <EditText
-            android:id="@+id/password_login_edittext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:fontFamily="sans-serif"
-            android:hint="@string/password_hint"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingBottom="8dp"
-            android:paddingStart="3dp"
-            android:textColor="#fff"
-            android:textColorHint="#cdcdcd"
-            android:textSize="@dimen/button_text_size" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:weightSum="6">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/aux_signin_button"
-            android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:layout_weight="5"
-            app:cardBackgroundColor="@color/colorAccent"
-            app:cardCornerRadius="2dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:text="@string/sign_in_button_text"
-                android:textColor="#FFF"
+            <EditText
+                android:id="@+id/password_login_edittext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:fontFamily="sans-serif"
+                android:hint="@string/password_signin_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:paddingStart="3dp"
+                android:textColor="#fff"
+                android:textColorHint="#cdcdcd"
                 android:textSize="@dimen/button_text_size" />
 
-        </android.support.v7.widget.CardView>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:weightSum="6">
+        android:layout_height="0dp"
+        android:weightSum="6"
+        android:layout_weight="9">
 
-        <LinearLayout
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/aux_signin_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/signin_button_text"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/button_text_size" />
+
+            </android.support.v7.widget.CardView>
+
+        <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:weightSum="2">
+            android:layout_weight=".5"/>
 
-            <View
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="6"
+        android:layout_weight="6">
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="#15808080" />
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:weightSum="2">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="OR"
-                android:textSize="@dimen/or_text_size" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#15808080" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="#15808080" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="OR"
+                    android:textSize="@dimen/or_text_size" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#15808080" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:weightSum="6">
+        android:layout_height="0dp"
+        android:weightSum="6"
+        android:layout_weight="9">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/google_signin_button"
-            android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:layout_weight="5"
-            app:cardCornerRadius="2dp">
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <android.support.v7.widget.CardView
+                android:id="@+id/google_signin_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                app:cardCornerRadius="2dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#dd4b39"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="@string/sign_in_with_google"
-                    android:textColor="#FFF"
-                    android:textSize="@dimen/button_text_size" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#dd4b39"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="@string/signin_with_google"
+                        android:textColor="#FFF"
+                        android:textSize="@dimen/button_text_size" />
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+
+    <LinearLayout
+        android:id="@+id/sign_up_here_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
         android:gravity="bottom"
         android:foreground="?android:selectableItemBackground"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#15808080" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#15808080" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="20dp"
-            android:text="Don't have an account? Sign up here." />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Don't have an account? Sign up here." />
 
     </LinearLayout>
 

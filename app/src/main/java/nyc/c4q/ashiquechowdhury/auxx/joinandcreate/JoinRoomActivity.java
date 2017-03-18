@@ -148,4 +148,13 @@ public class JoinRoomActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

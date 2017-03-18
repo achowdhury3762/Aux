@@ -3,6 +3,8 @@ package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.bumptech.glide.Glide;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 
 public class LoginFragment extends Fragment {
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private EditText usernameEditText;
     private EditText passwordEditText;
     String enteredUsername;
@@ -27,7 +31,7 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login_improved, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
@@ -39,6 +43,8 @@ public class LoginFragment extends Fragment {
         CardView googleSignInButton = (CardView) view.findViewById(R.id.google_signin_button);
         usernameEditText = (EditText) view.findViewById(R.id.username_login_edittext);
         passwordEditText = (EditText) view.findViewById(R.id.password_login_edittext);
+        LinearLayout signUpHereButton = (LinearLayout) view.findViewById(R.id.sign_up_here_button);
+
 
         passwordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -67,6 +73,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Handle Google Sign In", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        signUpHereButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction
+                        .replace(R.id.main_container, new LoginFragment2())
+                        .addToBackStack(TAG)
+                        .commit();
             }
         });
     }
