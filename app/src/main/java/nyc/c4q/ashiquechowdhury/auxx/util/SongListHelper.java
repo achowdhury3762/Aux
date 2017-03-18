@@ -38,7 +38,6 @@ public class SongListHelper {
 
     public static void playNextTrack(){
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
-            songList.remove(0);
         } else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
@@ -84,7 +83,7 @@ public class SongListHelper {
         return track;
     }
 
-    public static PlaylistTrack transformAndAdd(Track track){
+    public static PlaylistTrack transformAndAdd(Track track) {
         PlaylistTrack playlistTrack = new PlaylistTrack.Builder(track.getName())
                 .trackUri(track.getUri())
                 .albumName(track.getAlbum().getName())

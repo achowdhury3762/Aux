@@ -92,7 +92,6 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

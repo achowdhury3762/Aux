@@ -74,8 +74,6 @@ public class MasterSearchFragment extends Fragment implements SongClickListener 
         backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.playlist_maincontent_frame, new MasterPlaylistFragment(),"playlist_fragment").commit();
                 getFragmentManager().popBackStack();
             }
         });

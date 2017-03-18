@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 
@@ -29,10 +28,6 @@ public class ChooseRoomFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-//        listener = (ToolBarListener) getActivity();
-//        listener.changeToolBarName("ThisWorks");
-
         imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
 
         Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
@@ -52,6 +47,7 @@ public class ChooseRoomFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), PlaylistActivity.class));
+
             }
         });
 

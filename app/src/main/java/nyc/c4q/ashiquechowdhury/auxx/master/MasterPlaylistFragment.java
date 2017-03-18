@@ -24,6 +24,9 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
@@ -39,7 +42,6 @@ import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 public class MasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
-
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private ChildEventListener childListener;
@@ -52,6 +54,9 @@ public class MasterPlaylistFragment extends Fragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        spotify = SpotifyUtil.getInstance();
+        spotify.createPlayer(getContext());
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
@@ -97,8 +102,6 @@ public class MasterPlaylistFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist, container, false);
-        spotify = SpotifyUtil.getInstance();
-        spotify.createPlayer(getContext());
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myAdapter);
