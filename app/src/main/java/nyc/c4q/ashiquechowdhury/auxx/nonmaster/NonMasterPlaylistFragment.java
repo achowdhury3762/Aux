@@ -26,7 +26,6 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
@@ -45,7 +44,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
     private SpotifyUtil spotify;
     private static final String FRAGMENT_TAG = NonMasterPlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
-    private MasterPlaylistAdapter myAdapter;
+    private NonMasterPlaylistAdapter myAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +66,8 @@ public class NonMasterPlaylistFragment extends Fragment implements
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myAdapter.removeTrackWithURI(myTrack.getTrackUri());
             }
 
             @Override
@@ -80,7 +81,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
             }
         };
 
-        myAdapter = new MasterPlaylistAdapter((InfoSlideListener) getActivity());
+        myAdapter = new NonMasterPlaylistAdapter((InfoSlideListener) getActivity());
         reference.addChildEventListener(childListener);
     }
 
