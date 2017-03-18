@@ -84,14 +84,17 @@ public class LoginFragment2 extends Fragment {
         if (!validateForm()) {
             return;
         }
-        ProgressDialog.show(getContext(), "Creating Account", "Please wait");
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Creating account");
+        progressDialog.show();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
                         }
+                        progressDialog.cancel();
                     }
                 });
     }
@@ -100,7 +103,9 @@ public class LoginFragment2 extends Fragment {
         if (!validateForm()) {
             return;
         }
-        ProgressDialog.show(getContext(), "Signing in", "Please wait");
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Signing in");
+        progressDialog.show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -108,6 +113,7 @@ public class LoginFragment2 extends Fragment {
                         if (!task.isSuccessful()) {
                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                         }
+                        progressDialog.cancel();
                     }
                 });
     }

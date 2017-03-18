@@ -71,15 +71,6 @@ public class MasterSearchFragment extends Fragment implements SongClickListener 
         backSearchButton = (ImageButton) view.findViewById(R.id.back_search_btn);
         findItems();
 
-        if(itemList.isEmpty()){
-            emptyLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
-        else{
-            emptyLayout.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
         backSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
