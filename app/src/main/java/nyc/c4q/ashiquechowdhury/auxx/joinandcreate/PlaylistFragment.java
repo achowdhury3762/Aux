@@ -35,6 +35,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class PlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
@@ -55,12 +56,14 @@ public class PlaylistFragment extends Fragment implements
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        songList.clear();
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.add(myTrack);
-                SongListHelper.songList.add(myTrack);
+                songList.add(myTrack);
+                Log.d(SongListHelper.getSongList().size() + " " + "size", "onChildAdded");
             }
 
             @Override
@@ -72,6 +75,7 @@ public class PlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithAlbumName(myTrack.getTrackName());
+                Log.d(SongListHelper.getSongList().size() + " " + "size", "onChildRemoved");
                 SongListHelper.removeSongAfterVeto(myTrack);
             }
 
