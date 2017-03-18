@@ -1,6 +1,7 @@
 package nyc.c4q.ashiquechowdhury.auxx.util;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class SongListHelper {
         return songList;
     }
 
+    public static void setSongList(List<PlaylistTrack> songList){
+        SongListHelper.songList = songList;
+    }
+
     public static PlaylistTrack getCurrentlyPlayingSong() {
         return currentlyPlayingSong;
     }
@@ -39,6 +44,7 @@ public class SongListHelper {
             setCurrentlyPlayingSong(track);
             spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
             spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
+            Log.d(String.valueOf(trackCounter) + "next",currentlyPlayingSong.getTrackName());
         }
     }
 
@@ -96,8 +102,17 @@ public class SongListHelper {
         if (SongListHelper.currentlyPlayingSong.equals(track)) {
             playNextTrack();
             SongListHelper.getSongList().remove(track);
-        } else {
-            SongListHelper.getSongList().remove(track);
+            trackCounter = songList.indexOf(currentlyPlayingSong);
+            Log.d(String.valueOf(trackCounter) + "if",currentlyPlayingSong.getTrackName());
+        }
+        else {
+                SongListHelper.getSongList().remove(track);
+                if(currentlyPlayingSong != null){
+                    trackCounter = songList.indexOf(currentlyPlayingSong);
+                    Log.d(String.valueOf(trackCounter)+ "else",currentlyPlayingSong.getTrackName());
+                }
+
+
         }
     }
 
