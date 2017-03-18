@@ -16,6 +16,10 @@ public class PlaylistTrack implements Serializable {
     private String message;
     private String albumArt;
     private String artistId;
+    private int vetos;
+    private int likes;
+
+
 
     private PlaylistTrack(Builder builder){
         this.albumName = builder.albumName;
@@ -93,6 +97,22 @@ public class PlaylistTrack implements Serializable {
 
     public void setArtistId(String artistId){
         this.artistId = artistId;
+    }
+
+    public int getVetos() {
+        return vetos;
+    }
+
+    public void setVetos(int vetos) {
+        this.vetos = vetos;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     @Override

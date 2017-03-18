@@ -61,6 +61,7 @@ public class MasterPlaylistFragment extends Fragment implements
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
         songList.clear();
+
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

@@ -126,7 +126,12 @@ public class SpotifyUtil implements
         switch (playerEvent) {
             case kSpPlaybackNotifyAudioDeliveryDone:
                 SongListHelper.playNextTrack();
-            default:
+                break;
+            case kSpPlaybackNotifyPlay:
+                tracklistener.changeToPauseButton();
+                break;
+            case kSpPlaybackNotifyPause:
+                tracklistener.changeToPlayButton();
                 break;
         }
 
