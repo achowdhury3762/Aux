@@ -54,12 +54,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             }
         });
 
-        holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(context, trackList.get(holder.getAdapterPosition()));
-            }
-        });
+//        holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showDialog(context, trackList.get(holder.getAdapterPosition()));
+//            }
+//        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             albumArt = (ImageView) itemView.findViewById(R.id.playlist_album_art_text_view);
             artistName = (TextView) itemView.findViewById(R.id.playlist_artist_name_text_view);
             songName = (TextView) itemView.findViewById(R.id.playlist_song_name_text_view);
-            moreInfoButton = (ImageButton) itemView.findViewById(R.id.playlist_more_image_button);
+//            moreInfoButton = (ImageButton) itemView.findViewById(R.id.playlist_more_image_button);
         }
 
         public void bind(PlaylistTrack track){

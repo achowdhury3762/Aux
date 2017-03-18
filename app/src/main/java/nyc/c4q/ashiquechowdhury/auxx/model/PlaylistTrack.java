@@ -16,6 +16,8 @@ public class PlaylistTrack implements Serializable {
     private String message;
     private String albumArt;
     private String artistId;
+    private String artistPictureUrl;
+
 
     private PlaylistTrack(Builder builder){
         this.albumName = builder.albumName;
@@ -26,6 +28,7 @@ public class PlaylistTrack implements Serializable {
         this.trackUri = builder.trackUri;
         this.albumArt = builder.albumArt;
         this.artistId = builder.artistId;
+        this.artistPictureUrl = builder.artistPictureUrl;
 
     }
 
@@ -95,6 +98,14 @@ public class PlaylistTrack implements Serializable {
         this.artistId = artistId;
     }
 
+    public String getArtistPictureUrl() {
+        return artistPictureUrl;
+    }
+
+    public void setArtistPictureUrl(String artistPictureUrl) {
+        this.artistPictureUrl = artistPictureUrl;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
@@ -117,6 +128,8 @@ public class PlaylistTrack implements Serializable {
         private String message;
         private String albumArt;
         private String artistId;
+        private String artistPictureUrl;
+
 
         public Builder(String trackName){
             this.trackName = trackName;
@@ -155,9 +168,15 @@ public class PlaylistTrack implements Serializable {
             return this;
         }
 
+        public Builder artistPictureUrl(String artistPictureUrl){
+            this.artistPictureUrl = artistPictureUrl;
+            return this;
+        }
+
         public PlaylistTrack build(){
             return new PlaylistTrack(this);
         }
+
 
     }
 }

@@ -26,10 +26,12 @@ import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SongTrackClickListener;
+import nyc.c4q.ashiquechowdhury.auxx.model.ArtistListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.ArtistResponse;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
+import nyc.c4q.ashiquechowdhury.auxx.model.artistspecifics.ArtistInfo;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +45,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Created by SACC on 3/6/17.
  */
 
-public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener{
+public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener, ArtistListener{
 
     private CircleImageView artistPictureIV;
 
@@ -58,6 +60,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     private ImageButton vetoButton;
     private final String CHOSEN_TRACK_KEY = "chosen track";
     private PlaylistTrack track;
+    private SpotifyService spotifyService;
     RecyclerView recyclerView;
     ArtistAdapter artistAdapter;
     View view;
@@ -74,9 +77,13 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         if(bundle != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
+            getArtisttImgUrlRetrofitTest(track);
+            Log.d("DEBUG", track.getArtistId());
             songNameTv.setText(track.getTrackName());
             artistNameTv.setText(track.getArtistName());
             albumNameTv.setText(track.getAlbumName());
+
+
             getTracks(track);
         }
         else{
@@ -127,7 +134,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        SpotifyService spotifyService = retrofit.create(SpotifyService.class);
+        spotifyService = retrofit.create(SpotifyService.class);
         Call<ArtistResponse> httpRequest = spotifyService.getArtistTopTracks(track.getArtistId(), "US");
         httpRequest.enqueue(new Callback<ArtistResponse>() {
             @Override
@@ -135,7 +142,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 try {
                     if (response.isSuccessful()) {
                        findTracks(response.body().getTracks());
-
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
                     }
@@ -162,5 +168,70 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     public void songClicked(Track track) {
         PlaylistTrack myTrack = SongListHelper.transformAndAdd(track);
         reference.child(MUSIC_LIST).push().setValue(myTrack);
+    }
+
+
+    private void getArtisttImgUrlRetrofitTest(final PlaylistTrack track){
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.spotify.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        spotifyService = retrofit.create(SpotifyService.class);
+
+        Call<ArtistInfo> artistInfoRequest = spotifyService.getArtistInfo(track.getArtistId());
+        artistInfoRequest.enqueue(new Callback<ArtistInfo>() {
+            @Override
+            public void onResponse(Call<ArtistInfo> call, Response<ArtistInfo> response) {
+                ArtistInfo artistInfo = response.body();
+
+                Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
+
+                if(artistInfo != null){
+                    String imgUrl = artistInfo.getImages().get(0).getUrl();
+                    addArtistImgUrl(imgUrl, track);
+
+                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
+                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
+                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
+                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtistInfo> call, Throwable t) {
+                Log.d(TAG, "bad call");
+            }
+        });
+    }
+
+
+
+//    private void getArtisttImgUrlRetrofit(final String artistID, final PlaylistTrack track){
+//        Call<ArtistInfo> artistInfoRequest = spotifyService.getArtistInfo(artistID);
+//        artistInfoRequest.enqueue(new Callback<ArtistInfo>() {
+//            @Override
+//            public void onResponse(Call<ArtistInfo> call, Response<ArtistInfo> response) {
+//                ArtistInfo artistInfo = response.body();
+//                if(artistInfo!=null && !(artistInfo.getImages().isEmpty())){
+//                    String imgUrl = artistInfo.getImages().get(0).getUrl();
+//                    addArtistImgUrl(imgUrl, track);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArtistInfo> call, Throwable t) {
+//                    Log.d(TAG, "bad call");
+//            }
+//        });
+//    }
+
+
+    @Override
+    public void addArtistImgUrl(String artistImgUrl, PlaylistTrack track) {
+        track.setArtistPictureUrl(artistImgUrl);
+        Glide.with(getContext()).load(track.getArtistPictureUrl()).into(artistPictureIV);
     }
 }

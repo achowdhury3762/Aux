@@ -145,7 +145,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
-                    android:background="#15808080" />
+                    android:background="@color/colorDivider" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
-                    android:background="#15808080" />
+                    android:background="@color/colorDivider" />
         </LinearLayout>
 
     </LinearLayout>
@@ -217,7 +217,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#15808080" />
+                android:background="@color/colorDivider" />
 
             <TextView
                 android:layout_width="wrap_content"
