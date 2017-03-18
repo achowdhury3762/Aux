@@ -38,13 +38,14 @@ public class SongListHelper {
 
     public static void playNextTrack() {
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
+            songList.remove(0);
         } else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
             setCurrentlyPlayingSong(track);
             spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
             spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
-            Log.d(String.valueOf(trackCounter) + "next",currentlyPlayingSong.getTrackName());
+            Log.d(String.valueOf(trackCounter) + "next", currentlyPlayingSong.getTrackName());
         }
     }
 
@@ -75,7 +76,8 @@ public class SongListHelper {
 
         if (item.getAlbum().getImages().isEmpty()) {
             track.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        } else {
+        }
+        else{
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
 
@@ -92,14 +94,15 @@ public class SongListHelper {
 
         if (track.getAlbum().getImages().isEmpty()) {
             playlistTrack.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        } else {
+        }
+        else{
             playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
         }
         return playlistTrack;
     }
 
     public static void removeSongAfterVeto(PlaylistTrack track) {
-        if (SongListHelper.currentlyPlayingSong.equals(track)) {
+        if(currentlyPlayingSong!=null && SongListHelper.currentlyPlayingSong.equals(track)){
             playNextTrack();
             SongListHelper.getSongList().remove(track);
             trackCounter = songList.indexOf(currentlyPlayingSong);

@@ -21,10 +21,9 @@ import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.RowClickedListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
-public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAdapter.PlaylistViewHolder> implements RowClickedListener {
+public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAdapter.PlaylistViewHolder>{
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private List<PlaylistTrack> trackList;
@@ -98,10 +97,10 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
         });
     }
 
-    public void removeTrackWithAlbumName(String trackName) {
+    public void removeTrackWithURI(String trackURI) {
         int albumposition = 0;
         for(int i=0; i < trackList.size(); i++){
-            if(trackList.get(i).getTrackName().equals(trackName)){
+            if(trackList.get(i).getTrackUri().equals(trackURI)){
                 albumposition = i;
             }
         }
