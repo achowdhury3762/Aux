@@ -31,7 +31,7 @@ public class SongListHelper {
         SongListHelper.currentlyPlayingSong = currentlyPlayingSong;
     }
 
-    public static void playNextTrack(){
+    public static void playNextTrack() {
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
         } else {
             trackCounter++;
@@ -59,7 +59,7 @@ public class SongListHelper {
         }
     }
 
-    public static PlaylistTrack transformAndAdd (Item item) {
+    public static PlaylistTrack transformAndAdd(Item item) {
         PlaylistTrack track = new PlaylistTrack.Builder(item.getName())
                 .trackUri(item.getUri())
                 .albumName(item.getAlbum().getName())
@@ -67,17 +67,16 @@ public class SongListHelper {
                 .artistId(item.getArtists().get(0).getId())
                 .build();
 
-        if(item.getAlbum().getImages().isEmpty()){
+        if (item.getAlbum().getImages().isEmpty()) {
             track.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        }
-        else{
+        } else {
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
 
         return track;
     }
 
-    public static PlaylistTrack transformAndAdd(Track track){
+    public static PlaylistTrack transformAndAdd(Track track) {
         PlaylistTrack playlistTrack = new PlaylistTrack.Builder(track.getName())
                 .trackUri(track.getUri())
                 .albumName(track.getAlbum().getName())
@@ -85,26 +84,24 @@ public class SongListHelper {
                 .artistId(track.getArtists().get(0).getId())
                 .build();
 
-        if(track.getAlbum().getImages().isEmpty()){
+        if (track.getAlbum().getImages().isEmpty()) {
             playlistTrack.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        }
-        else{
+        } else {
             playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
         }
         return playlistTrack;
     }
 
     public static void removeSongAfterVeto(PlaylistTrack track) {
-        if(SongListHelper.currentlyPlayingSong.equals(track)){
+        if (SongListHelper.currentlyPlayingSong.equals(track)) {
             playNextTrack();
             SongListHelper.getSongList().remove(track);
-        }
-        else {
+        } else {
             SongListHelper.getSongList().remove(track);
         }
     }
 
-    public static String formatPlayerInfo(PlaylistTrack track){
+    public static String formatPlayerInfo(PlaylistTrack track) {
         StringBuilder sb = new StringBuilder();
         sb.append(track.getArtistName());
         sb.append(" ");

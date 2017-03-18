@@ -17,7 +17,7 @@ public class PlaylistTrack implements Serializable {
     private String albumArt;
     private String artistId;
 
-    private PlaylistTrack(Builder builder){
+    private PlaylistTrack(Builder builder) {
         this.albumName = builder.albumName;
         this.artistName = builder.artistName;
         this.message = builder.message;
@@ -29,7 +29,8 @@ public class PlaylistTrack implements Serializable {
 
     }
 
-    public PlaylistTrack(){}
+    public PlaylistTrack() {
+    }
 
     public String getTrackUri() {
         return trackUri;
@@ -79,7 +80,7 @@ public class PlaylistTrack implements Serializable {
         this.message = message;
     }
 
-    public void setAlbumArt(String albumArt){
+    public void setAlbumArt(String albumArt) {
         this.albumArt = albumArt;
     }
 
@@ -87,27 +88,27 @@ public class PlaylistTrack implements Serializable {
         return albumArt;
     }
 
-    public String getArtistId(){
+    public String getArtistId() {
         return artistId;
     }
 
-    public void setArtistId(String artistId){
+    public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this){
+        if (obj == this) {
             return true;
         }
-        if(!(obj instanceof PlaylistTrack)){
+        if (!(obj instanceof PlaylistTrack)) {
             return false;
         }
         PlaylistTrack playlistTrack = (PlaylistTrack) obj;
         return playlistTrack.getTrackUri().equals(this.getTrackUri());
     }
 
-    public static class Builder{
+    public static class Builder {
 
         private final String trackName;
         private String trackUri;
@@ -118,44 +119,46 @@ public class PlaylistTrack implements Serializable {
         private String albumArt;
         private String artistId;
 
-        public Builder(String trackName){
+        public Builder(String trackName) {
             this.trackName = trackName;
         }
 
-        public Builder trackUri(String trackUri){
+        public Builder trackUri(String trackUri) {
             this.trackUri = trackUri;
             return this;
         }
 
-        public Builder artistName(String artistName){
+        public Builder artistName(String artistName) {
             this.artistName = artistName;
             return this;
         }
 
-        public Builder albumName(String albumName){
+        public Builder albumName(String albumName) {
             this.albumName = albumName;
             return this;
         }
 
-        public Builder user(String user){
+        public Builder user(String user) {
             this.user = user;
             return this;
         }
-        public Builder message(String message){
+
+        public Builder message(String message) {
             this.message = message;
             return this;
         }
 
-        public Builder albumArt(String albumArt){
+        public Builder albumArt(String albumArt) {
             this.albumArt = albumArt;
             return this;
         }
-        public Builder artistId(String artistId){
+
+        public Builder artistId(String artistId) {
             this.artistId = artistId;
             return this;
         }
 
-        public PlaylistTrack build(){
+        public PlaylistTrack build() {
             return new PlaylistTrack(this);
         }
 
