@@ -20,6 +20,8 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
+import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.isPlaylistPlaying;
+
 public class MasterMusicBottomFragment extends Fragment implements View.OnClickListener, TrackListener {
 
     private FrameLayout upVoteButton;
@@ -28,7 +30,8 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
     private FrameLayout downVoteButton;
     private SpotifyUtil spotify;
     private TextView currentTrackInfoTextView;
-    private boolean isPlaylistPlaying = false;
+
+
 
     //TODO: Make Music play/pause functionality better by using spotify player methods
 
@@ -53,6 +56,13 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
         }
         else{
             currentTrackInfoTextView.setText("Click Play To Start Playlist");
+        }
+
+        if(SongListHelper.isSongPlaying){
+            changeToPauseButton();
+        }
+        else{
+            changeToPlayButton();
         }
 
         return view;
@@ -83,7 +93,7 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 break;
 
             case R.id.playbutton:
-                if(!isPlaylistPlaying){
+                if(!SongListHelper.isPlaylistPlaying){
                     showAlert(song);
                 }
                 else{
@@ -93,12 +103,6 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
 
                 }
 
-//                Toast.makeText(getContext(), "Play the song", Toast.LENGTH_SHORT).show();
-//                playButton.setVisibility(View.GONE);
-//                pauseButton.setVisibility(View.VISIBLE);
-//                spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
-//                SongListHelper.setCurrentlyPlayingSong(song);
-//                SpotifyUtil.getInstance().getTracklistener().updateCurrentlyPlayingText(SongListHelper.formatPlayerInfo(song));
                 break;
             case R.id.pausebutton:
                 pauseButton.setVisibility(View.GONE);
@@ -124,8 +128,8 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 .setMessage("Are you sure you're ready to Jam?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        playButton.setVisibility(View.GONE);
-                        pauseButton.setVisibility(View.VISIBLE);
+//                        playButton.setVisibility(View.GONE);
+//                        pauseButton.setVisibility(View.VISIBLE);
                         spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
                         SongListHelper.setCurrentlyPlayingSong(song);
                         SpotifyUtil.getInstance().getTracklistener().updateCurrentlyPlayingText(SongListHelper.formatPlayerInfo(song));
@@ -139,12 +143,22 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                         // do nothing
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(android.R.drawable.ic_media_play)
                 .show();
     }
 
-    public void changePlayButton(){
+    public void changeToPlayButton(){
+        playButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+        SongListHelper.isSongPlaying = false;
 
+    }
+
+    @Override
+    public void changeToPauseButton() {
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+        SongListHelper.isSongPlaying = true;
     }
 
 
