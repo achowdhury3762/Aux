@@ -28,11 +28,13 @@ import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class MasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
@@ -43,7 +45,7 @@ public class MasterPlaylistFragment extends Fragment implements
     private ChildEventListener childListener;
     private RecyclerView recyclerView;
     private SpotifyUtil spotify;
-    private static final String FRAGMENT_TAG = MasterPlaylistFragment.class.getSimpleName();
+    private static final String FRAGMENT_TAG = NonMasterPlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
     private MasterPlaylistAdapter myAdapter;
 
@@ -53,12 +55,14 @@ public class MasterPlaylistFragment extends Fragment implements
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+        songList.clear();
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.add(myTrack);
-                SongListHelper.songList.add(myTrack);
+                songList.add(myTrack);
+                Log.d(SongListHelper.getSongList().size() + " " + "size", "onChildAdded");
             }
 
             @Override

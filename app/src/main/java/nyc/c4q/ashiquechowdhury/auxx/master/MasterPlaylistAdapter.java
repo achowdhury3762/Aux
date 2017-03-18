@@ -35,6 +35,10 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
         this.infoSlideListener = infoSlideListener;
     }
 
+    public List<PlaylistTrack> getSongList(){
+        return trackList;
+    }
+
     @Override
     public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View childView = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_track_item_view, parent, false);
