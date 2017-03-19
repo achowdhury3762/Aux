@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -67,9 +68,6 @@ public class NonMasterPlaylistFragment extends Fragment implements
                     PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                     myAdapter.add(myTrack);
                 }
-                else{
-
-                }
             }
 
             @Override
@@ -108,6 +106,9 @@ public class NonMasterPlaylistFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myAdapter);
+
+        TextView actionBar = (TextView) view.findViewById(R.id.toolbar_TV);
+        actionBar.setText(roomName);
 
         ListenerHolder.setArtistSongSelectedListener(this);
         return view;
@@ -217,5 +218,10 @@ public class NonMasterPlaylistFragment extends Fragment implements
     @Override
     public void updatePlaylistUI() {
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
     }
 }

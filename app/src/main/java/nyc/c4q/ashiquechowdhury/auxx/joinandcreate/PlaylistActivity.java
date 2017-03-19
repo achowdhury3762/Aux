@@ -46,6 +46,7 @@ public class PlaylistActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
+
         Intent intent = getIntent();
         roomName = intent.getStringExtra(ChooseRoomFragment.ROOMNAMEKEY);
 
