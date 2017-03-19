@@ -30,6 +30,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SongTrackClickListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.ArtistListener;
@@ -95,6 +96,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
             getTracks(track);
         } else {
             if (SongListHelper.getCurrentlyPlayingSong() != null) {
+                track = SongListHelper.getCurrentlyPlayingSong();
                 Glide.with(getContext()).load(SongListHelper.getCurrentlyPlayingSong().getAlbumArt()).into(albumArtWorkIv);
                 songNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getTrackName());
                 artistNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getArtistName());
@@ -254,7 +256,10 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                vetoButton.setClickable(false);
                                 appleSnapshot.getRef().removeValue();
+                                InfoSlideListener infoSlide = (InfoSlideListener) getActivity();
+                                infoSlide.slidePanelDownWithInfo();
                             }
                         }
 

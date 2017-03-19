@@ -128,15 +128,15 @@ public class SpotifyUtil implements
             case kSpPlaybackNotifyAudioDeliveryDone:
                 SongListHelper.playNextTrack();
 //              updateUImethodHere
+            case kSpPlaybackNotifyPlay:
+            tracklistener.changeToPauseButton();
+            break;
+            case kSpPlaybackNotifyPause:
+            tracklistener.changeToPlayButton();
+            break;
             default:
                 SongListHelper songListHelper = new SongListHelper();
                 songListHelper.checkVeto();
-                break;
-            case kSpPlaybackNotifyPlay:
-                tracklistener.changeToPauseButton();
-                break;
-            case kSpPlaybackNotifyPause:
-                tracklistener.changeToPlayButton();
                 break;
         }
 
