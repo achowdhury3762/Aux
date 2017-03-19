@@ -18,6 +18,7 @@ public class PlaylistTrack implements Serializable {
     private String artistId;
     private int vetos;
     private int likes;
+    private String firebaseKey;
 
 
 
@@ -99,6 +100,15 @@ public class PlaylistTrack implements Serializable {
     public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
+
+    public void setFirebaseKey(String firebaseKey){
+        this.firebaseKey = firebaseKey;
+    }
+
+    public String getFirebaseKey(){
+        return firebaseKey;
+    }
+
 
     public int getVetos() {
         return vetos;

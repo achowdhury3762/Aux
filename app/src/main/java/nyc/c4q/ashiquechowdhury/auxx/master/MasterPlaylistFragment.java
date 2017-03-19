@@ -65,7 +65,9 @@ public class MasterPlaylistFragment extends Fragment implements
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String firebaseKey = dataSnapshot.getKey();
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                myTrack.setFirebaseKey(firebaseKey);
                 myAdapter.add(myTrack);
                 songList.add(myTrack);
                 Log.d(SongListHelper.getSongList().size() + " " + "size", "onChildAdded");
