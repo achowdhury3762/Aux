@@ -18,7 +18,6 @@ import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
 public class NonMasterPlaylistAdapter extends RecyclerView.Adapter<NonMasterPlaylistViewHolder> {
@@ -87,7 +86,7 @@ public class NonMasterPlaylistAdapter extends RecyclerView.Adapter<NonMasterPlay
 
     public void rowClicked(PlaylistTrack track) {
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+//        reference = database.getReference().child();
         Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
         removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

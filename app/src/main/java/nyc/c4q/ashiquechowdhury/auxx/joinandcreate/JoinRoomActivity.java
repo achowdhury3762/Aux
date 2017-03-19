@@ -1,6 +1,8 @@
 package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,19 +18,22 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
-import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.ChooseRoomFragment;
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 
 public class JoinRoomActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
 
+    public static final String ROOMNAMEKEY = "nyc.c4q.PlaylistActivity.ROOMNAME";
     private SlidingUpPanelLayout slidingPanel;
     public static boolean isSongClicked = false;
     private final String CHOSEN_TRACK_KEY = "chosen track";
+    String roomName = "musicList";
 
 
     @Override
@@ -36,10 +41,19 @@ public class JoinRoomActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
+        Intent intent = getIntent();
+        roomName = intent.getStringExtra(ChooseRoomFragment.ROOMNAMEKEY);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment nonMasterPlaylistFragment = new NonMasterPlaylistFragment();
+
+        Bundle setArgumentsBundle = new Bundle();
+        setArgumentsBundle.putString(ROOMNAMEKEY, roomName);
+        nonMasterPlaylistFragment.setArguments(setArgumentsBundle);
+
         fragmentTransaction
-                .replace(R.id.playlist_maincontent_frame, new NonMasterPlaylistFragment())
+                .replace(R.id.playlist_maincontent_frame, nonMasterPlaylistFragment)
                 .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
                 .commit();
 

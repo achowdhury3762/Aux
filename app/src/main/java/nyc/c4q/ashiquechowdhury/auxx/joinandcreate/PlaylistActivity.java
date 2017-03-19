@@ -1,7 +1,9 @@
 package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.ChooseRoomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
@@ -32,19 +35,29 @@ public class PlaylistActivity extends AppCompatActivity implements
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
 
+    public static final String ROOMNAMEKEY = "nyc.c4q.PlaylistActivity.ROOMNAME";
     private SlidingUpPanelLayout slidingPanel;
     private final String CHOSEN_TRACK_KEY = "chosen track";
     public static boolean isSongClicked = false;
+    private String roomName = "musicList";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
+        Intent intent = getIntent();
+        roomName = intent.getStringExtra(ChooseRoomFragment.ROOMNAMEKEY);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment masterPlaylistFragment = new MasterPlaylistFragment();
+
+        Bundle setArgumentsBundle = new Bundle();
+        setArgumentsBundle.putString(ROOMNAMEKEY, roomName);
+        masterPlaylistFragment.setArguments(setArgumentsBundle);
         fragmentTransaction
-                .replace(R.id.playlist_maincontent_frame, new MasterPlaylistFragment())
+                .replace(R.id.playlist_maincontent_frame, masterPlaylistFragment)
                 .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
                 .commit();
 
@@ -71,7 +84,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     @Override
     public void onStart() {
-          super.onStart();
+        super.onStart();
         setBottomPanelHeight();
     }
 

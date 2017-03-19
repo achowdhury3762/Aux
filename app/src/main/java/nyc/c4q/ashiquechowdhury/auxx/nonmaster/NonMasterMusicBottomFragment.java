@@ -17,10 +17,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
 public class NonMasterMusicBottomFragment extends Fragment implements View.OnClickListener, TrackListener {
     private FrameLayout upVoteButton;
-    private FrameLayout playButton;
-    private FrameLayout pauseButton;
     private FrameLayout downVoteButton;
-    private SpotifyUtil spotify;
     private TextView currentTrackInfoTextView;
 
     @Nullable
@@ -28,11 +25,7 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_master_musicplayer, container, false);
 
-        spotify = SpotifyUtil.getInstance();
-
         upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
-        playButton = (FrameLayout) view.findViewById(R.id.playbutton);
-        pauseButton = (FrameLayout) view.findViewById(R.id.pausebutton);
         downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
         currentTrackInfoTextView = (TextView) view.findViewById(R.id.current_playing_song_textview);
         currentTrackInfoTextView.setSelected(true);

@@ -7,4 +7,6 @@
     <string name="sign_in_button_text">      Sign In      </string>
     <string name="ask_user_end">This will End Playlist! Are you sure you can deal with that?</string>
     <string name="warning">Warning!</string>
+    <string name="create_room_prompt">Create a room and start your jam</string>
+    <string name="join_room_prompt">Which room would you like to join?</string>
 </resources>

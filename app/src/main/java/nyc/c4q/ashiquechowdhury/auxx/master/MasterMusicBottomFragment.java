@@ -128,14 +128,10 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 .setMessage("Are you sure you're ready to Jam?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        playButton.setVisibility(View.GONE);
-//                        pauseButton.setVisibility(View.VISIBLE);
                         spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
                         SongListHelper.setCurrentlyPlayingSong(song);
                         SpotifyUtil.getInstance().getTracklistener().updateCurrentlyPlayingText(SongListHelper.formatPlayerInfo(song));
                         isPlaylistPlaying = true;
-
-
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
