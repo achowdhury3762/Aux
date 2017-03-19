@@ -33,6 +33,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class NonMasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
@@ -52,11 +53,15 @@ public class NonMasterPlaylistFragment extends Fragment implements
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+        songList.clear();
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String firebaseKey = dataSnapshot.getKey();
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.add(myTrack);
+                songList.add(myTrack);
+                myTrack.setFirebaseKey(firebaseKey);
             }
 
             @Override
