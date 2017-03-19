@@ -185,12 +185,9 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
             public void onResponse(Call<ArtistInfo> call, Response<ArtistInfo> response) {
                 ArtistInfo artistInfo = response.body();
 
-                Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
-
                 if(artistInfo.getImages() != null && !(artistInfo.getImages().isEmpty())){
                     String imgUrl = artistInfo.getImages().get(0).getUrl();
                     addArtistImgUrl(imgUrl, track);
-
                 }
             }
 
@@ -205,6 +202,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     @Override
     public void addArtistImgUrl(String artistImgUrl, PlaylistTrack track) {
         track.setArtistPictureUrl(artistImgUrl);
+        artistPictureIV.setVisibility(View.VISIBLE);
         Glide.with(getContext()).load(track.getArtistPictureUrl()).into(artistPictureIV);
     }
 }

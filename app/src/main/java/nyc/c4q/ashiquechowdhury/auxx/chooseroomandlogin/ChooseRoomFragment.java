@@ -40,7 +40,7 @@ public class ChooseRoomFragment extends Fragment {
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
         CardView viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
         SingleLineTextView singleLineTV = (SingleLineTextView) view.findViewById(R.id.aux_custom_tv);
-        final Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
+        Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
         singleLineTV.setTypeface(skinnyMarkerFont);
 
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
