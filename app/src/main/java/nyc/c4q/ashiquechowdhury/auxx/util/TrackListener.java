@@ -7,4 +7,9 @@ package nyc.c4q.ashiquechowdhury.auxx.util;
 public interface TrackListener {
 
     void updateCurrentlyPlayingText(String trackName);
+
+    void changeToPlayButton();
+
+    void changeToPauseButton();
+
 }

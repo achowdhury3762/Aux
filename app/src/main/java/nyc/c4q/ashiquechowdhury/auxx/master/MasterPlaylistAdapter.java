@@ -1,7 +1,5 @@
-package nyc.c4q.ashiquechowdhury.auxx;
+package nyc.c4q.ashiquechowdhury.auxx.master;
 
-import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,19 +19,23 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
+import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> implements RowClickedListener{
+public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAdapter.PlaylistViewHolder>{
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private List<PlaylistTrack> trackList;
-    Context context;
     private InfoSlideListener infoSlideListener;
 
-    public PlaylistAdapter(Context context, InfoSlideListener infoSlideListener) {
+    public MasterPlaylistAdapter(InfoSlideListener infoSlideListener) {
         this.trackList = new ArrayList<>();
-        this.context = context;
         this.infoSlideListener = infoSlideListener;
+    }
+
+    public List<PlaylistTrack> getSongList(){
+        return trackList;
     }
 
     @Override
@@ -78,12 +80,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         this.trackList = data;
     }
 
-    public void showDialog(Context context, PlaylistTrack track){
-        android.app.FragmentManager fm = ((Activity) context).getFragmentManager();
-        PlaylistItemDialogFragment dialog = PlaylistItemDialogFragment.newInstance(track);
-        dialog.show(fm, "fragment_edit_name" );
-    }
-
     public void add(PlaylistTrack myTrack) {
         trackList.add(myTrack);
         notifyItemInserted(trackList.size() - 1);
@@ -91,7 +87,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     public void rowClicked(PlaylistTrack track) {
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(SearchFragment.MUSIC_LIST);
+        reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
         Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
         removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -103,15 +99,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
-    public void removeTrackWithAlbumName(String trackName) {
+    public void removeTrackWithURI(String trackURI) {
         int albumposition = 0;
         for(int i=0; i < trackList.size(); i++){
-            if(trackList.get(i).getTrackName().equals(trackName)){
+            if(trackList.get(i).getTrackUri().equals(trackURI)){
                 albumposition = i;
             }
         }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
@@ -15,15 +16,21 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
+
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
+import nyc.c4q.ashiquechowdhury.auxx.util.ConvertTrackUrl;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
+import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
 public class PlaylistActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener, TrackListener {
 
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
@@ -34,18 +41,16 @@ public class PlaylistActivity extends AppCompatActivity implements
     private final String CHOSEN_TRACK_KEY = "chosen track";
     public static boolean isSongClicked = false;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_container);
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
-                .replace(R.id.playlist_maincontent_frame, new PlaylistFragment())
-                .replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment())
+                .replace(R.id.playlist_maincontent_frame, new MasterPlaylistFragment())
+                .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
                 .commit();
 
         slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
@@ -59,7 +64,7 @@ public class PlaylistActivity extends AppCompatActivity implements
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicPlayerControlsFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment()).commit();
                     isSongClicked = false;
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
@@ -71,7 +76,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     @Override
     public void onStart() {
-        super.onStart();
+          super.onStart();
         setBottomPanelHeight();
     }
 
@@ -157,7 +162,18 @@ public class PlaylistActivity extends AppCompatActivity implements
         currentSongInfoFragment.setArguments(bundle);
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
+    }
 
+    @Override
+    public void updateCurrentlyPlayingText(String trackName) {
+    }
+
+    @Override
+    public void changeToPlayButton() {
+    }
+
+    @Override
+    public void changeToPauseButton() {
     }
 
 }

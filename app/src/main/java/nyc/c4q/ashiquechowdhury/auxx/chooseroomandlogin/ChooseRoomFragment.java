@@ -16,8 +16,6 @@ import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
 
 public class ChooseRoomFragment extends Fragment {
-//    private ImageView imgLogo;
-
 
     @Nullable
     @Override
@@ -31,10 +29,6 @@ public class ChooseRoomFragment extends Fragment {
 
 //        listener = (ToolBarListener) getActivity();
 //        listener.changeToolBarName("ThisWorks");
-
-//        imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
-
-//        Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
 
         CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
@@ -54,6 +48,7 @@ public class ChooseRoomFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), PlaylistActivity.class));
+
             }
         });
 
