@@ -4,9 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
@@ -15,6 +23,9 @@ public class SongListHelper {
     public static int trackCounter = 0;
     public static boolean isSongPlaying = false;
     public static boolean isPlaylistPlaying = false;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
 
     public static List<PlaylistTrack> songList = new ArrayList<>();
 
@@ -129,6 +140,38 @@ public class SongListHelper {
         sb.append(" ");
         sb.append(track.getTrackName());
         return sb.toString();
+    }
+
+    public void checkVeto(){
+        if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
+        }
+        else {
+            int tempTrackCounter = trackCounter + 1;
+            PlaylistTrack track = SongListHelper.getSongList().get(tempTrackCounter);
+            if(track.getVetos() < 3){
+                playNextTrack();
+            }
+            else{
+                removeSongAfterVeto(track);
+                database = FirebaseDatabase.getInstance();
+                reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+                Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+                removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                            appleSnapshot.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                playNextTrack();
+            }
+        }
     }
 
 }
