@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.spotify.sdk.android.player.Player;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
@@ -111,8 +112,7 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 break;
 
             case R.id.downvotebutton:
-                SongListHelper.removeSongAfterVeto(SongListHelper.getCurrentlyPlayingSong());
-                Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();
+                Toasty.error(getContext(), "You Vetoed This Song.", Toast.LENGTH_SHORT, true).show();
                 break;
         }
     }

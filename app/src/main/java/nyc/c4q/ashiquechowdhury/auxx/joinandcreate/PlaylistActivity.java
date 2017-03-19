@@ -160,6 +160,11 @@ public class PlaylistActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void slidePanelDownWithInfo(){
+        slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+    @Override
     public void onBackPressed() {
         if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);

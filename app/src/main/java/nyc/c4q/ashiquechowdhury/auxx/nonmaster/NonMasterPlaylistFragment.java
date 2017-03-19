@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,15 +25,18 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
+import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class NonMasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
@@ -52,11 +56,15 @@ public class NonMasterPlaylistFragment extends Fragment implements
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+        songList.clear();
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String firebaseKey = dataSnapshot.getKey();
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.add(myTrack);
+                songList.add(myTrack);
+                myTrack.setFirebaseKey(firebaseKey);
             }
 
             @Override
@@ -68,6 +76,10 @@ public class NonMasterPlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
+                InfoSlideListener info = (InfoSlideListener) getActivity();
+                info.slidePanelDownWithInfo();
+                SongListHelper.removeSongAfterVeto(myTrack);
+                Toasty.error(getContext(), myTrack.getTrackName() + " was deleted", Toast.LENGTH_SHORT, true).show();
             }
 
             @Override
@@ -200,5 +212,11 @@ public class NonMasterPlaylistFragment extends Fragment implements
     @Override
     public void updatePlaylistUI() {
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        reference.removeEventListener(childListener);
     }
 }
