@@ -125,8 +125,7 @@ public class SpotifyUtil implements
         Log.d(getClass().getName(), "Playback event received: " + playerEvent.name());
         switch (playerEvent) {
             case kSpPlaybackNotifyAudioDeliveryDone:
-                SongListHelper songListHelper = new SongListHelper();
-                songListHelper.checkVeto();
+                SongListHelper.playNextTrack();
                 break;
             case kSpPlaybackNotifyPlay:
                 tracklistener.changeToPauseButton();
