@@ -33,7 +33,8 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="36dp"
             android:layout_marginEnd="36dp"
-            android:elevation="11dp"/>
+            android:elevation="11dp"
+            android:visibility="invisible"/>
         <LinearLayout
             android:paddingTop="5dp"
             android:background="#99333333"

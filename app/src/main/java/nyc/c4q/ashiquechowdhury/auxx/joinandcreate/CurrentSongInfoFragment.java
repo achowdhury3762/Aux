@@ -77,7 +77,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         if(bundle != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
-            getArtisttImgUrlRetrofitTest(track);
+            getArtisttImgUrlRetrofit(track);
             Log.d("DEBUG", track.getArtistId());
             songNameTv.setText(track.getTrackName());
             artistNameTv.setText(track.getArtistName());
@@ -171,9 +171,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     }
 
 
-    private void getArtisttImgUrlRetrofitTest(final PlaylistTrack track){
-
-
+    private void getArtisttImgUrlRetrofit(final PlaylistTrack track){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -189,14 +187,10 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
                 Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
 
-                if(artistInfo != null){
+                if(artistInfo.getImages() != null && !(artistInfo.getImages().isEmpty())){
                     String imgUrl = artistInfo.getImages().get(0).getUrl();
                     addArtistImgUrl(imgUrl, track);
 
-                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
-                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
-                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
-                    Log.e("DEBUGGGG", "WHY ISNT THE IMAGECHANGING!?!?");
                 }
             }
 
@@ -206,27 +200,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
             }
         });
     }
-
-
-
-//    private void getArtisttImgUrlRetrofit(final String artistID, final PlaylistTrack track){
-//        Call<ArtistInfo> artistInfoRequest = spotifyService.getArtistInfo(artistID);
-//        artistInfoRequest.enqueue(new Callback<ArtistInfo>() {
-//            @Override
-//            public void onResponse(Call<ArtistInfo> call, Response<ArtistInfo> response) {
-//                ArtistInfo artistInfo = response.body();
-//                if(artistInfo!=null && !(artistInfo.getImages().isEmpty())){
-//                    String imgUrl = artistInfo.getImages().get(0).getUrl();
-//                    addArtistImgUrl(imgUrl, track);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArtistInfo> call, Throwable t) {
-//                    Log.d(TAG, "bad call");
-//            }
-//        });
-//    }
 
 
     @Override

@@ -28,10 +28,6 @@ public class PlaylistActivity extends AppCompatActivity implements
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
 
-
-
-    private static final String TAG = "DEBUG TOOL";
-
     SlidingUpPanelLayout slidingPanel;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;

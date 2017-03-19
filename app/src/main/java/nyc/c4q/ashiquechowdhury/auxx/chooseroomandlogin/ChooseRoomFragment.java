@@ -1,6 +1,7 @@
 package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,17 +9,15 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
-import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
+import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
 
 public class ChooseRoomFragment extends Fragment {
-    private ImageView imgLogo;
+//    private ImageView imgLogo;
+
 
     @Nullable
     @Override
@@ -33,13 +32,16 @@ public class ChooseRoomFragment extends Fragment {
 //        listener = (ToolBarListener) getActivity();
 //        listener.changeToolBarName("ThisWorks");
 
-        imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
+//        imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
 
-        Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
+//        Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
 
         CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
         CardView viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
+        SingleLineTextView singleLineTV = (SingleLineTextView) view.findViewById(R.id.aux_custom_tv);
+        final Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
+        singleLineTV.setTypeface(skinnyMarkerFont);
 
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override

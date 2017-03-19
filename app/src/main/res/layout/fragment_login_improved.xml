@@ -25,15 +25,20 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"/>
-            <ImageView
-                android:id="@+id/aux_logo"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"/>
+        <nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView
+            android:id="@+id/aux_login_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:text="AUX"
+            android:textColor="@color/colorWhite"
+            android:textSize="55sp"/>
+
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"/>
+
     </LinearLayout>
 
 
@@ -185,7 +190,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#dd4b39"
+                        android:background="@color/colorPrimary"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
                         android:text="@string/sign_in_with_google"

@@ -9,7 +9,9 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
 
-    <color name="granite">#3f3b3b</color>
+
+    <!--<color name="googleRed">#dd4b39"</color>-->
+    <color name="background">#3f3b3b</color>
     <color name="sapphire">#009688</color>
     <color name="gray">#cdcdcd</color>
     <color name="colorGrey">#2e2e2e</color>

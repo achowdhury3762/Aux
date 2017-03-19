@@ -36,9 +36,11 @@ public class SongListHelper {
         } else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
+
             setCurrentlyPlayingSong(track);
             spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
             spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
+
         }
     }
 

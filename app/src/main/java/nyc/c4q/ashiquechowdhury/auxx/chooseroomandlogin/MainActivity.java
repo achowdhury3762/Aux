@@ -19,6 +19,8 @@ import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements SpotifyPlayer.Not
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new LoginFragment()).commit();
-    }
 
+
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
