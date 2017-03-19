@@ -30,6 +30,7 @@ import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
@@ -73,6 +74,9 @@ public class NonMasterPlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
+                InfoSlideListener info = (InfoSlideListener) getActivity();
+                info.slidePanelDownWithInfo();
+                SongListHelper.removeSongAfterVeto(myTrack);
             }
 
             @Override
@@ -205,5 +209,11 @@ public class NonMasterPlaylistFragment extends Fragment implements
     @Override
     public void updatePlaylistUI() {
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        reference.removeEventListener(childListener);
     }
 }

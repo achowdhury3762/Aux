@@ -159,4 +159,9 @@ public class PlaylistActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
     }
 
+    @Override
+    public void slidePanelDownWithInfo(){
+        slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
 }

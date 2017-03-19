@@ -24,9 +24,6 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
@@ -82,6 +79,8 @@ public class MasterPlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
+                InfoSlideListener info = (InfoSlideListener) getActivity();
+                info.slidePanelDownWithInfo();
                 SongListHelper.removeSongAfterVeto(myTrack);
             }
 
