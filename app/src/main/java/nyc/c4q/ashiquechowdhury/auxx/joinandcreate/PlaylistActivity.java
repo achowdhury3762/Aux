@@ -27,6 +27,7 @@ import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 public class PlaylistActivity extends AppCompatActivity implements
@@ -48,6 +49,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
         roomName = intent.getStringExtra(ChooseRoomFragment.ROOMNAMEKEY);
+        SongListHelper.roomName = roomName;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

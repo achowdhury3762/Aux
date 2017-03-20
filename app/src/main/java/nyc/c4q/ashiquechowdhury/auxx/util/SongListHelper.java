@@ -26,6 +26,8 @@ public class SongListHelper {
 
     private static PlaylistTrack currentlyPlayingSong;
 
+    public static String roomName;
+
     static SpotifyUtil spotify = SpotifyUtil.getInstance();
 
     public static List<PlaylistTrack> getSongList() {

@@ -91,6 +91,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 artistNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getArtistName());
                 albumNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getAlbumName());
                 getTracks(SongListHelper.getCurrentlyPlayingSong());
+                roomName = SongListHelper.roomName;
             } else {
                 view = inflater.inflate(R.layout.empty_current_song_layout, container, false);
 
