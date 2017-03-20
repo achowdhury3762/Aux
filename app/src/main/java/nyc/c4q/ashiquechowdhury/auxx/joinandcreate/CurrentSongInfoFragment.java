@@ -215,7 +215,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 //                    SongListHelper.removeSongAfterVeto(foundTrack);
                     database = FirebaseDatabase.getInstance();
                     reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-                    Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+                    Query removedMusicQuery = reference.orderByChild("trackUri").equalTo(track.getTrackUri());
                     removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
