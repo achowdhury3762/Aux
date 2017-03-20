@@ -36,8 +36,8 @@ import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SongTrackClickListener;
-import nyc.c4q.ashiquechowdhury.auxx.model.ArtistListener;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
+import nyc.c4q.ashiquechowdhury.auxx.model.ArtistListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.ArtistResponse;
@@ -57,13 +57,10 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  */
 
 public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener, ArtistListener{
-//=======
-//public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener {
-//>>>>>>> e5cb687a05931a4b360df524e6a83bf4899ada8c
 
 
     private CircleImageView artistPictureIV;
-    public static final String MUSIC_LIST = "MusicList";
+    private String roomName = "musicList";
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private ImageView albumArtWorkIv;
@@ -85,10 +82,15 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         view = inflater.inflate(R.layout.fragment_currentsong_info, container, false);
         initializeViews();
 
+        Bundle getArgumentsBundle = getArguments();
+        if(getArgumentsBundle != null) {
+            roomName = getArgumentsBundle.getString(JoinRoomActivity.ROOMNAMEKEY);
+        }
+
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if(bundle.getSerializable(CHOSEN_TRACK_KEY) != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
@@ -119,6 +121,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 artistNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getArtistName());
                 albumNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getAlbumName());
                 getTracks(SongListHelper.getCurrentlyPlayingSong());
+                roomName = SongListHelper.roomName;
             } else {
                 view = inflater.inflate(R.layout.empty_current_song_layout, container, false);
 
@@ -129,14 +132,13 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.like_button_info_fragment:
-                Toasty.success(v.getContext(), "You liked this Song", Toast.LENGTH_SHORT, true).show();
+                Toasty.success(getActivity().getApplicationContext(), "You Liked This Song", Toast.LENGTH_SHORT, true).show();
                 break;
             case R.id.veto_button_info_fragment:
-                Toasty.error(v.getContext(), "You Vetoed This Song", Toast.LENGTH_SHORT, true).show();
-                DatabaseReference songReference = reference.child(MUSIC_LIST).child(track.getFirebaseKey());
-                addSongReferenceListener(songReference);
+                Toasty.error(getActivity().getApplicationContext(), "You Vetoed This Song", Toast.LENGTH_SHORT, true).show();
+                DatabaseReference songReference = reference.child(roomName).child(track.getFirebaseKey());
                 userVetoSong(songReference);
                 break;
         }
@@ -198,7 +200,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     @Override
     public void songClicked(Track track) {
         PlaylistTrack myTrack = SongListHelper.transformAndAdd(track);
-        reference.child(MUSIC_LIST).push().setValue(myTrack);
+        reference.child(roomName).push().setValue(myTrack);
     }
 
 
@@ -250,52 +252,52 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     }
 
-    private void addSongReferenceListener(DatabaseReference songReference) {
-        songReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                PlaylistTrack track = dataSnapshot.getValue(PlaylistTrack.class);
-                PlaylistTrack foundTrack = null;
-                for (PlaylistTrack playlistTrack : SongListHelper.getSongList()) {
-                        if (playlistTrack.getTrackUri().equals(track.getTrackUri())) {
-                            playlistTrack.setVetos(track.getVetos() + 1);
-                            Log.d(String.valueOf(playlistTrack.getVetos()), "number of Vetos");
-                            Log.d(String.valueOf(track.getVetos()), "number of firebase Vetos");
-                            foundTrack = playlistTrack;
-                            break;
-                    }
-                }
-                if (foundTrack.getVetos() >= 3 ) {
-                    vetoButton.setClickable(false);
-//                    SongListHelper.removeSongAfterVeto(foundTrack);
-                    database = FirebaseDatabase.getInstance();
-                    reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-                    Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
-                    removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-                                vetoButton.setClickable(false);
-                                appleSnapshot.getRef().removeValue();
-                                InfoSlideListener infoSlide = (InfoSlideListener) getActivity();
-                                infoSlide.slidePanelDownWithInfo();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+//    private void addSongReferenceListener(DatabaseReference songReference) {
+//        songReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                PlaylistTrack track = dataSnapshot.getValue(PlaylistTrack.class);
+//                PlaylistTrack foundTrack = null;
+//                for (PlaylistTrack playlistTrack : SongListHelper.getSongList()) {
+//                        if (playlistTrack.getTrackUri().equals(track.getTrackUri())) {
+//                            playlistTrack.setVetos(track.getVetos() + 1);
+//                            Log.d(String.valueOf(playlistTrack.getVetos()), "number of Vetos");
+//                            Log.d(String.valueOf(track.getVetos()), "number of firebase Vetos");
+//                            foundTrack = playlistTrack;
+//                            break;
+//                    }
+//                }
+//                if (foundTrack.getVetos() >= 3 ) {
+//                    vetoButton.setClickable(false);
+////                    SongListHelper.removeSongAfterVeto(foundTrack);
+//                    database = FirebaseDatabase.getInstance();
+//                    reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+//                    Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+//                    removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+//                                vetoButton.setClickable(false);
+//                                appleSnapshot.getRef().removeValue();
+//                                InfoSlideListener infoSlide = (InfoSlideListener) getActivity();
+//                                infoSlide.slidePanelDownWithInfo();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
+//            }
+//
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
 
 
     @Override

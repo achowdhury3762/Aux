@@ -101,6 +101,7 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                     spotify.spotifyPlayer.resume((Player.OperationCallback) getActivity());
                     playButton.setVisibility(View.GONE);
                     pauseButton.setVisibility(View.VISIBLE);
+
                 }
 
                 break;
@@ -111,7 +112,7 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 break;
 
             case R.id.downvotebutton:
-                Toasty.error(getContext(), "You vetoed this song.", Toast.LENGTH_SHORT, true).show();
+                Toasty.error(getContext(), "You Vetoed This Song.", Toast.LENGTH_SHORT, true).show();
                 break;
         }
     }
@@ -127,14 +128,10 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
                 .setMessage("Are you sure you're ready to Jam?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        playButton.setVisibility(View.GONE);
-//                        pauseButton.setVisibility(View.VISIBLE);
                         spotify.spotifyPlayer.playUri(null, song.getTrackUri(), 0, 0);
                         SongListHelper.setCurrentlyPlayingSong(song);
                         SpotifyUtil.getInstance().getTracklistener().updateCurrentlyPlayingText(SongListHelper.formatPlayerInfo(song));
                         isPlaylistPlaying = true;
-
-
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

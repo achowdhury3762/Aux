@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,9 +28,11 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
     private List<PlaylistTrack> trackList;
     private InfoSlideListener infoSlideListener;
 
-    public MasterPlaylistAdapter(InfoSlideListener infoSlideListener) {
+    public MasterPlaylistAdapter(InfoSlideListener infoSlideListener, String roomName) {
         this.trackList = new ArrayList<>();
         this.infoSlideListener = infoSlideListener;
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child(roomName);
     }
 
     public List<PlaylistTrack> getSongList(){
@@ -86,9 +87,7 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
     }
 
     public void rowClicked(PlaylistTrack track) {
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-        Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+        Query removedMusicQuery = reference.orderByChild("trackUri").equalTo(track.getTrackUri());
         removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -122,7 +121,6 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
         private ImageView albumArt;
         private TextView artistName;
         private TextView songName;
-        private ImageButton moreInfoButton;
 
         public PlaylistViewHolder(View itemView) {
             super(itemView);

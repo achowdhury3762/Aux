@@ -26,6 +26,7 @@ import java.util.List;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SearchAdapter;
 import nyc.c4q.ashiquechowdhury.auxx.SongClickListener;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.model.Example;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
@@ -40,7 +41,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.ContentValues.TAG;
 
 public class MasterSearchFragment extends Fragment implements SongClickListener {
-    public static final String MUSIC_LIST = "MusicList";
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private long lastChange = 0;
@@ -49,6 +49,7 @@ public class MasterSearchFragment extends Fragment implements SongClickListener 
     private EditText editText;
     private ImageButton backSearchButton;
     private LinearLayout emptyLayout;
+    private String roomName = "musicList";
 
     @Nullable
     @Override
@@ -62,7 +63,13 @@ public class MasterSearchFragment extends Fragment implements SongClickListener 
         super.onViewCreated(view, savedInstanceState);
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference();
+
+        Bundle arguments = getArguments();
+        if(arguments != null) {
+            roomName = getArguments().getString(PlaylistActivity.ROOMNAMEKEY);
+        }
+
+        reference = database.getReference().child(roomName);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.search_recycler_fragment);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_recyclerview_layout);
@@ -162,6 +169,6 @@ public class MasterSearchFragment extends Fragment implements SongClickListener 
     @Override
     public void songClicked(Item item) {
         PlaylistTrack myTrack = SongListHelper.transformAndAdd(item);
-        reference.child(MUSIC_LIST).push().setValue(myTrack);
+        reference.push().setValue(myTrack);
     }
 }
