@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +60,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
 
     private CircleImageView artistPictureIV;
-
     public static final String MUSIC_LIST = "MusicList";
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -85,15 +87,27 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         Bundle bundle = getArguments();
         if (bundle != null) {
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
-            Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
-            getArtisttImgUrlRetrofit(track);
+            Glide.with(getContext()).load(track.getAlbumArt()).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    getTracks(track);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    getTracks(track);
+                    getArtisttImgUrlRetrofit(track);
+                    return false;
+                }
+            }).into(albumArtWorkIv);
             Log.d("DEBUG", track.getArtistId());
             songNameTv.setText(track.getTrackName());
             artistNameTv.setText(track.getArtistName());
             albumNameTv.setText(track.getAlbumName());
 
 
-            getTracks(track);
+//            getTracks(track);
         } else {
             if (SongListHelper.getCurrentlyPlayingSong() != null) {
                 track = SongListHelper.getCurrentlyPlayingSong();
@@ -173,7 +187,8 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     void findTracks(List<Track> tracklist) {
         artistAdapter = new ArtistAdapter(tracklist, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(artistAdapter);
     }
 
@@ -239,17 +254,15 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 PlaylistTrack track = dataSnapshot.getValue(PlaylistTrack.class);
                 PlaylistTrack foundTrack = null;
                 for (PlaylistTrack playlistTrack : SongListHelper.getSongList()) {
-                    if (playlistTrack != null) {
                         if (playlistTrack.getTrackUri().equals(track.getTrackUri())) {
                             playlistTrack.setVetos(track.getVetos() + 1);
                             Log.d(String.valueOf(playlistTrack.getVetos()), "number of Vetos");
                             Log.d(String.valueOf(track.getVetos()), "number of firebase Vetos");
                             foundTrack = playlistTrack;
                             break;
-                        }
                     }
                 }
-                if (foundTrack!= null && foundTrack.getVetos() >= 3 ) {
+                if (foundTrack.getVetos() >= 3 ) {
                     vetoButton.setClickable(false);
 //                    SongListHelper.removeSongAfterVeto(foundTrack);
                     database = FirebaseDatabase.getInstance();
@@ -284,9 +297,10 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void addArtistImgUrl(String artistImgUrl, PlaylistTrack track) {
-        track.setArtistPictureUrl(artistImgUrl);
-        artistPictureIV.setVisibility(View.VISIBLE);
-        Glide.with(getContext()).load(track.getArtistPictureUrl()).into(artistPictureIV);
+        if (getContext() != null) {
+            track.setArtistPictureUrl(artistImgUrl);
+            artistPictureIV.setVisibility(View.VISIBLE);
+            Glide.with(getContext()).load(track.getArtistPictureUrl()).into(artistPictureIV);
+        }
     }
-
 }

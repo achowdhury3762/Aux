@@ -3,30 +3,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:layout_weight="1"
+    android:background="@color/colorGrey"
+    android:weightSum="10"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight=".5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="6.5"
         android:weightSum="7">
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"/>
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"/>
 
+        <ImageView
+            android:id="@+id/album_art_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:adjustViewBounds="true"/>
 
     </LinearLayout>
 
@@ -34,23 +31,27 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".5"/>
+
     <TextView
         android:id="@+id/song_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
+        android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/track_list_text_song_name_size" />
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".5"/>
+
     <TextView
         android:id="@+id/artist_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:textAlignment="center"
         android:textColor="@color/gray"
         android:textSize="@dimen/track_list_text_artist_name_size"/>
 
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"/>
 </LinearLayout>
