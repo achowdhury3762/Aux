@@ -43,7 +43,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
-public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener {
+/**
+ * Created by SACC on 3/6/17.
+ */
+
+public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener{
 
     private CircleImageView artistPictureIV;
 
@@ -76,7 +80,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if(bundle != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
             songNameTv.setText(track.getTrackName());
@@ -102,7 +106,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.like_button_info_fragment:
                 Toasty.success(getActivity().getApplicationContext(), "You Liked This Song", Toast.LENGTH_SHORT, true).show();
                 break;

@@ -158,7 +158,6 @@ public class JoinRoomActivity extends AppCompatActivity implements
     @Override
     public void slidePanelWithInfo(PlaylistTrack track) {
         isSongClicked = true;
-
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHOSEN_TRACK_KEY, track);
         bundle.putString(ROOMNAMEKEY, roomName);
@@ -166,8 +165,8 @@ public class JoinRoomActivity extends AppCompatActivity implements
         CurrentSongInfoFragment currentSongInfoFragment = new CurrentSongInfoFragment();
         currentSongInfoFragment.setArguments(bundle);
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
+
     }
 
     @Override

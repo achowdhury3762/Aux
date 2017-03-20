@@ -90,7 +90,7 @@ public class MasterMusicBottomFragment extends Fragment implements View.OnClickL
         }
         switch (view.getId()) {
             case R.id.upvotebutton:
-                Toast.makeText(getContext(), "This song is great!", Toast.LENGTH_SHORT).show();
+                Toasty.success(getContext(), "You liked this song", Toast.LENGTH_SHORT, true).show();
                 break;
 
             case R.id.playbutton:

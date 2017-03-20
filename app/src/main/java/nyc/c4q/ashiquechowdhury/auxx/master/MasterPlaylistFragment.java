@@ -243,7 +243,5 @@ public class MasterPlaylistFragment extends Fragment implements
     public void onDestroy(){
         super.onDestroy();
         reference.removeEventListener(childListener);
-
-
     }
 }
