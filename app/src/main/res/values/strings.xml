@@ -10,6 +10,7 @@
     <string name="password_signup_hint">Password</string>
     <string name="ask_user_end">This will End Playlist! Are you sure you can deal with that?</string>
     <string name="warning">Warning!</string>
-    <string name="create_room_prompt">Create a room and start your jam</string>
-    <string name="join_room_prompt">Which room would you like to join?</string>
+    <string name="aux">AUX</string>
+    <string name="create_room_prompt">Create a Room And Start Your Jam!</string>
+    <string name="join_room_prompt">Enter a Room To Join</string>
 </resources>
