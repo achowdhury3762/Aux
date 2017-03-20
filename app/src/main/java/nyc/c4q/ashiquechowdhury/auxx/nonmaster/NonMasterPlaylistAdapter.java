@@ -27,9 +27,11 @@ public class NonMasterPlaylistAdapter extends RecyclerView.Adapter<NonMasterPlay
     private InfoSlideListener infoSlideListener;
 
 
-    public NonMasterPlaylistAdapter(InfoSlideListener infoSlideListener){
+    public NonMasterPlaylistAdapter(InfoSlideListener infoSlideListener, String roomName){
         trackList = new ArrayList<>();
         this.infoSlideListener = infoSlideListener;
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child(roomName);
     }
 
     @Override
@@ -86,8 +88,8 @@ public class NonMasterPlaylistAdapter extends RecyclerView.Adapter<NonMasterPlay
 
     public void rowClicked(PlaylistTrack track) {
         database = FirebaseDatabase.getInstance();
-//        reference = database.getReference().child();
-        Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+
+        Query removedMusicQuery = reference.orderByChild("trackUri").equalTo(track.getTrackUri());
         removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

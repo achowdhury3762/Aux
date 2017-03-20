@@ -72,7 +72,11 @@ public class JoinRoomActivity extends AppCompatActivity implements
                     isSongClicked = false;
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new CurrentSongInfoFragment()).commit();
+                    CurrentSongInfoFragment currentInfoFragment = new CurrentSongInfoFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString(ROOMNAMEKEY, roomName);
+                    currentInfoFragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentInfoFragment).commit();
                 }
             }
         });
@@ -154,12 +158,30 @@ public class JoinRoomActivity extends AppCompatActivity implements
     @Override
     public void slidePanelWithInfo(PlaylistTrack track) {
         isSongClicked = true;
+
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHOSEN_TRACK_KEY, track);
+        bundle.putString(ROOMNAMEKEY, roomName);
+
         CurrentSongInfoFragment currentSongInfoFragment = new CurrentSongInfoFragment();
         currentSongInfoFragment.setArguments(bundle);
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-        getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
+    }
+
+    @Override
+    public void slidePanelDownWithInfo() {
+        slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

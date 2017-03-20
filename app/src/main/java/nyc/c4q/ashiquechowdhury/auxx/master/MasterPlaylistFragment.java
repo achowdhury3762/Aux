@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +26,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
@@ -72,24 +74,32 @@ public class MasterPlaylistFragment extends Fragment implements
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(! (dataSnapshot.getValue() instanceof String)){
+                if(! (dataSnapshot.getValue() instanceof String)) {
                     PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                     myAdapter.add(myTrack);
                     songList.add(myTrack);
+                    String firebaseKey = dataSnapshot.getKey();
+                    myTrack.setFirebaseKey(firebaseKey);
                     Log.d(SongListHelper.getSongList().size() + " " + "size", "onChildAdded");
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                if(myTrack.getVetos() >= 3) {
 
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
+                InfoSlideListener info = (InfoSlideListener) getActivity();
+                info.slidePanelDownWithInfo();
                 SongListHelper.removeSongAfterVeto(myTrack);
+                Toasty.error(getContext(), myTrack.getTrackName() + " was deleted", Toast.LENGTH_SHORT, true).show();
             }
 
             @Override

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +26,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
@@ -32,6 +34,7 @@ import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
+import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
@@ -64,21 +67,30 @@ public class NonMasterPlaylistFragment extends Fragment implements
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(!(dataSnapshot.getValue() instanceof String)){
+                if (!(dataSnapshot.getValue() instanceof String)) {
                     PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                     myAdapter.add(myTrack);
+                    String firebaseKey = dataSnapshot.getKey();
+                    myTrack.setFirebaseKey(firebaseKey);
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                if(myTrack.getVetos() >= 3) {
+                    myAdapter.rowClicked(myTrack);
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
+                InfoSlideListener info = (InfoSlideListener) getActivity();
+                info.slidePanelDownWithInfo();
+                SongListHelper.removeSongAfterVeto(myTrack);
+                Toasty.error(getContext(), myTrack.getTrackName() + " was deleted", Toast.LENGTH_SHORT, true).show();
             }
 
             @Override
@@ -92,7 +104,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
             }
         };
 
-        myAdapter = new NonMasterPlaylistAdapter((InfoSlideListener) getActivity());
+        myAdapter = new NonMasterPlaylistAdapter((InfoSlideListener) getActivity(), roomName);
         reference.addChildEventListener(childListener);
     }
 
@@ -223,5 +235,6 @@ public class NonMasterPlaylistFragment extends Fragment implements
     @Override
     public void onDestroy(){
         super.onDestroy();
+        reference.removeEventListener(childListener);
     }
 }

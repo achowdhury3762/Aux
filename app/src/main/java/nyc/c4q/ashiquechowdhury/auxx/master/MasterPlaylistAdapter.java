@@ -80,7 +80,7 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
     }
 
     public void rowClicked(PlaylistTrack track) {
-        Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+        Query removedMusicQuery = reference.orderByChild("trackUri").equalTo(track.getTrackUri());
         removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
