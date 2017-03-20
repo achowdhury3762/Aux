@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:fontFamily="sans-serif"
-            android:hint="@string/username_hint"
+            android:hint="@string/username_signin_hint"
             android:imeOptions="actionNext"
             android:inputType="textAutoCorrect|textCapSentences"
             android:maxLines="1"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:fontFamily="sans-serif"
-            android:hint="@string/password_hint"
+            android:hint="@string/password_signin_hint"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -83,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="@string/sign_in_button_text"
+                android:text="@string/signin_button_text"
                 android:textColor="#FFF"
                 android:textSize="@dimen/button_text_size" />
 
@@ -151,7 +151,7 @@
                     android:background="#dd4b39"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="@string/sign_in_with_google"
+                    android:text="@string/signin_with_google"
                     android:textColor="#FFF"
                     android:textSize="@dimen/button_text_size" />
             </LinearLayout>
