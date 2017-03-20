@@ -24,6 +24,7 @@ import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 
 public class JoinRoomActivity extends AppCompatActivity implements
@@ -54,7 +55,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
 
         fragmentTransaction
                 .replace(R.id.playlist_maincontent_frame, nonMasterPlaylistFragment)
-                .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
+                .replace(R.id.playlist_panelcontent_frame, new NonMasterMusicBottomFragment())
                 .commit();
 
         slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
