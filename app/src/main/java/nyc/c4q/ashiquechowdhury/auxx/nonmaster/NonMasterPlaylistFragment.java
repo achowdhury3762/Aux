@@ -1,5 +1,6 @@
 package nyc.c4q.ashiquechowdhury.auxx.nonmaster;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.LoginActivity;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
@@ -116,6 +119,15 @@ public class NonMasterPlaylistFragment extends Fragment implements
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ImageView homeBtn = (ImageView) view.findViewById(R.id.home_btn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +208,6 @@ public class NonMasterPlaylistFragment extends Fragment implements
             default:
                 break;
         }
-
     }
 
     @Override

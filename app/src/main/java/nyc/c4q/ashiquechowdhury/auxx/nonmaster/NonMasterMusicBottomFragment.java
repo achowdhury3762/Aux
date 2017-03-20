@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
@@ -31,20 +32,23 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
         spotify = SpotifyUtil.getInstance();
 
         upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
-        playButton = (FrameLayout) view.findViewById(R.id.playbutton);
         pauseButton = (FrameLayout) view.findViewById(R.id.pausebutton);
+        playButton = (FrameLayout) view.findViewById(R.id.playbutton);
+        playButton.setVisibility(View.GONE);
+
         downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
         currentTrackInfoTextView = (TextView) view.findViewById(R.id.current_playing_song_textview);
         currentTrackInfoTextView.setSelected(true);
         currentTrackInfoTextView.setSingleLine(true);
+
         SpotifyUtil.getInstance().setTracklistener(this);
 
-        if(SongListHelper.getCurrentlyPlayingSong() != null){
+        /*if(SongListHelper.getCurrentlyPlayingSong() != null){
             currentTrackInfoTextView.setText(SongListHelper.formatPlayerInfo(SongListHelper.getCurrentlyPlayingSong()));
         }
         else{
-            currentTrackInfoTextView.setText("Click Play To Start Playlist");
-        }
+            currentTrackInfoTextView.setText("Tap the X to veto the currently playing song.");
+        }*/
         return view;
     }
 
@@ -60,12 +64,12 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.upvotebutton:
-                Toast.makeText(getContext(), "This song is great!", Toast.LENGTH_SHORT).show();
+                Toasty.success(getContext(), "You liked this song.", Toast.LENGTH_SHORT, true).show();
                 break;
 
             case R.id.downvotebutton:
                 SongListHelper.removeSongAfterVeto(SongListHelper.getCurrentlyPlayingSong());
-                Toast.makeText(getContext(), "This song sucks!", Toast.LENGTH_SHORT).show();
+                Toasty.error(getContext(), "You vetoed this song.", Toast.LENGTH_SHORT, true).show();
                 break;
         }
     }

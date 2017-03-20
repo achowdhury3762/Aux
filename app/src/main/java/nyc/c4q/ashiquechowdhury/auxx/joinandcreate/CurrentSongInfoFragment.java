@@ -47,10 +47,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
-/**
- * Created by SACC on 3/6/17.
- */
-
 public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener {
 
     private CircleImageView artistPictureIV;
