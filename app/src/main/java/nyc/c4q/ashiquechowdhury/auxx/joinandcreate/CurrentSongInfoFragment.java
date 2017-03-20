@@ -23,9 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,10 +31,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistAdapter;
-import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.SongTrackClickListener;
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.ArtistListener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.SpotifyService;
@@ -90,7 +86,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         Bundle bundle = getArguments();
-        if(bundle.getSerializable(CHOSEN_TRACK_KEY) != null){
+        if(bundle != null && bundle.getSerializable(CHOSEN_TRACK_KEY) != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).listener(new RequestListener<String, GlideDrawable>() {
                 @Override

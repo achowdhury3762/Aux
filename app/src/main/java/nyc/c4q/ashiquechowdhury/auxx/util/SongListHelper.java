@@ -22,8 +22,6 @@ public class SongListHelper {
     private FirebaseDatabase database;
     private DatabaseReference reference;
 
-
-
     public static List<PlaylistTrack> songList = new ArrayList<>();
 
     private static PlaylistTrack currentlyPlayingSong;
