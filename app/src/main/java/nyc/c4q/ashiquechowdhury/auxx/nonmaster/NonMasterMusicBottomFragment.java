@@ -43,7 +43,7 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
             currentTrackInfoTextView.setText(SongListHelper.formatPlayerInfo(SongListHelper.getCurrentlyPlayingSong()));
         }
         else{
-            currentTrackInfoTextView.setText("Click Play To Start Playlist");
+            currentTrackInfoTextView.setText("Click to Like or Veto Songs");
         }
         return view;
     }

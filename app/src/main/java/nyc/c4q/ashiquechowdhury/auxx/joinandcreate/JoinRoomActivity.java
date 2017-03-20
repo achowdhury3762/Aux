@@ -20,10 +20,10 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.ChooseRoomFragment;
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
+import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 
 public class JoinRoomActivity extends AppCompatActivity implements
@@ -54,7 +54,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
 
         fragmentTransaction
                 .replace(R.id.playlist_maincontent_frame, nonMasterPlaylistFragment)
-                .replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment())
+                .replace(R.id.playlist_panelcontent_frame, new NonMasterMusicBottomFragment())
                 .commit();
 
         slidingPanel = (SlidingUpPanelLayout) findViewById(R.id.activity_searchandchoose_container);
@@ -68,7 +68,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new MasterMusicBottomFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new NonMasterMusicBottomFragment()).commit();
                     isSongClicked = false;
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
