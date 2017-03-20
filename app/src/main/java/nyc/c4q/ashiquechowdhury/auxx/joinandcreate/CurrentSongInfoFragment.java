@@ -57,6 +57,9 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  */
 
 public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener, ArtistListener{
+//=======
+//public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener {
+//>>>>>>> e5cb687a05931a4b360df524e6a83bf4899ada8c
 
 
     private CircleImageView artistPictureIV;
