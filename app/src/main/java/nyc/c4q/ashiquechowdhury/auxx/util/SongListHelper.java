@@ -4,12 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +27,15 @@ public class SongListHelper {
 
     private static PlaylistTrack currentlyPlayingSong;
 
+    public static String roomName;
+
     static SpotifyUtil spotify = SpotifyUtil.getInstance();
 
     public static List<PlaylistTrack> getSongList() {
         return songList;
     }
 
-    public static void setSongList(List<PlaylistTrack> songList){
+    public static void setSongList(List<PlaylistTrack> songList) {
         SongListHelper.songList = songList;
     }
 
@@ -51,8 +49,7 @@ public class SongListHelper {
 
     public static void playNextTrack() {
         if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
-        }
-        else {
+        } else {
             trackCounter++;
             PlaylistTrack track = SongListHelper.getSongList().get(trackCounter);
             setCurrentlyPlayingSong(track);
@@ -89,8 +86,7 @@ public class SongListHelper {
 
         if (item.getAlbum().getImages().isEmpty()) {
             track.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        }
-        else{
+        } else {
             track.setAlbumArt(item.getAlbum().getImages().get(0).getUrl());
         }
 
@@ -107,28 +103,24 @@ public class SongListHelper {
 
         if (track.getAlbum().getImages().isEmpty()) {
             playlistTrack.setAlbumArt("https://www.tunefind.com/i/new/album-art-empty.png");
-        }
-        else{
+        } else {
             playlistTrack.setAlbumArt(track.getAlbum().getImages().get(0).getUrl());
         }
         return playlistTrack;
     }
 
     public static void removeSongAfterVeto(PlaylistTrack track) {
-        if(currentlyPlayingSong!=null && SongListHelper.currentlyPlayingSong.equals(track)){
+        if (currentlyPlayingSong != null && SongListHelper.currentlyPlayingSong.equals(track)) {
             playNextTrack();
             SongListHelper.getSongList().remove(track);
             trackCounter = songList.indexOf(currentlyPlayingSong);
-            Log.d(String.valueOf(trackCounter) + "if",currentlyPlayingSong.getTrackName());
-        }
-        else {
-                SongListHelper.getSongList().remove(track);
-                if(currentlyPlayingSong != null){
-                    trackCounter = songList.indexOf(currentlyPlayingSong);
-                    Log.d(String.valueOf(trackCounter)+ "else",currentlyPlayingSong.getTrackName());
-                }
-
-
+            Log.d(String.valueOf(trackCounter) + "if", currentlyPlayingSong.getTrackName());
+        } else {
+            SongListHelper.getSongList().remove(track);
+            if (currentlyPlayingSong != null) {
+                trackCounter = songList.indexOf(currentlyPlayingSong);
+                Log.d(String.valueOf(trackCounter) + "else", currentlyPlayingSong.getTrackName());
+            }
         }
     }
 
@@ -142,36 +134,36 @@ public class SongListHelper {
         return sb.toString();
     }
 
-    public void checkVeto(){
-        if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
-        }
-        else {
-            int tempTrackCounter = trackCounter + 1;
-            PlaylistTrack track = SongListHelper.getSongList().get(tempTrackCounter);
-            if(track.getVetos() < 3){
-                playNextTrack();
-            }
-            else{
-                removeSongAfterVeto(track);
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-                Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
-                removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                            appleSnapshot.getRef().removeValue();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                playNextTrack();
-            }
-        }
-    }
+//    public void checkVeto() {
+//        if (trackCounter + 1 >= SongListHelper.getSongList().size()) {
+//        }
+//        else {
+//            int tempTrackCounter = trackCounter + 1;
+//            PlaylistTrack track = SongListHelper.getSongList().get(tempTrackCounter);
+//            if(track.getVetos() < 3){
+//                playNextTrack();
+//            }
+//            else{
+//                removeSongAfterVeto(track);
+//                database = FirebaseDatabase.getInstance();
+//                reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
+//                Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
+//                removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+//                            appleSnapshot.getRef().removeValue();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+//                playNextTrack();
+//            }
+//        }
+//}
 
 }

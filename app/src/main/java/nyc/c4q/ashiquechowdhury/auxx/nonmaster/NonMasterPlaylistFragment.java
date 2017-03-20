@@ -13,8 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.LoginActivity;
+import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
@@ -39,11 +41,12 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
-import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
+import static nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity.ROOMNAMEKEY;
 
 public class NonMasterPlaylistFragment extends Fragment implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
 
+    private String roomName = "musicList";
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private ChildEventListener childListener;
@@ -57,22 +60,30 @@ public class NonMasterPlaylistFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle argumentsBundle = getArguments();
+        if(argumentsBundle != null) {
+            roomName = argumentsBundle.getString(JoinRoomActivity.ROOMNAMEKEY);
+        }
+
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-        songList.clear();
+        reference = database.getReference().child(roomName);
         childListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String firebaseKey = dataSnapshot.getKey();
-                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
-                myAdapter.add(myTrack);
-                songList.add(myTrack);
-                myTrack.setFirebaseKey(firebaseKey);
+                if (!(dataSnapshot.getValue() instanceof String)) {
+                    PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                    myAdapter.add(myTrack);
+                    String firebaseKey = dataSnapshot.getKey();
+                    myTrack.setFirebaseKey(firebaseKey);
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                if(myTrack.getVetos() >= 3) {
+                    myAdapter.rowClicked(myTrack);
+                }
             }
 
             @Override
@@ -96,7 +107,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
             }
         };
 
-        myAdapter = new NonMasterPlaylistAdapter((InfoSlideListener) getActivity());
+        myAdapter = new NonMasterPlaylistAdapter((InfoSlideListener) getActivity(), roomName);
         reference.addChildEventListener(childListener);
     }
 
@@ -110,6 +121,9 @@ public class NonMasterPlaylistFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myAdapter);
+
+        TextView actionBar = (TextView) view.findViewById(R.id.toolbar_TV);
+        actionBar.setText(roomName);
 
         ListenerHolder.setArtistSongSelectedListener(this);
         return view;
@@ -134,8 +148,12 @@ public class NonMasterPlaylistFragment extends Fragment implements
             public void onClick(View view) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment masterSearchFragment = new MasterSearchFragment();
+                Bundle putArgumentsBundle = new Bundle();
+                putArgumentsBundle.putString(ROOMNAMEKEY, roomName);
+                masterSearchFragment.setArguments(putArgumentsBundle);
                 fragmentTransaction
-                        .replace(R.id.playlist_maincontent_frame, new MasterSearchFragment())
+                        .replace(R.id.playlist_maincontent_frame, masterSearchFragment)
                         .addToBackStack(FRAGMENT_TAG)
                         .commit();
             }
@@ -208,6 +226,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
             default:
                 break;
         }
+
     }
 
     @Override

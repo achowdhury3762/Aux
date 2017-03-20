@@ -33,20 +33,18 @@ public class NonMasterMusicBottomFragment extends Fragment implements View.OnCli
         upVoteButton = (FrameLayout) view.findViewById(R.id.upvotebutton);
         playButton = (FrameLayout) view.findViewById(R.id.playbutton);
         playButton.setVisibility(View.GONE);
-
         downVoteButton = (FrameLayout) view.findViewById(R.id.downvotebutton);
         currentTrackInfoTextView = (TextView) view.findViewById(R.id.current_playing_song_textview);
         currentTrackInfoTextView.setSelected(true);
         currentTrackInfoTextView.setSingleLine(true);
-
         SpotifyUtil.getInstance().setTracklistener(this);
 
-        /*if(SongListHelper.getCurrentlyPlayingSong() != null){
+        if(SongListHelper.getCurrentlyPlayingSong() != null){
             currentTrackInfoTextView.setText(SongListHelper.formatPlayerInfo(SongListHelper.getCurrentlyPlayingSong()));
         }
         else{
-            currentTrackInfoTextView.setText("Tap the X to veto the currently playing song.");
-        }*/
+            currentTrackInfoTextView.setText("Click Play To Start Playlist");
+        }
         return view;
     }
 
