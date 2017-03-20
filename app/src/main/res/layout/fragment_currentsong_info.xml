@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dp"
         android:background="@color/colorGrey"
-        android:text="More From This Artist: "/>
+        android:text="More From This Artist: "
+        android:textAlignment="center"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/more_from_this_artist_recyclerview"
         android:layout_width="match_parent"
