@@ -80,7 +80,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if(bundle.getSerializable(CHOSEN_TRACK_KEY) != null){
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
             songNameTv.setText(track.getTrackName());
