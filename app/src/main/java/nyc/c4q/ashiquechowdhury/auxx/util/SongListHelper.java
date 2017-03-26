@@ -10,18 +10,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.model.artistModel.Track;
 
 public class SongListHelper {
+
     public static int trackCounter = 0;
     public static boolean isSongPlaying = false;
     public static boolean isPlaylistPlaying = false;
     private FirebaseDatabase database;
     private DatabaseReference reference;
-
 
     public static List<PlaylistTrack> songList = new ArrayList<>();
 
@@ -55,6 +54,7 @@ public class SongListHelper {
             setCurrentlyPlayingSong(track);
             spotify.spotifyPlayer.playUri(null, track.getTrackUri(), 0, 0);
             spotify.getTracklistener().updateCurrentlyPlayingText(formatPlayerInfo(track));
+
             Log.d(String.valueOf(trackCounter) + "next", currentlyPlayingSong.getTrackName());
         }
     }

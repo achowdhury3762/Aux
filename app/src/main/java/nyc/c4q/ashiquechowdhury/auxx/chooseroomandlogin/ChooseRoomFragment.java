@@ -1,6 +1,7 @@
 package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
+import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
+
 import nyc.c4q.ashiquechowdhury.auxx.util.CreateRoomDialog;
 import nyc.c4q.ashiquechowdhury.auxx.util.JoinRoomDialog;
 
@@ -41,13 +44,16 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        imgLogo = (ImageView) view.findViewById(R.id.logo_img_view);
 
-        Glide.with(this).load(R.drawable.aux_txt).into(imgLogo);
+//        listener = (ToolBarListener) getActivity();
+//        listener.changeToolBarName("ThisWorks");
 
         CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
         CardView viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
+        SingleLineTextView singleLineTV = (SingleLineTextView) view.findViewById(R.id.aux_custom_tv);
+        Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
+        singleLineTV.setTypeface(skinnyMarkerFont);
 
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override

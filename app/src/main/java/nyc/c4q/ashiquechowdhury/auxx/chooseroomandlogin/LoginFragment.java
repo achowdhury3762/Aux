@@ -1,5 +1,6 @@
 package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
+import android.graphics.Typeface;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import nyc.c4q.ashiquechowdhury.auxx.R;
+import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
 
 public class LoginFragment extends Fragment implements
         GoogleApiClient.OnConnectionFailedListener {
@@ -96,11 +97,11 @@ public class LoginFragment extends Fragment implements
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ImageView logoIv = (ImageView) view.findViewById(R.id.aux_logo);
-        Glide.with(getContext()).load(R.drawable.lasso4).into(logoIv);
-
         CardView auxSignInButton = (CardView) view.findViewById(R.id.aux_signin_button);
         CardView googleSignInButton = (CardView) view.findViewById(R.id.google_signin_button);
+        SingleLineTextView singleLineTextView = (SingleLineTextView) view.findViewById(R.id.aux_login_tv);
+        Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
+        singleLineTextView.setTypeface(skinnyMarkerFont);
 
         usernameEditText = (EditText) view.findViewById(R.id.username_login_edittext);
         passwordEditText = (EditText) view.findViewById(R.id.password_login_edittext);

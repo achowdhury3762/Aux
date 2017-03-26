@@ -57,6 +57,13 @@ public class MasterPlaylistAdapter extends RecyclerView.Adapter<MasterPlaylistAd
             }
         });
 
+//        holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showDialog(context, trackList.get(holder.getAdapterPosition()));
+//            }
+//        });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

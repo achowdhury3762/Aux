@@ -29,9 +29,10 @@ import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
+import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
 public class PlaylistActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener, TrackListener {
 
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
@@ -176,6 +177,17 @@ public class PlaylistActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void updateCurrentlyPlayingText(String trackName) {
+    }
+
+    @Override
+    public void changeToPlayButton() {
+    }
+
+    @Override
+    public void changeToPauseButton() {
+    }
+
     public void slidePanelDownWithInfo(){
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }

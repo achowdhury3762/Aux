@@ -26,6 +26,7 @@ import static com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE;
 
 public class SpotifyUtil implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
+
     private static final String CLIENT_ID = "a47e94f21a9649c982f39e72920c1754";
     private static final String REDIRECT_URI = "aux://callback";
     private static SpotifyUtil instance;
@@ -126,13 +127,16 @@ public class SpotifyUtil implements
         switch (playerEvent) {
             case kSpPlaybackNotifyAudioDeliveryDone:
                 SongListHelper.playNextTrack();
-                break;
             case kSpPlaybackNotifyPlay:
-                tracklistener.changeToPauseButton();
-                break;
+            tracklistener.changeToPauseButton();
+            break;
             case kSpPlaybackNotifyPause:
-                tracklistener.changeToPlayButton();
-                break;
+            tracklistener.changeToPlayButton();
+            break;
+//            default:
+//                SongListHelper songListHelper = new SongListHelper();
+//                songListHelper.checkVeto();
+//                break;
         }
 
     }

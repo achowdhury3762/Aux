@@ -11,4 +11,5 @@ public interface TrackListener {
     void changeToPlayButton();
 
     void changeToPauseButton();
+
 }
