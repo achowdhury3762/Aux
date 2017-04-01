@@ -188,6 +188,10 @@ public class PlaylistActivity extends AppCompatActivity implements
     public void changeToPauseButton() {
     }
 
+    @Override
+    public void pauseSong() {
+    }
+
     public void slidePanelDownWithInfo(){
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
