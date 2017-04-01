@@ -33,7 +33,7 @@ public class JoinRoomActivity extends AppCompatActivity implements
     private SlidingUpPanelLayout slidingPanel;
     public static boolean isSongClicked = false;
     private final String CHOSEN_TRACK_KEY = "chosen track";
-    String roomName = "musicList";
+    private String roomName = "musicList";
 
 
     @Override

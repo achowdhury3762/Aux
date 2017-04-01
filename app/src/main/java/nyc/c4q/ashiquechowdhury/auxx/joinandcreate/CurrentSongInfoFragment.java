@@ -138,7 +138,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 userVetoSong(songReference);
                 break;
         }
-
     }
 
 
@@ -247,54 +246,6 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         });
 
     }
-
-//    private void addSongReferenceListener(DatabaseReference songReference) {
-//        songReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                PlaylistTrack track = dataSnapshot.getValue(PlaylistTrack.class);
-//                PlaylistTrack foundTrack = null;
-//                for (PlaylistTrack playlistTrack : SongListHelper.getSongList()) {
-//                        if (playlistTrack.getTrackUri().equals(track.getTrackUri())) {
-//                            playlistTrack.setVetos(track.getVetos() + 1);
-//                            Log.d(String.valueOf(playlistTrack.getVetos()), "number of Vetos");
-//                            Log.d(String.valueOf(track.getVetos()), "number of firebase Vetos");
-//                            foundTrack = playlistTrack;
-//                            break;
-//                    }
-//                }
-//                if (foundTrack.getVetos() >= 3 ) {
-//                    vetoButton.setClickable(false);
-////                    SongListHelper.removeSongAfterVeto(foundTrack);
-//                    database = FirebaseDatabase.getInstance();
-//                    reference = database.getReference().child(MasterSearchFragment.MUSIC_LIST);
-//                    Query removedMusicQuery = reference.orderByChild("trackName").equalTo(track.getTrackName());
-//                    removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-//                                vetoButton.setClickable(false);
-//                                appleSnapshot.getRef().removeValue();
-//                                InfoSlideListener infoSlide = (InfoSlideListener) getActivity();
-//                                infoSlide.slidePanelDownWithInfo();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//                }
-//            }
-//
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
-
 
     @Override
     public void addArtistImgUrl(String artistImgUrl, PlaylistTrack track) {
