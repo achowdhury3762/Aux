@@ -9,10 +9,8 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,13 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
-import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
-
 import nyc.c4q.ashiquechowdhury.auxx.util.CreateRoomDialog;
 import nyc.c4q.ashiquechowdhury.auxx.util.JoinRoomDialog;
+import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
 
 public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.SubmitRoomNameListener, JoinRoomDialog.SubmitRoomNameListener {
-    private ImageView imgLogo;
     public static final String ROOMNAMEKEY = "nyc.c4q.ChooseRoomFragment.ROOMNAMEKEY";
     private DatabaseReference reference;
     private FirebaseDatabase database;
@@ -44,10 +40,6 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-//        listener = (ToolBarListener) getActivity();
-//        listener.changeToolBarName("ThisWorks");
-
         CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
         CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
         CardView viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
@@ -114,11 +106,42 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
     }
 
     @Override
+    public void onSubmitRoomName(final String roomNameInput, final String password) {
+        if(password.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
+            return;
+        }
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(roomNameInput).hasChildren()) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    reference.child(roomNameInput).child("password").setValue(password);
+                    Intent intent = new Intent(getActivity(), PlaylistActivity.class);
+                    intent.putExtra(ROOMNAMEKEY, roomNameInput);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
     public void onJoinRoomPrompt(final String roomNameInput) {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(roomNameInput).hasChildren()) {
+                    if(dataSnapshot.child(roomNameInput).child("password").exists()) {
+                        Toast.makeText(getActivity().getApplicationContext(), "This is a private room", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     Intent intent = new Intent(getActivity(), JoinRoomActivity.class);
                     intent.putExtra(ROOMNAMEKEY, roomNameInput);
                     startActivity(intent);
@@ -133,6 +156,32 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
 
             }
         });
+    }
 
+    @Override
+    public void onJoinRoomPrompt(final String roomNameInput, final String passwordInput) {
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(roomNameInput).hasChildren()) {
+                    if(passwordInput.equals(dataSnapshot.child(roomNameInput).child("password").getValue())) {
+                        Intent intent = new Intent(getActivity(), JoinRoomActivity.class);
+                        intent.putExtra(ROOMNAMEKEY, roomNameInput);
+                        startActivity(intent);
+                    }
+                    else
+                        Toast.makeText(getActivity().getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
