@@ -79,7 +79,11 @@ public class PlaylistActivity extends AppCompatActivity implements
                     isSongClicked = false;
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && !isSongClicked) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, new CurrentSongInfoFragment()).commit();
+                    CurrentSongInfoFragment currentInfoFragment = new CurrentSongInfoFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString(ROOMNAMEKEY, roomName);
+                    currentInfoFragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentInfoFragment).commit();
                 }
             }
         });
@@ -193,6 +197,7 @@ public class PlaylistActivity extends AppCompatActivity implements
     }
 
     public void slidePanelDownWithInfo(PlaylistTrack track) {
+        if(currentSongInfoFragment == null) return;
         Bundle bundle = currentSongInfoFragment.getArguments();
         if(bundle != null) {
             PlaylistTrack checkTrack = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);

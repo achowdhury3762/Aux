@@ -23,7 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +54,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Created by SACC on 3/6/17.
  */
 
-public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener, ArtistListener{
+public class CurrentSongInfoFragment extends Fragment implements View.OnClickListener, SongTrackClickListener, ArtistListener {
 
 
     private CircleImageView artistPictureIV;
@@ -79,14 +81,14 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
         initializeViews();
 
         Bundle getArgumentsBundle = getArguments();
-        if(getArgumentsBundle != null) {
+        if (getArgumentsBundle != null) {
             roomName = getArgumentsBundle.getString(JoinRoomActivity.ROOMNAMEKEY);
         }
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         Bundle bundle = getArguments();
-        if(bundle != null && bundle.getSerializable(CHOSEN_TRACK_KEY) != null){
+        if (bundle != null && bundle.getSerializable(CHOSEN_TRACK_KEY) != null) {
             track = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
             Glide.with(getContext()).load(track.getAlbumArt()).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
@@ -116,11 +118,30 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
                 songNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getTrackName());
                 artistNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getArtistName());
                 albumNameTv.setText(SongListHelper.getCurrentlyPlayingSong().getAlbumName());
-                getTracks(SongListHelper.getCurrentlyPlayingSong());
+                getTracks(track);
                 roomName = SongListHelper.roomName;
             } else {
-                view = inflater.inflate(R.layout.empty_current_song_layout, container, false);
+                Query removedMusicQuery = reference.child(roomName).orderByKey().limitToFirst(2);
+                removedMusicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnap : dataSnapshot.getChildren()) {
+                            if(! (dataSnap.getValue() instanceof String)) {
+                                track = dataSnap.getValue(PlaylistTrack.class);
+                                Glide.with(getContext()).load(track.getAlbumArt()).into(albumArtWorkIv);
+                                songNameTv.setText(track.getTrackName());
+                                artistNameTv.setText(track.getArtistName());
+                                albumNameTv.setText(track.getAlbumName());
+                                getTracks(track);
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         }
         return view;
@@ -128,7 +149,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.like_button_info_fragment:
                 Toasty.success(getActivity().getApplicationContext(), "You Liked This Song", Toast.LENGTH_SHORT, true).show();
                 break;
@@ -167,7 +188,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
             public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
                 try {
                     if (response.isSuccessful()) {
-                       findTracks(response.body().getTracks());
+                        findTracks(response.body().getTracks());
 
                     } else {
                         Log.d(TAG, "Error" + response.errorBody().string());
@@ -199,7 +220,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
     }
 
 
-    private void getArtisttImgUrlRetrofit(final PlaylistTrack track){
+    private void getArtisttImgUrlRetrofit(final PlaylistTrack track) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -213,7 +234,7 @@ public class CurrentSongInfoFragment extends Fragment implements View.OnClickLis
             public void onResponse(Call<ArtistInfo> call, Response<ArtistInfo> response) {
                 ArtistInfo artistInfo = response.body();
 
-                if(artistInfo.getImages() != null && !(artistInfo.getImages().isEmpty())){
+                if (artistInfo.getImages() != null && !(artistInfo.getImages().isEmpty())) {
                     String imgUrl = artistInfo.getImages().get(0).getUrl();
                     addArtistImgUrl(imgUrl, track);
                 }
