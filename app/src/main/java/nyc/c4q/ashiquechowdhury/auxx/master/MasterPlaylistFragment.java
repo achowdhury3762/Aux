@@ -96,7 +96,7 @@ public class MasterPlaylistFragment extends Fragment implements
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 InfoSlideListener info = (InfoSlideListener) getActivity();
-                info.slidePanelDownWithInfo();
+                info.slidePanelDownWithInfo(myTrack);
                 SongListHelper.removeSongAfterVeto(myTrack);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
                 Toasty.error(getContext(), myTrack.getTrackName() + " was deleted", Toast.LENGTH_SHORT, true).show();
