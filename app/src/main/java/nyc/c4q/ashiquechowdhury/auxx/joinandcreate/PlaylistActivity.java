@@ -36,7 +36,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
-
+    private CurrentSongInfoFragment currentSongInfoFragment;
     public static final String ROOMNAMEKEY = "nyc.c4q.PlaylistActivity.ROOMNAME";
     private SlidingUpPanelLayout slidingPanel;
     private final String CHOSEN_TRACK_KEY = "chosen track";
@@ -170,7 +170,7 @@ public class PlaylistActivity extends AppCompatActivity implements
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHOSEN_TRACK_KEY, track);
         bundle.putString(JoinRoomActivity.ROOMNAMEKEY, roomName);
-        CurrentSongInfoFragment currentSongInfoFragment = new CurrentSongInfoFragment();
+        currentSongInfoFragment = new CurrentSongInfoFragment();
         currentSongInfoFragment.setArguments(bundle);
         slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         getSupportFragmentManager().beginTransaction().replace(R.id.playlist_panelcontent_frame, currentSongInfoFragment).commit();
@@ -192,8 +192,14 @@ public class PlaylistActivity extends AppCompatActivity implements
     public void pauseSong() {
     }
 
-    public void slidePanelDownWithInfo(){
-        slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    public void slidePanelDownWithInfo(PlaylistTrack track) {
+        Bundle bundle = currentSongInfoFragment.getArguments();
+        if(bundle != null) {
+            PlaylistTrack checkTrack = (PlaylistTrack) bundle.getSerializable(CHOSEN_TRACK_KEY);
+            if(checkTrack.equals(track)){
+                slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        }
     }
 
     @Override
