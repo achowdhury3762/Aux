@@ -27,15 +27,13 @@ import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.ChooseRoomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterPlaylistFragment;
-import nyc.c4q.ashiquechowdhury.auxx.model.Item;
-import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 import nyc.c4q.ashiquechowdhury.auxx.util.TrackListener;
 
 public class PlaylistActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener, TrackListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, InfoSlideListener, TrackListener {
 
     //Todo: Write case to display placeholder view when song isn't playing/currently playing song == null and someone slides up on view
     //Todo: Set currently playing song = null when playlist finishes
@@ -152,16 +150,6 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     @Override
     public void onPlaybackError(Error error) {
-
-    }
-
-    @Override
-    public void playSelectedTrack(String uri) {
-
-    }
-
-    @Override
-    public void queueSelectedTrack(Item item) {
 
     }
 

@@ -29,13 +29,11 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
-import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
-import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
@@ -44,7 +42,7 @@ import static nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity.ROOMN
 import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class MasterPlaylistFragment extends Fragment implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
     private static String roomName = "musicList";
     private FirebaseDatabase database;
@@ -136,15 +134,12 @@ public class MasterPlaylistFragment extends Fragment implements
 
         TextView actionBar = (TextView) view.findViewById(R.id.toolbar_TV);
         actionBar.setText(roomName);
-
-        ListenerHolder.setArtistSongSelectedListener(this);
         return view;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         floatingSearchBtn = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,11 +234,6 @@ public class MasterPlaylistFragment extends Fragment implements
 
     @Override
     public void onError(Error error) {
-
-    }
-
-    @Override
-    public void updatePlaylistUI() {
 
     }
 

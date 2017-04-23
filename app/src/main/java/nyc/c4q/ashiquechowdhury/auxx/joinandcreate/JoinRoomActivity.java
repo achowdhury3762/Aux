@@ -20,14 +20,12 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.ChooseRoomFragment;
-import nyc.c4q.ashiquechowdhury.auxx.model.Item;
-import nyc.c4q.ashiquechowdhury.auxx.model.Listener;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
 import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterMusicBottomFragment;
 import nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment;
 
 public class JoinRoomActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Listener, Player.OperationCallback, InfoSlideListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, InfoSlideListener {
 
     private CurrentSongInfoFragment currentSongInfoFragment;
     public static final String ROOMNAMEKEY = "nyc.c4q.PlaylistActivity.ROOMNAME";
@@ -143,16 +141,6 @@ public class JoinRoomActivity extends AppCompatActivity implements
 
     @Override
     public void onError(Error error) {
-
-    }
-
-    @Override
-    public void playSelectedTrack(String uri) {
-
-    }
-
-    @Override
-    public void queueSelectedTrack(Item item) {
 
     }
 
