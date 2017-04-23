@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:weightSum="100">
 
-
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -24,17 +23,15 @@
             android:layout_weight="4" />
 
 
-
         <nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView
             android:id="@+id/aux_custom_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
-            android:textAlignment="center"
             android:text="@string/aux"
+            android:textAlignment="center"
             android:textColor="@color/colorWhite"
-            android:textSize="55sp"/>
-
+            android:textSize="55sp" />
 
 
         <android.support.v4.widget.Space
@@ -52,41 +49,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:weightSum="6"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        android:weightSum="6">
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/create_room_button"
-                android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/create_room_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="5"
+            android:onClick="onClickCreateRoom"
+            app:cardCornerRadius="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="5"
-                android:onClick="onClickCreateRoom"
-                app:cardCornerRadius="2dp">
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Create Room"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="Create Room"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-medium"/>
-
-            </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
 
     </LinearLayout>
@@ -99,37 +96,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:weightSum="6"
-        android:layout_weight="9">
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"/>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/join_room_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:onClick="onClickJoinRoom"
-                app:cardCornerRadius="2dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorGoldenRod"
-                        android:gravity="center"
-                        android:text="Join Room"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-medium"/>
-            </android.support.v7.widget.CardView>
+        android:layout_weight="9"
+        android:weightSum="6">
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/join_room_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:onClick="onClickJoinRoom"
+            app:cardCornerRadius="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorGoldenRod"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Join Room"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
 
     </LinearLayout>
 
@@ -142,13 +139,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:weightSum="6"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        android:weightSum="6">
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/view_profile_button"
@@ -159,24 +156,24 @@
             android:onClick="onClickProfile"
             app:cardCornerRadius="2dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="View Profile"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-medium"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="View Profile"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
-
-        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
+
 
