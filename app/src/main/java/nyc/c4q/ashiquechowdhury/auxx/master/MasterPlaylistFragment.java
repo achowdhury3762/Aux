@@ -26,6 +26,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.ArrayList;
+
 import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
@@ -69,7 +71,7 @@ public class MasterPlaylistFragment extends Fragment implements
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child(roomName);
 
-        songList.clear();
+        songList = new ArrayList<>();
 
         childListener = new ChildEventListener() {
             @Override
@@ -94,6 +96,12 @@ public class MasterPlaylistFragment extends Fragment implements
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() instanceof String) {
+                    reference.removeEventListener(childListener);
+                    Toast.makeText(getActivity().getApplicationContext(), "Room was Deleted", Toast.LENGTH_LONG).show();
+                    getActivity().finish();
+                    return;
+                }
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 InfoSlideListener info = (InfoSlideListener) getActivity();
                 info.slidePanelDownWithInfo(myTrack);

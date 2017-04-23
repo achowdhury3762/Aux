@@ -1,6 +1,5 @@
 package nyc.c4q.ashiquechowdhury.auxx.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.ashiquechowdhury.auxx.model.Item;
@@ -11,7 +10,7 @@ public class SongListHelper {
 
     public static boolean isSongPlaying = false;
     public static boolean isPlaylistPlaying = false;
-    public static List<PlaylistTrack> songList = new ArrayList<>();
+    public static List<PlaylistTrack> songList;
 
     private static PlaylistTrack currentlyPlayingSong;
 
@@ -36,9 +35,10 @@ public class SongListHelper {
     }
 
     public static void playNextTrack() {
-        if (0 == SongListHelper.getSongList().size()) {
+        if (songList == null || 0 == SongListHelper.getSongList().size()) {
             spotify.getTracklistener().updateCurrentlyPlayingText("No Songs Currently Playing");
             spotify.getTracklistener().pauseSong();
+            currentlyPlayingSong = null;
             isPlaylistPlaying = false;
         } else {
             PlaylistTrack track = SongListHelper.getSongList().get(0);

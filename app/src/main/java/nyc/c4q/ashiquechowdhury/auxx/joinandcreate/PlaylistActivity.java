@@ -1,16 +1,19 @@
 package nyc.c4q.ashiquechowdhury.auxx.joinandcreate;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
@@ -163,12 +166,6 @@ public class PlaylistActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onDestroy() {
-        Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
-        super.onDestroy();
-    }
-
-    @Override
     public void slidePanelWithInfo(PlaylistTrack track) {
         isSongClicked = true;
         Bundle bundle = new Bundle();
@@ -182,6 +179,7 @@ public class PlaylistActivity extends AppCompatActivity implements
 
     @Override
     public void updateCurrentlyPlayingText(String trackName) {
+
     }
 
     @Override
@@ -211,8 +209,35 @@ public class PlaylistActivity extends AppCompatActivity implements
     public void onBackPressed() {
         if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        } else {
-            super.onBackPressed();
         }
+        else {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Exit!");
+            alertDialog.setMessage("Are you sure you want to exit? The room will be deleted.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }
+            );
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            FirebaseDatabase.getInstance().getReference().child(roomName).removeValue();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        SongListHelper.songList = null;
+        SongListHelper.playNextTrack();
+        Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
+        super.onDestroy();
     }
 }

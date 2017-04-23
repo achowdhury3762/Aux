@@ -88,6 +88,11 @@ public class NonMasterPlaylistFragment extends Fragment implements
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() instanceof String) {
+                    reference.removeEventListener(childListener);
+                    getActivity().finish();
+                    return;
+                }
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
                 InfoSlideListener info = (InfoSlideListener) getActivity();
