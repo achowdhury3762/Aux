@@ -1,5 +1,6 @@
 package nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -26,8 +27,12 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SingleLineTextView;
 
 public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.SubmitRoomNameListener, JoinRoomDialog.SubmitRoomNameListener {
     public static final String ROOMNAMEKEY = "nyc.c4q.ChooseRoomFragment.ROOMNAMEKEY";
+    private ProgressDialog progressDialog;
     private DatabaseReference reference;
     private FirebaseDatabase database;
+    private CardView createRoomButton;
+    private CardView joinRoomButton;
+    private CardView viewProfileButton;
 
     @Nullable
     @Override
@@ -35,18 +40,20 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
         View view = inflater.inflate(R.layout.fragment_join_room, container, false);
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
+
+        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("Loading");
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        CardView createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
-        CardView joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
-        CardView viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
+        createRoomButton = (CardView) view.findViewById(R.id.create_room_button);
+        joinRoomButton = (CardView) view.findViewById(R.id.join_room_button);
+        viewProfileButton = (CardView) view.findViewById(R.id.view_profile_button);
         SingleLineTextView singleLineTV = (SingleLineTextView) view.findViewById(R.id.aux_custom_tv);
         Typeface skinnyMarkerFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/skinny_marker.ttf");
         singleLineTV.setTypeface(skinnyMarkerFont);
-
         joinRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +67,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
                 startCreateRoomPrompt();
             }
         });
-
+        createRoomButton.setBackgroundResource(R.color.background);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,105 +90,156 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
 
     @Override
     public void onSubmitRoomName(final String roomNameInput) {
+        if (roomNameInput.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room Name", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+            disableButtonsAndDisplayProgressBar();
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(roomNameInput).hasChildren()) {
+                if (dataSnapshot.child(roomNameInput).hasChildren()) {
                     Toast.makeText(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
-                }
-                else {
+                    enableButtonsAndRemoveProgressBar();
+                } else {
                     reference.child(roomNameInput).push().setValue("First Empty Value");
                     Intent intent = new Intent(getActivity(), PlaylistActivity.class);
                     intent.putExtra(ROOMNAMEKEY, roomNameInput);
                     startActivity(intent);
+                    enableButtonsAndRemoveProgressBar();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                enableButtonsAndRemoveProgressBar();
             }
         });
     }
 
     @Override
     public void onSubmitRoomName(final String roomNameInput, final String password) {
-        if(password.equals("")) {
+        if (password.equals("")) {
             Toast.makeText(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
             return;
         }
+        else if(roomNameInput.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+            disableButtonsAndDisplayProgressBar();
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(roomNameInput).hasChildren()) {
+                if (dataSnapshot.child(roomNameInput).hasChildren()) {
                     Toast.makeText(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
-                }
-                else {
+                    enableButtonsAndRemoveProgressBar();
+                } else {
                     reference.child(roomNameInput).child("password").setValue(password);
                     Intent intent = new Intent(getActivity(), PlaylistActivity.class);
                     intent.putExtra(ROOMNAMEKEY, roomNameInput);
                     startActivity(intent);
+                    enableButtonsAndRemoveProgressBar();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                enableButtonsAndRemoveProgressBar();
             }
         });
     }
 
     @Override
     public void onJoinRoomPrompt(final String roomNameInput) {
+        if(roomNameInput.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+            disableButtonsAndDisplayProgressBar();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(roomNameInput).hasChildren()) {
-                    if(dataSnapshot.child(roomNameInput).child("password").exists()) {
+                if (dataSnapshot.child(roomNameInput).hasChildren()) {
+                    if (dataSnapshot.child(roomNameInput).child("password").exists()) {
                         Toast.makeText(getActivity().getApplicationContext(), "This is a private room", Toast.LENGTH_LONG).show();
+                        enableButtonsAndRemoveProgressBar();
                         return;
                     }
                     Intent intent = new Intent(getActivity(), JoinRoomActivity.class);
                     intent.putExtra(ROOMNAMEKEY, roomNameInput);
                     startActivity(intent);
-                }
-                else {
+                    enableButtonsAndRemoveProgressBar();
+                } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
+                    enableButtonsAndRemoveProgressBar();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                enableButtonsAndRemoveProgressBar();
             }
         });
     }
 
     @Override
     public void onJoinRoomPrompt(final String roomNameInput, final String passwordInput) {
+        if (passwordInput.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
+            enableButtonsAndRemoveProgressBar();
+            return;
+        }
+        else
+            disableButtonsAndDisplayProgressBar();
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(roomNameInput).hasChildren()) {
-                    if(passwordInput.equals(dataSnapshot.child(roomNameInput).child("password").getValue())) {
+                if (dataSnapshot.child(roomNameInput).hasChildren()) {
+                    if (passwordInput.equals(dataSnapshot.child(roomNameInput).child("password").getValue())) {
                         Intent intent = new Intent(getActivity(), JoinRoomActivity.class);
                         intent.putExtra(ROOMNAMEKEY, roomNameInput);
                         startActivity(intent);
-                    }
-                    else
+                        enableButtonsAndRemoveProgressBar();
+                    } else
                         Toast.makeText(getActivity().getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show();
-                }
-                else {
+                    enableButtonsAndRemoveProgressBar();
+                } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
+                    enableButtonsAndRemoveProgressBar();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                enableButtonsAndRemoveProgressBar();
             }
         });
+    }
+
+    private void disableButtonsAndDisplayProgressBar() {
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        createRoomButton.setEnabled(false);
+        joinRoomButton.setEnabled(false);
+        viewProfileButton.setEnabled(false);
+    }
+
+    private void enableButtonsAndRemoveProgressBar() {
+        progressDialog.dismiss();
+        createRoomButton.setEnabled(true);
+        joinRoomButton.setEnabled(true);
+        viewProfileButton.setEnabled(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }
