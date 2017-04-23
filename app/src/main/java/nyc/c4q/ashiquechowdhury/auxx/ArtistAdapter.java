@@ -21,11 +21,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
     private SongTrackClickListener trackClickListener;
     private List <Track> tracksList;
-//    private ArtistSongSelectedListener listener;
 
     public ArtistAdapter(List<Track> tracksList, SongTrackClickListener currentSongInfoFragment){
         this.tracksList = tracksList;
-//        listener = ListenerHolder.getArtistSongSelectedListener();
         trackClickListener = currentSongInfoFragment;
     }
 
