@@ -28,15 +28,15 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.HashSet;
+
 import es.dmoral.toasty.Toasty;
-import nyc.c4q.ashiquechowdhury.auxx.ArtistSongSelectedListener;
 import nyc.c4q.ashiquechowdhury.auxx.InfoSlideListener;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.chooseroomandlogin.LoginActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.master.MasterSearchFragment;
 import nyc.c4q.ashiquechowdhury.auxx.model.PlaylistTrack;
-import nyc.c4q.ashiquechowdhury.auxx.util.ListenerHolder;
 import nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper;
 import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
@@ -44,7 +44,7 @@ import static android.R.id.message;
 import static nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity.ROOMNAMEKEY;
 
 public class NonMasterPlaylistFragment extends Fragment implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback, ArtistSongSelectedListener {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, Player.OperationCallback {
 
     private String roomName = "musicList";
     private FirebaseDatabase database;
@@ -52,6 +52,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
     private ChildEventListener childListener;
     private RecyclerView recyclerView;
     private SpotifyUtil spotify;
+    public static HashSet<String> trackUriSet = new HashSet<>();
     private static final String FRAGMENT_TAG = NonMasterPlaylistFragment.class.getSimpleName();
     private FloatingActionButton floatingSearchBtn;
     private NonMasterPlaylistAdapter myAdapter;
@@ -72,6 +73,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (!(dataSnapshot.getValue() instanceof String)) {
                     PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                    trackUriSet.add(myTrack.getTrackUri());
                     myAdapter.add(myTrack);
                     String firebaseKey = dataSnapshot.getKey();
                     myTrack.setFirebaseKey(firebaseKey);
@@ -94,6 +96,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
                     return;
                 }
                 PlaylistTrack myTrack = dataSnapshot.getValue(PlaylistTrack.class);
+                trackUriSet.remove(myTrack.getTrackUri());
                 myAdapter.removeTrackWithURI(myTrack.getTrackUri());
                 InfoSlideListener info = (InfoSlideListener) getActivity();
                 info.slidePanelDownWithInfo(myTrack);
@@ -130,7 +133,6 @@ public class NonMasterPlaylistFragment extends Fragment implements
         TextView actionBar = (TextView) view.findViewById(R.id.toolbar_TV);
         actionBar.setText(roomName);
 
-        ListenerHolder.setArtistSongSelectedListener(this);
         return view;
     }
 
@@ -241,11 +243,6 @@ public class NonMasterPlaylistFragment extends Fragment implements
 
     @Override
     public void onError(Error error) {
-
-    }
-
-    @Override
-    public void updatePlaylistUI() {
 
     }
 
