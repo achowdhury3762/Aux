@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import es.dmoral.toasty.Toasty;
 import nyc.c4q.ashiquechowdhury.auxx.R;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.JoinRoomActivity;
 import nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity;
@@ -71,7 +72,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Toasty.info(getActivity().getApplicationContext(), "To be Continued").show();
             }
         });
     }
@@ -91,7 +92,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
     @Override
     public void onSubmitRoomName(final String roomNameInput) {
         if (roomNameInput.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room Name", Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity().getApplicationContext(), "Enter a Valid Room Name", Toast.LENGTH_LONG).show();
             return;
         }
         else
@@ -101,7 +102,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(roomNameInput).hasChildren()) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
+                    Toasty.error(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
                     enableButtonsAndRemoveProgressBar();
                 } else {
                     reference.child(roomNameInput).push().setValue("First Empty Value");
@@ -122,11 +123,11 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
     @Override
     public void onSubmitRoomName(final String roomNameInput, final String password) {
         if (password.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
             return;
         }
         else if(roomNameInput.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
             return;
         }
         else
@@ -136,7 +137,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(roomNameInput).hasChildren()) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
+                    Toasty.error(getActivity().getApplicationContext(), "Room Already Exists", Toast.LENGTH_LONG).show();
                     enableButtonsAndRemoveProgressBar();
                 } else {
                     reference.child(roomNameInput).child("password").setValue(password);
@@ -157,7 +158,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
     @Override
     public void onJoinRoomPrompt(final String roomNameInput) {
         if(roomNameInput.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity().getApplicationContext(), "Enter a Valid Room", Toast.LENGTH_LONG).show();
             return;
         }
         else
@@ -167,7 +168,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(roomNameInput).hasChildren()) {
                     if (dataSnapshot.child(roomNameInput).child("password").exists()) {
-                        Toast.makeText(getActivity().getApplicationContext(), "This is a private room", Toast.LENGTH_LONG).show();
+                        Toasty.error(getActivity().getApplicationContext(), "This is a private room", Toast.LENGTH_LONG).show();
                         enableButtonsAndRemoveProgressBar();
                         return;
                     }
@@ -176,7 +177,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
                     startActivity(intent);
                     enableButtonsAndRemoveProgressBar();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
+                    Toasty.error(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
                     enableButtonsAndRemoveProgressBar();
                 }
             }
@@ -191,7 +192,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
     @Override
     public void onJoinRoomPrompt(final String roomNameInput, final String passwordInput) {
         if (passwordInput.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity().getApplicationContext(), "Password Not Entered", Toast.LENGTH_LONG).show();
             enableButtonsAndRemoveProgressBar();
             return;
         }
@@ -208,10 +209,10 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
                         startActivity(intent);
                         enableButtonsAndRemoveProgressBar();
                     } else
-                        Toast.makeText(getActivity().getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show();
+                        Toasty.error(getActivity().getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show();
                     enableButtonsAndRemoveProgressBar();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
+                    Toasty.error(getActivity().getApplicationContext(), "Room Does Not Exists", Toast.LENGTH_LONG).show();
                     enableButtonsAndRemoveProgressBar();
                 }
             }
