@@ -226,6 +226,7 @@ public class PlaylistActivity extends AppCompatActivity implements
         SongListHelper.songList = null;
         SongListHelper.playNextTrack();
         Spotify.destroyPlayer(SpotifyUtil.getInstance().spotifyPlayer);
+        FirebaseDatabase.getInstance().getReference().child(roomName).removeValue();
         super.onDestroy();
     }
 }

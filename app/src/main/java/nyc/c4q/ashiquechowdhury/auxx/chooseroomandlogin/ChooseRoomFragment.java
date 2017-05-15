@@ -71,7 +71,7 @@ public class ChooseRoomFragment extends Fragment implements CreateRoomDialog.Sub
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
             }
         });
     }

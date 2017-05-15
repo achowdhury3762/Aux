@@ -39,6 +39,7 @@ import nyc.c4q.ashiquechowdhury.auxx.util.SpotifyUtil;
 
 import static android.R.id.message;
 import static nyc.c4q.ashiquechowdhury.auxx.joinandcreate.PlaylistActivity.ROOMNAMEKEY;
+import static nyc.c4q.ashiquechowdhury.auxx.nonmaster.NonMasterPlaylistFragment.trackUriSet;
 import static nyc.c4q.ashiquechowdhury.auxx.util.SongListHelper.songList;
 
 public class MasterPlaylistFragment extends Fragment implements
@@ -240,6 +241,7 @@ public class MasterPlaylistFragment extends Fragment implements
     @Override
     public void onDestroy(){
         super.onDestroy();
+        trackUriSet.clear();
         reference.removeEventListener(childListener);
     }
 }

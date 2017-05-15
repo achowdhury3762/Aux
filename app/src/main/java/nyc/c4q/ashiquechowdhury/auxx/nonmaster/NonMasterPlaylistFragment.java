@@ -249,6 +249,7 @@ public class NonMasterPlaylistFragment extends Fragment implements
     @Override
     public void onDestroy(){
         super.onDestroy();
+        trackUriSet.clear();
         reference.removeEventListener(childListener);
     }
 }
